@@ -1,0 +1,16 @@
+.backgroudCol {
+    background-image: url('../../../../assets/images/ieeg/fondo_04.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+file-upload {
+    min-height: 80px;
+    border: 1px solid rgba(42,42,42,0.05);
+    background: rgba(204,204,204,0.15);
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px 0 rgba(43,43,43,0.1);
+    box-shadow: inset 0 0 5px 0 rgba(43,43,43,0.1);
+    outline: none !important;
+}

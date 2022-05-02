@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="Grupos Organizados de la Sociedad Civil" cardClass="card-datatable" [options]="false">
+          <!-- Filtros -->
+            <div class="row">
+                    <div class="col-sm-12">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="exampleFormControlSelect1">Proceso electoral:</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                      <option value="" selected="selected" hidden="hidden">Selecciona una opción</option>
+                                      <option>1</option>
+                                      <option>2</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="exampleFormControlSelect1">Municipio:</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                      <option value="" selected="selected" hidden="hidden">Selecciona una opción</option>
+                                      <option>1</option>
+                                      <option>2</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="exampleFormControlSelect1">Organismo:</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                      <option value="" selected="selected" hidden="hidden">Selecciona una opción</option>
+                                      <option>1</option>
+                                      <option>2</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label for="exampleFormControlSelect1">Estatus:</label>
+                                  <select class="form-control" id="exampleFormControlSelect1">
+                                    <option value="" selected="selected" hidden="hidden">Selecciona una opción</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                  </select>
+                              </div>
+                              </div>
+                              <button class="btn btn-light float-right" type="submit"><i class="fas fa-search"></i> Buscar</button>
+                          </form>
+                    </div>
+            </div>
+            <!-- Filtros -->
+            <div class="row">
+              <div class="col-sm-12">
+                <button type="button" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Nuevo</button>
+                <!-- Tabla -->
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover" >
+                    <thead >
+                      <tr>
+                        <th scope="col" class="col-1 bg-primary text-white" *ngFor="let column of columns">{{column.name}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of rows  | slice: (page-1) * pageSize : page * pageSize">
+                        <th scope="row">{{row.grupoOrganizadoId}}</th>
+                        <td class="text-wrap"><img src="../../../../../assets/images/no-image.png" alt="logo" width="50" height="50">{{row.logotipo}}</td>
+                        <td class="text-wrap">{{row.nombre}}</td>
+                        <td class="text-wrap">{{row.titular}}</td>
+                        <td class="text-wrap">{{row.telefono_gosc + ' Ext:' + row.extension}}</td>
+                        
+                        <td class="text-wrap">
+                            <ng-container [ngSwitch]="row.estatus">
+                              <span class="badge badge-blue" *ngSwitchCase="-1">En revisión</span>
+                              <span class="badge badge-danger" *ngSwitchCase="0">No vigente</span>
+                              <span class="badge badge-success" *ngSwitchCase="1">Vigente</span>
+                              <span class="badge badge-warning" *ngSwitchCase="2">Duplicado</span>
+                            </ng-container>
+                      </td>
+                        <td>
+                          <button type="button" class="btn btn-outline-blue btn-sm mr-1" [placement]="'top'" ngbTooltip="Ver detalle"><i class="far fa-eye"></i></button>
+                          <button *ngIf="row.estatus === -1 || row.estatus === 1" type="button" class="btn btn-outline-blue btn-sm mr-1"[placement]="'top'" ngbTooltip="Verificar vigencia"><i class="far fa-copy"></i></button>
+                          <button *ngIf="row.estatus === 1" type="button" class="btn btn-outline-success btn-sm mr-1" [placement]="'top'" ngbTooltip="Editar"><i class="fas fa-edit"></i></button>
+                          <!-- <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Dar de baja"><i class="far fa-trash-alt"></i></button> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                  <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="rows.length" [(page)]="page" [pageSize]="pageSize">
+                    </ngb-pagination>
+                  
+                    <select class="form-select" style="width: auto" [(ngModel)]="pageSize">
+                      <option [ngValue]="5">5 registros por página</option>
+                      <option [ngValue]="10">10 registros por página</option>
+                      <option [ngValue]="120">120 registros por página</option>
+                    </select>
+                  </div>
+              </div>
+
+                        <!-- //Tabla -->
+              </div>
+              
+            </div>
+        </app-card>
+    </div>
+</div>
+<!-- //Filtros -->
+
