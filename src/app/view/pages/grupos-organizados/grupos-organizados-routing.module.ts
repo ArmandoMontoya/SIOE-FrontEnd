@@ -1,13 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DirectorioComponent } from './directorio/directorio.component';
+
 import { ReportesComponent } from './reportes/reportes.component';
+import { ListarComponent } from './directorio/listar/listar.component';
+import { AgregarComponent } from './directorio/agregar/agregar.component';
 
 
 const routes: Routes = [
   {
     path: 'directorio',
-    component: DirectorioComponent
+    component: ListarComponent
+  },
+  {
+    path: 'agregar',
+    component: AgregarComponent
   },
   {
     path: 'reportes',

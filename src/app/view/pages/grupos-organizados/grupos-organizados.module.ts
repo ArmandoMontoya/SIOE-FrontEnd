@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { GruposOrganizadosRoutingModule } from './grupos-organizados-routing.module';
 import { ReportesComponent } from './reportes/reportes.component';
-import { DirectorioComponent } from './directorio/directorio.component';
+
 import { SharedModule } from '../../../theme/shared/shared.module';
+import { ListarComponent } from './directorio/listar/listar.component';
+import { AgregarComponent } from './directorio/agregar/agregar.component';
 
 
 @NgModule({
   declarations: [
-    DirectorioComponent,
+    ListarComponent,
+    AgregarComponent,
     ReportesComponent
   ],
   imports: [

@@ -18,6 +18,7 @@ import { GalleryComponent } from './components/gallery/gallery.component';
 import {LightboxModule} from 'ngx-lightbox';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {ArchwizardModule} from 'angular-archwizard';
 
 /*import 'hammerjs';
 import 'mousetrap';
@@ -42,6 +43,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgxDatatableModule,
     NgbPaginationModule,
     NgbTooltipModule,
+    ArchwizardModule
   ],
   exports: [
     CommonModule,
@@ -63,6 +65,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgxDatatableModule,
     NgbPaginationModule,
     NgbTooltipModule,
+    ArchwizardModule
   ],
   declarations: [
     DataFilterPipe,

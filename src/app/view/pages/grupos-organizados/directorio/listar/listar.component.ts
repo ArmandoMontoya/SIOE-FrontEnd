@@ -1,21 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { GruposOrganizadosService } from '../../../../data/service/grupos-organizados.service';
+
 import Swal from 'sweetalert2';
-import { grupoOrganizado } from '../../../../model/grupoOrganizado';
+
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { procesoElectoralSelect } from '../../../../../model/GruposOrganizados/procesoElectoral';
+import { grupoOrganizadoListado } from '../../../../../model/GruposOrganizados/grupoOrganizado';
+import { GruposOrganizadosService } from '../../../../../data/service/grupos-organizados.service';
+
+
 
 @Component({
-  selector: 'app-directorio',
-  templateUrl: './directorio.component.html',
+  selector: 'app-listar',
+  templateUrl: './listar.component.html',
   styles: [
   ]
 })
-export class DirectorioComponent implements OnInit {
-  public rows: grupoOrganizado[] = [];
+export class ListarComponent implements OnInit {
+  public rows: grupoOrganizadoListado[] = [];
   public columns = [
 
     { name: '#',  },
     { name: 'logo',  },
     { name: 'organismo' },
+    { name: 'Jer'},
+    { name: 'proceso'},
     { name: 'titular'},
     { name: 'teléfono' },
     { name: 'estatus' },
@@ -24,16 +32,41 @@ export class DirectorioComponent implements OnInit {
 
   page = 1;
   pageSize = 5;
+
+  buscarForm:FormGroup;
   
+  procesosElectorales: procesoElectoralSelect[] = [];
+
+  municipios = [
+    { municipioId: 2, municipio: "Australia" },
+    { municipioId: 1, municipio: "United States" },
+    { municipioId: 3, municipio: "Canada" },
+    { municipioId: 4, municipio: "Brazil" },
+    { municipioId: 5, municipio: "England" }
+  ];
+ 
   
-  constructor(private _grupos: GruposOrganizadosService) { }
+  constructor(private _grupos: GruposOrganizadosService, private fb:FormBuilder) { }
 
   ngOnInit() {
     this._grupos.getAll().subscribe( data => {
         this.rows = data;
-        //this.collectionSize = this.rows.length;
-        debugger;
     });
+
+    this._grupos.selectProcesoElectoral().subscribe( data => {
+      this.procesosElectorales = data;
+    })
+
+    this.buscarForm = this.fb.group({
+      selectProcesoElectoral: [null],
+      selectMunicipio: [null],
+      selectOrganismo: [null],
+      selectEstatus: [null]
+    });
+  }
+
+  buscar(){
+
   }
 
 

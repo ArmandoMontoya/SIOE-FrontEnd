@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { grupoOrganizado } from '../../model/grupoOrganizado';
+import { procesoElectoralSelect } from '../../model/GruposOrganizados/procesoElectoral';
+import { grupoOrganizadoListado } from 'src/app/model/GruposOrganizados/grupoOrganizado';
+
+
 
 
 const _url = environment.api;
@@ -16,10 +19,13 @@ export class GruposOrganizadosService {
   constructor(private _http: HttpClient){}
 
   //Consulta
-  //Consulta
-  public getAll(): Observable<grupoOrganizado[]>{
+  public getAll(): Observable<grupoOrganizadoListado[]>{
     //let encabezado = this._valor.getToken();
-    return this._http.get<grupoOrganizado[]>(`${_url}GrupoOrganizado/GetAll`);
+    return this._http.get<grupoOrganizadoListado[]>(`${_url}GrupoOrganizado/GetAll`);
+  }
+
+  public selectProcesoElectoral(): Observable<procesoElectoralSelect[]>{
+    return this._http.get<procesoElectoralSelect[]>(`${_url}ProcesoElectoral/GetAll`);
   }
   
 }

@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-sm-12">
+      <app-card >
+          <div class="row">
+              <div class="col-sm-12">
+                  <aw-wizard #wizard class="arc-wizard">
+                    <aw-wizard-step stepTitle="Grupo Organizado">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h5>Grupo Organizado</h5>
+                          <hr>
+                          <form>
+                            <div class="form-group">
+                              <label for="exampleFormControlInput1">Email address</label>
+                              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleFormControlSelect1">Example select</label>
+                              <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleFormControlSelect2">Example multiple select</label>
+                              <select multiple class="form-control" id="exampleFormControlSelect2">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleFormControlTextarea1">Example textarea</label>
+                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="col-sm-12 centered-content">
+                          <div class="btn-group mt-10">
+                            <button type="button" class="btn btn-secondary btn-sm" routerLink="../directorio">Cancelar</button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continue</button>
+                          </div>
+                        </div>
+                      </div>
+                    </aw-wizard-step>
+                    <aw-wizard-step stepTitle="Titular">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h5>Titular</h5>
+                          <hr>
+                          <h6>Sub title 1</h6>
+                          <p><strong>@Title content 1!.. </strong> Lorem Ipsum is simply dummy text of the printing <strong>@Content content 1 </strong> and typesetting industry. Lorem Ipsum has been the industry's
+                            standard dummy text.</p>
+                          <h6 class="mt-3">Sub title 2</h6>
+                          <p><strong>@Title content 2!.. </strong> Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+                        </div>
+                        <div class="col-sm-12 centered-content">
+                          <div class="btn-group mt-10">
+                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Back</button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continue</button>
+                          </div>
+                        </div>
+                      </div>
+                    </aw-wizard-step>
+                    <aw-wizard-step stepTitle="Cesión de datos personales">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h5>Cesión de datos personales</h5>
+                          <hr>
+                          <h6>Sub title 1</h6>
+                          <p><strong>@Title content 1!.. </strong> Lorem Ipsum is simply dummy text of the printing <strong>@Content content 1 </strong> and typesetting industry. Lorem Ipsum has been the industry's
+                            standard dummy text.</p>
+                          <h6 class="mt-3">Sub title 2</h6>
+                          <p><strong>@Title content 2!.. </strong> Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+                        </div>
+                        <div class="col-sm-12 centered-content">
+                          <div class="btn-group mt-10">
+                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Back</button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continue</button>
+                          </div>
+                        </div>
+                      </div>
+                    </aw-wizard-step>
+                    <aw-wizard-step stepTitle="Finalizar">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h5>Finalizar</h5>
+                          <hr>
+                          <h6>Sub title 1</h6>
+                          <p><strong>@Title content 1!.. </strong> Lorem Ipsum is simply dummy text of the printing <strong>@Content content 1 </strong> and typesetting industry. Lorem Ipsum has been the industry's
+                            standard dummy text.</p>
+                          <h6 class="mt-3">Sub title 2</h6>
+                          <p><strong>@Title content 2!.. </strong> Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+                        </div>
+                        <div class="col-sm-12 centered-content">
+                          <div class="btn-group mt-10">
+                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Back</button>
+                            <button type="button" class="btn btn-success btn-sm" awResetWizard>Finished</button>
+                          </div>
+                        </div>
+                      </div>
+                    </aw-wizard-step>
+                  </aw-wizard>
+              </div>
+          </div>
+      </app-card>
+  </div>
+</div>
