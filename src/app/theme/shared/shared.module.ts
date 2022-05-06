@@ -43,7 +43,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgxDatatableModule,
     NgbPaginationModule,
     NgbTooltipModule,
-    ArchwizardModule
+    ArchwizardModule,
+
   ],
   exports: [
     CommonModule,
@@ -65,7 +66,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgxDatatableModule,
     NgbPaginationModule,
     NgbTooltipModule,
-    ArchwizardModule
+    ArchwizardModule,
+
   ],
   declarations: [
     DataFilterPipe,

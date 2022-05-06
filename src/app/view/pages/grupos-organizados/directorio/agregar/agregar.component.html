@@ -9,41 +9,166 @@
                         <div class="col-sm-12">
                           <h5>Grupo Organizado</h5>
                           <hr>
-                          <form>
-                            <div class="form-group">
-                              <label for="exampleFormControlInput1">Email address</label>
-                              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                          <form autocomplete="off" [formGroup]="formularioGrupoOrganizado">
+                            <div class="form-group row">
+                              <div class="col-6">
+                                <label for="exampleFormControlInput1">Nombre del organismo</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nombre del organismo" formControlName="nombreOrganismo">
+                                <span class="form-text text-danger" *ngIf="campoEsValido('nombreOrganismo')">Campo obligatorio</span>
+                              </div>
+                              <div class="col-6">
+                                <label for="exampleFormControlInput1">Logotipo</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Logotipo" formControlName="logotipo">
+                              </div>
                             </div>
-                            <div class="form-group">
-                              <label for="exampleFormControlSelect1">Example select</label>
-                              <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                              </select>
+                            <div class="form-group row">
+                              <div class="col-3">
+                                <label for="exampleFormControlInput1">Acta constitutiva</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Acta constitutiva" formControlName="acta_constitutiva">
+                              </div>
+                              <div class="col-3">
+                                <label for="exampleFormControlInput1">Municipio</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Municipio" formControlName="municipio">
+                                <span class="form-text text-danger">Campo obligatorio</span>
+                              </div>
+                              <div class="col-3">
+                                <label for="exampleFormControlInput1">Tipo de organismo</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Tipo de organismo" formControlName="tipoOrganismo">
+                                <span class="form-text text-danger">Campo obligatorio</span>
+                              </div>
+                              <div class="col-3">
+                                <label for="exampleFormControlInput1">Proceso Electoral</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Proceso Electoral" formControlName="procesoElectoral">
+                                <span class="form-text text-danger">Campo obligatorio</span>
+                              </div>
                             </div>
-                            <div class="form-group">
-                              <label for="exampleFormControlSelect2">Example multiple select</label>
-                              <select multiple class="form-control" id="exampleFormControlSelect2">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                              </select>
+                            <div class="form-group row">
+                              <div class="col-4">
+                                <label for="exampleFormControlInput1">Teléfono del grupo organizado</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Teléfono del grupo organizado" formControlName="telefono_gosc">
+                                <span class="form-text text-danger">Campo obligatorio</span>
+                              </div>
+                              <div class="col-2">
+                                <label for="exampleFormControlInput1">Extensión</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Extensión" formControlName="extension">
+                              </div>
+                              <div class="col-6">
+                                <label for="exampleFormControlInput1">Página web</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Página web" formControlName="paginaweb">
+                              </div>
                             </div>
-                            <div class="form-group">
-                              <label for="exampleFormControlTextarea1">Example textarea</label>
-                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <div class="form-group row">
+                              <div class="col-2">
+                                <label for="exampleFormControlInput1">Días de atención</label>
+                                <div class="form-group">
+                                  <div class="checkbox checkbox-primary d-inline">
+                                    <input type="checkbox" name="domingo" id="domingo">
+                                    <label for="domingo" class="cr">Domingo</label>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="checkbox checkbox-primary d-inline">
+                                    <input type="checkbox" name="lunes" id="lunes">
+                                    <label for="lunes" class="cr">Lunes</label>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="checkbox checkbox-primary d-inline">
+                                    <input type="checkbox" name="martes" id="martes">
+                                    <label for="martes" class="cr">Martes</label>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="checkbox checkbox-primary d-inline">
+                                    <input type="checkbox" name="miercoles" id="miercoles">
+                                    <label for="miercoles" class="cr">Miércoles</label>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="checkbox checkbox-primary d-inline">
+                                    <input type="checkbox" name="jueves" id="jueves">
+                                    <label for="jueves" class="cr">Jueves</label>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="checkbox checkbox-primary d-inline">
+                                    <input type="checkbox" name="viernes" id="viernes">
+                                    <label for="viernes" class="cr">Viernes</label>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="checkbox checkbox-primary d-inline">
+                                    <input type="checkbox" name="sabado" id="sabado">
+                                    <label for="sabado" class="cr">Sábado</label>
+                                  </div>
+                                </div>
+                                <span class="form-text text-danger">Campo obligatorio</span>
+                              </div>
+                              <div class="col-2">
+                                <label for="exampleFormControlInput1">Hora de inicio de atención</label>
+                                <input type="time" id="date" class="form-control" placeholder="Date" atp-time-picker value="24:00">
+                                <span class="form-text text-danger">Campo obligatorio</span>
+                              </div>
+                              <div class="col-2">
+                                <label for="exampleFormControlInput1">Hora de término de atención</label>
+                                <input type="time" id="date" class="form-control" placeholder="Date" atp-time-picker value="24:00">
+                                <span class="form-text text-danger">Campo obligatorio</span>
+                              </div>
+                              <div class="col-6">
+                                <label for="exampleFormControlInput1">Observaciones</label>
+                                <textarea class="form-control" rows="3" id="exampleFormControlInput1" placeholder="Observaciones" formControlName="observaciones"></textarea>
+                              </div>
+
                             </div>
                           </form>
                         </div>
                         <div class="col-sm-12 centered-content">
                           <div class="btn-group mt-10">
                             <button type="button" class="btn btn-secondary btn-sm" routerLink="../directorio">Cancelar</button>
-                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continue</button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep [disabled]="formularioGrupoOrganizado.invalid">Continuar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </aw-wizard-step>
+                    <aw-wizard-step stepTitle="Dirección">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <h5>Dirección</h5>
+                          <hr>
+                          <div class="form-group row">
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Calle y número</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Calle y número">
+                              <span class="form-text text-danger">Campo obligatorio</span>
+                            </div>
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Colonia</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Colonia">
+                              <span class="form-text text-danger">Campo obligatorio</span>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Código postal</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Código postal">
+                              <span class="form-text text-danger">Campo obligatorio</span>
+                            </div>
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Selecciona la ubicación en el mapa</label>
+                              <agm-map [latitude]="21.2334329" [longitude]="72.866472" [zoom]="6">
+                                <agm-marker [latitude]="21.2334329" [longitude]="72.866472"></agm-marker>
+                                <agm-marker [latitude]="21.6776887" [longitude]="71.566261"></agm-marker>
+                                <agm-marker [latitude]="22.3220876" [longitude]="73.1030464"></agm-marker>
+                                <agm-marker [latitude]="23.0201818" [longitude]="72.4396587"></agm-marker>
+                                <agm-marker [latitude]="22.2734719" [longitude]="70.7512565"></agm-marker>
+                              </agm-map>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 centered-content">
+                          <div class="btn-group mt-10">
+                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continuar</button>
                           </div>
                         </div>
                       </div>
@@ -53,16 +178,40 @@
                         <div class="col-sm-12">
                           <h5>Titular</h5>
                           <hr>
-                          <h6>Sub title 1</h6>
-                          <p><strong>@Title content 1!.. </strong> Lorem Ipsum is simply dummy text of the printing <strong>@Content content 1 </strong> and typesetting industry. Lorem Ipsum has been the industry's
-                            standard dummy text.</p>
-                          <h6 class="mt-3">Sub title 2</h6>
-                          <p><strong>@Title content 2!.. </strong> Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+                          <div class="form-group row">
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Nombre del titular *</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nombre del titular">
+                              <span class="form-text text-danger">Campo obligatorio</span>
+                            </div>
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Cargo</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cargo">
+                              <span class="form-text text-danger">Campo obligatorio</span>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Email</label>
+                              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="email@example.com">
+                            </div>
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Teléfono particular</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Teléfono particular">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-6">
+                              <label for="exampleFormControlInput1">Contacto</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Contacto">
+                              <span class="form-text text-danger">Campo obligatorio</span>
+                            </div>
+                          </div>
                         </div>
                         <div class="col-sm-12 centered-content">
                           <div class="btn-group mt-10">
-                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Back</button>
-                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continue</button>
+                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continuar</button>
                           </div>
                         </div>
                       </div>
@@ -72,16 +221,63 @@
                         <div class="col-sm-12">
                           <h5>Cesión de datos personales</h5>
                           <hr>
-                          <h6>Sub title 1</h6>
-                          <p><strong>@Title content 1!.. </strong> Lorem Ipsum is simply dummy text of the printing <strong>@Content content 1 </strong> and typesetting industry. Lorem Ipsum has been the industry's
-                            standard dummy text.</p>
-                          <h6 class="mt-3">Sub title 2</h6>
-                          <p><strong>@Title content 2!.. </strong> Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+                          <div class="col-12 text-center">
+                            <label for="exampleFormControlInput1">Marque los datos personales que se le proporcionaron</label>
+                          </div>
+                          <div class="form-group row">
+                            <div class="form-group d-inline">
+                              <div class="checkbox checkbox-primary d-inline">
+                                <input type="checkbox" name="checkbox-d-in-1" id="checkbox-d-in-1">
+                                <label for="checkbox-d-in-1" class="cr">check_nombre</label>
+                              </div>
+                            </div>
+                            <div class="form-group d-inline">
+                              <div class="checkbox checkbox-danger d-inline">
+                                <input type="checkbox" name="checkbox-in-1" id="checkbox-d-in-2">
+                                <label for="checkbox-d-in-2" class="cr">check_direccion</label>
+                              </div>
+                            </div>
+                            <div class="form-group d-inline">
+                              <div class="checkbox checkbox-primary d-inline">
+                                <input type="checkbox" name="checkbox-d-in-1" id="checkbox-d-in-1">
+                                <label for="checkbox-d-in-1" class="cr">check_telefonoParticular</label>
+                              </div>
+                            </div>
+                            <div class="form-group d-inline">
+                              <div class="checkbox checkbox-danger d-inline">
+                                <input type="checkbox" name="checkbox-in-1" id="checkbox-d-in-2">
+                                <label for="checkbox-d-in-2" class="cr">check_email</label>
+                              </div>
+                            </div>
+                            <div class="form-group d-inline">
+                              <div class="checkbox checkbox-primary d-inline">
+                                <input type="checkbox" name="checkbox-d-in-1" id="checkbox-d-in-1">
+                                <label for="checkbox-d-in-1" class="cr">check_cesion_datos</label>
+                              </div>
+                            </div>
+     
+                            
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-2">
+                              <label for="exampleFormControlInput1">Medio:</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Medio:">
+                            </div>
+                            <div class="col-2">
+                              <label for="exampleFormControlInput1">Fuente:</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fuente:">
+                            </div>
+                            <div class="col-2">
+                              <label for="exampleFormControlInput1">Fecha:</label>
+                              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fecha:">
+                              <span class="form-text text-danger">Campo obligatorio</span>
+                            </div>
+                          </div>
                         </div>
                         <div class="col-sm-12 centered-content">
                           <div class="btn-group mt-10">
-                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Back</button>
-                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continue</button>
+                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep>Continuar</button>
                           </div>
                         </div>
                       </div>
@@ -99,8 +295,8 @@
                         </div>
                         <div class="col-sm-12 centered-content">
                           <div class="btn-group mt-10">
-                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Back</button>
-                            <button type="button" class="btn btn-success btn-sm" awResetWizard>Finished</button>
+                            <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
+                            <button type="button" class="btn btn-success btn-sm" awResetWizard>Guardar</button>
                           </div>
                         </div>
                       </div>
