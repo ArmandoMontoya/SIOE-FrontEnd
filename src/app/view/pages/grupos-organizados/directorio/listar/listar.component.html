@@ -17,9 +17,9 @@
                                   <label for="selectMunicipio">Junta ejecutiva regional:</label>
                                   <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
                                     <option [ngValue]="null" disabled>Selecciona un municipio</option>
-                                    <option *ngFor="let municipio of municipios" [ngValue]="municipio.municipioId">{{municipio.municipio}}</option>
+                                    <option *ngFor="let jer of jers" [ngValue]="jer.jerId">{{jer.nombre}}</option>
                                   </select>
-                              </div>
+                                </div>
                                 <div class="form-group col-md-3">
                                     <label for="selectMunicipio">Municipio:</label>
                                     <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
@@ -29,23 +29,21 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                   <label for="selectMunicipio">Nombre organismo:</label>
-                                  <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
-                                    <option [ngValue]="null" disabled>Selecciona un municipio</option>
-                                    <option *ngFor="let municipio of municipios" [ngValue]="municipio.municipioId">{{municipio.municipio}}</option>
-                                  </select>
+                                  <input type="text" class="form-control" placeholder="Nombre del organismo" >
+                                  <!-- <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('nombreOrganismo')">Campo obligatorio</span> -->
                               </div>
                                 <div class="form-group col-md-3">
                                   <label for="selectEstatus">Estatus:</label>
                                   <select class="form-control" id="selectEstatus" formControlName="selectEstatus">
                                     <option [ngValue]="null" disabled>Selecciona un estatus</option>
-                                    <option value="-1">En revisión</option>
                                     <option value="0">No vigente</option>
                                     <option value="1">Vigente</option>
                                     <option value="2">Duplicado</option>
+                                    <option value="3">En revisión</option>
                                   </select>
                               </div>
                               </div>
-                              <button class="btn btn-light float-right" type="submit"><i class="fas fa-search"></i> Buscar</button>
+                              <button class="btn btn-secondary float-right" type="submit"><i class="fas fa-search"></i> Buscar</button>
                           </form>
                     </div>
             </div>
@@ -75,15 +73,15 @@
                             <ng-container [ngSwitch]="row.estatus">
                               <span class="badge badge-danger" *ngSwitchCase="0">No vigente</span>
                               <span class="badge badge-success" *ngSwitchCase="1">Vigente</span>
-                              <span class="badge badge-blue" *ngSwitchCase="2">En revisión</span>
-                              <span class="badge badge-warning" *ngSwitchCase="3">Duplicado</span>
+                              <span class="badge badge-warning" *ngSwitchCase="2">Duplicado</span>
+                              <span class="badge badge-blue" *ngSwitchCase="3">En revisión</span>
                             </ng-container>
                       </td>
                         <td>
-                          <button type="button" class="btn btn-outline-blue btn-sm mr-1" [placement]="'top'" ngbTooltip="Ver detalle"><i class="far fa-eye"></i></button>
-                          <button *ngIf="row.estatus === -1 || row.estatus === 1" type="button" class="btn btn-outline-blue btn-sm mr-1"[placement]="'top'" ngbTooltip="Verificar vigencia"><i class="far fa-copy"></i></button>
-                          <button *ngIf="row.estatus === 1" type="button" class="btn btn-outline-success btn-sm mr-1" [placement]="'top'" ngbTooltip="Editar"><i class="fas fa-edit"></i></button>
-                          <!-- <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Dar de baja"><i class="far fa-trash-alt"></i></button> -->
+                          <button type="button" class="btn btn-outline-info btn-sm mr-1" [placement]="'top'" ngbTooltip="Ver detalle" [routerLink]="['/grupos-organizados-de-la-sociedad-civil/detalle', row.grupoOrganizadoId]"><i class="fa-solid fa-eye"></i></button>
+                          <button *ngIf="row.estatus === 3 || row.estatus === 1" type="button" class="btn btn-outline-gold btn-sm mr-1"[placement]="'top'" ngbTooltip="Verificar vigencia" (click)="vigencia(row.grupoOrganizadoId)"><i class="fa-solid fa-calendar-check"></i></button>
+                          <button *ngIf="row.estatus === 1" type="button" class="btn btn-outline-blue btn-sm mr-1" [placement]="'top'" ngbTooltip="Editar" [routerLink]="['/grupos-organizados-de-la-sociedad-civil/editar', row.grupoOrganizadoId]"><i class="fa-solid fa-pen-to-square"></i></button>
+                          <!-- <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Dar de baja"><i class="fa-regular fa-trash-can"></i></button> -->
                         </td>
                       </tr>
                     </tbody>

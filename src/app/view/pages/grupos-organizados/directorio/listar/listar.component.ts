@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { procesoElectoralSelect } from '../../../../../model/GruposOrganizados/procesoElectoral';
+import { procesoElectoralSelect, municipiosSelect, jersSelect } from '../../../../../model/GruposOrganizados/procesoElectoral';
 import { grupoOrganizadoListado } from '../../../../../model/GruposOrganizados/grupoOrganizado';
 import { GruposOrganizadosService } from '../../../../../data/service/grupos-organizados.service';
+import { Router } from '@angular/router';
 
 
 
@@ -37,25 +38,32 @@ export class ListarComponent implements OnInit {
   
   procesosElectorales: procesoElectoralSelect[] = [];
 
-  municipios = [
-    { municipioId: 2, municipio: "Australia" },
-    { municipioId: 1, municipio: "United States" },
-    { municipioId: 3, municipio: "Canada" },
-    { municipioId: 4, municipio: "Brazil" },
-    { municipioId: 5, municipio: "England" }
-  ];
+  municipios: municipiosSelect [] = [];
+  jers: jersSelect [] = [];
  
   
-  constructor(private _grupos: GruposOrganizadosService, private fb:FormBuilder) { }
+  constructor(
+    private _gruposService: GruposOrganizadosService,
+    private fb:FormBuilder,
+    private router: Router,
+    ) { }
 
   ngOnInit() {
-    this._grupos.getAll().subscribe( data => {
+    this._gruposService.getAll().subscribe( data => {
         this.rows = data;
     });
 
-    this._grupos.selectProcesoElectoral().subscribe( data => {
+    this._gruposService.selectAllProcesoElectoral().subscribe( data => {
       this.procesosElectorales = data;
-    })
+    });
+
+    this._gruposService.selectJers().subscribe( data => {
+      this.jers = data;
+    });
+
+    this._gruposService.selectMunicipios().subscribe( data => {
+      this.municipios = data;
+    });
 
     this.buscarForm = this.fb.group({
       selectProcesoElectoral: [null],
@@ -98,20 +106,25 @@ export class ListarComponent implements OnInit {
     return ' text-center';
   }
 
-  public detalle(id: number){
-    // this._router.navigate(['/procesos-electorales/detalle/', id]);
+  vigencia(id: number){
+    
+    
+    Swal.fire({
+      title: '¿Estás seguro de revisar la vigencia de este grupo organizado?',
+      text: "¡Esto no se puede revertir!",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#FFBA00',
+      cancelButtonColor: '#adb5bd',
+      confirmButtonText: 'Sí, revisar vigencia',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/grupos-organizados-de-la-sociedad-civil/vigencia', id]);
+      }
+    });
+    
   }
-
-  public resultados(id: number){
-    // this._router.navigate(['/procesos-electorales/resultados/', id]);
-  }
-
-  public color(color:string){
-    switch (color) {
-      case 'Pendiente': return 'text-success';
-      case 'Finalizado': return 'text-danger';
-      case 'En proceso': return 'text-warning';
-    }
-  }
-
+  
 }

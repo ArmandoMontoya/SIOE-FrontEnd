@@ -34,16 +34,17 @@ $grays: map-merge(
   $grays
 );
 
-$blue:    #1F74FF ;  // change
+$blue:    #096dd9 ;  // change
 $indigo:  #6610f2 ;
 $purple:  #722ed1 ;
 $pink:    #eb2f96 ;
-$red:     #FF4757 ;  // change
+$red:     #f5222d ;  // change
 $orange:  #fa541c ;
 $yellow:  #FFBA00 ;  // change
-$green:   #46C93A ;  // change
+$gold:    #faad14;
+$green:   #52c41a ;  // change
 $teal:    #20c997 ;
-$cyan:    #13c2c2 ;  // change
+$cyan:    #08979c ;  // change
 $ieeg:    #65174a;
 
 $colors: ();
@@ -62,20 +63,24 @@ $colors: map-merge(
     "cyan":       $cyan,
     "white":      $white,
     "gray":       $gray-600,
-    "gray-dark":  $gray-800
+    "gray-dark":  $gray-800,
+    "gold":       $gold
   ),
   $colors
 );
 
 $primary:       $ieeg;  // change
 $blue:          $blue;
-$secondary:     $gray-600;  // change
+$secondary:     $gray-300;  // change
 $success:       $green;  // change
 $info:          $cyan;  // change
 $warning:       $yellow;  // change
 $danger:        $red;  // change
 $light:         $gray-100;  // change
 $dark:          $gray-800;  // change
+$purple:        $purple;
+$pink:          $pink;
+$gold:          $gold;
 
 $theme-colors: ();  // change
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -84,12 +89,15 @@ $theme-colors: map-merge(
     "primary":    $primary,
     "blue":       $blue,
     "secondary":  $secondary,
+    "purple":     $purple,
     "success":    $success,
     "info":       $info,
     "warning":    $warning,
     "danger":     $danger,
     "light":      $light,
     "dark":       $dark,
+    "pink":       $pink,
+    "gold":       $gold,
   ),
   $theme-colors
 );

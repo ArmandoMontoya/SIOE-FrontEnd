@@ -1,0 +1,303 @@
+<div class="row" *ngIf="grupoOrganizadoDTO && titularDTO">
+  <div class="col-sm-12">
+    <app-card cardClass="card-datatable" [options]="false">
+      <h5>Comprobar vigencia de Grupo Organizado</h5>
+      <form>
+        <div class="row">
+          <div class="col-sm-6">
+            <app-card cardTitle="Datos del grupo organizado" cardClass="card-datatable" [options]="false">
+              <div class="form-group row">
+
+                <label for="exampleFormControlInput1" class="col-sm-3"><strong>Organismo:</strong></label>
+                <label for="" class="col-sm-9">{{grupoOrganizadoDTO.nombre}}</label>
+
+                <label for="exampleFormControlInput1" class="col-3"><strong>Días de atención:</strong></label>
+                <label for="" class="col-9">{{grupoOrganizadoDTO.dias_de_atencion}}</label>
+
+                <label for="exampleFormControlInput1" class="col-3"><strong>Horario de atención:</strong></label>
+                <label for="" class="col-9">{{grupoOrganizadoDTO.horario_atencion_inicial | date:'shortTime' }} a
+                  {{grupoOrganizadoDTO.horario_atencion_termino | date:'shortTime' }}</label>
+
+                <label for="" class="col-3"><strong>Página web:</strong></label>
+                <a href="{{grupoOrganizadoDTO.pagina_web}}" target="_blank"
+                  class="col-9">{{grupoOrganizadoDTO.pagina_web}}</a>
+
+                <label for="" class="col-3"><strong>Titular:</strong></label>
+                <label class="col-9">{{titularDTO.nombre}}</label>
+
+                <label for="" class="col-3"><strong>Cargo:</strong></label>
+                <label class="col-9">{{titularDTO.cargo}}</label>
+
+                <label for="" class="col-3"><strong>Contacto:</strong></label>
+                <label class="col-9">{{titularDTO.nombre_contacto}}</label>
+
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <button class="btn btn-secondary float-left"
+                    [routerLink]="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al
+                    directorio</button>
+                  <button class="btn btn-danger float-right" *ngIf="contador == 4" [disabled]="bloquearBoton"
+                    data-toggle="modal" (click)="exampleModalCenter.show()">Dar de baja</button>
+                  <button class="btn btn-warning float-right" *ngIf="isSi" (click)="guardar('Duplicar')"
+                    [disabled]="bloquearBoton">Duplicar</button>
+                  <button class="btn btn-blue float-right" *ngIf="!isSi && contador < 4" (click)="guardar('Esperar')"
+                    [disabled]="bloquearBoton">Esperar respuesta</button>
+                  <!-- <button class="btn btn-danger" (click)="guardar('Baja')">Dar de baja</button>
+                  <button class="btn btn-warning" (click)="guardar('Duplicar')">Duplicar</button>
+                  <button class="btn btn-blue" (click)="guardar('Esperar')">Esperar respuesta</button> -->
+                </div>
+
+              </div>
+            </app-card>
+
+
+
+
+          </div>
+          <div class="col-sm-6">
+            <form [formGroup]="formVigenciaValidation">
+              <pre> {{ formVigenciaValidation.value | json }}</pre>
+              <ngb-accordion [closeOthers]="true" activeIds="static-1" class="next-accordion">
+                <ngb-panel id="static-1">
+                  <ng-template ngbPanelTitle>
+                    <h5><a href="javascript:">Llamar al número del grupo organizado:</a></h5>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Teléfono: </label>
+                        <br>
+                        <label for="">{{grupoOrganizadoDTO.telefono_gosc}} <br> Extensión:
+                          {{grupoOrganizadoDTO.extension}}</label>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Fecha de llamada</label>
+                        <div class="input-group">
+                          <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
+                            name="fecha_llamada_gosc" ngbDatepicker #d="ngbDatepicker"
+                            formControlName="fecha_llamada_gosc">
+                          <div class="input-group-append">
+                            <span class="input-group-text" (click)="d.toggle()">
+                              <i class="fa fa-calendar"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Hora de llamada</label>
+                        <input type="time" id="hora_llamada_gosc" class="form-control" placeholder="Date"
+                          atp-time-picker value="24:00" formControlName="hora_llamada_gosc">
+                      </div>
+                    </div>
+                    <div class="form-group row text-center">
+                      <div class="col-sm-12">
+                        <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
+                        <br>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaSiNumeroGosc" class="custom-control-input" value="true"
+                            formControlName="check_llamada_gosc" (change)="decrementar('check_llamada_gosc')">
+                          <label class="custom-control-label" for="radioRespuestaSiNumeroGosc">Sí</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaNoNumeroGosc" class="custom-control-input" value="false"
+                            formControlName="check_llamada_gosc" (change)="decrementar('check_llamada_gosc')">
+                          <label class="custom-control-label" for="radioRespuestaNoNumeroGosc">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+                <ngb-panel id="static-2" [disabled]="habilitarSeccion('check_llamada_gosc')">
+                  <ng-template ngbPanelTitle>
+                    <h5><a href="javascript:">Llamar al número personal</a></h5>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Llamar al número personal</label>
+                        <br>
+                        <label for="">{{titularDTO.telefono_particular}}</label>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Fecha de llamada</label>
+                        <div class="input-group">
+                          <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
+                            name="fecha_llamada_particular" ngbDatepicker #d="ngbDatepicker"
+                            formControlName="fecha_llamada_particular">
+                          <div class="input-group-append">
+                            <span class="input-group-text" (click)="d.toggle()">
+                              <i class="fa fa-calendar"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Hora de llamada</label>
+                        <input type="time" id="hora_llamada_particular" class="form-control" placeholder="Date"
+                          atp-time-picker value="24:00" formControlName="hora_llamada_particular">
+                      </div>
+                    </div>
+                    <div class="form-group row text-center">
+                      <div class="col-sm-12">
+                        <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
+                        <br>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaSiNumeroPersonal" class="custom-control-input"
+                            value="true" formControlName="check_llamada_particular"
+                            (change)="decrementar('check_llamada_particular')">
+                          <label class="custom-control-label" for="radioRespuestaSiNumeroPersonal">Sí</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaNoNumeroPersonal" class="custom-control-input"
+                            value="false" formControlName="check_llamada_particular"
+                            (change)="decrementar('check_llamada_particular')">
+                          <label class="custom-control-label" for="radioRespuestaNoNumeroPersonal">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+                <ngb-panel id="static-3"
+                  [disabled]="habilitarSeccion('check_llamada_gosc') || habilitarSeccion('check_llamada_particular')">
+                  <ng-template ngbPanelTitle>
+                    <h5><a href="javascript:">Contactar por email </a></h5>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Email</label>
+                        <br>
+                        <label for="exampleFormControlInput1">{{titularDTO.email}}</label>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Fecha de envío de email</label>
+                        <div class="input-group">
+                          <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
+                            ngbDatepicker #fecha_envio_email="ngbDatepicker" id="1" formControlName="fecha_envio_email">
+                          <div class="input-group-append">
+                            <span class="input-group-text" (click)="fecha_envio_email.toggle()">
+                              <i class="fa fa-calendar"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <label> Hora de envío de email</label>
+                        <input type="time" id="hora_envio_email" class="form-control" placeholder="Date" atp-time-picker
+                          value="24:00" formControlName="hora_envio_email">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-4"></div>
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Fecha de respuesta de email</label>
+                        <div class="input-group">
+                          <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
+                            ngbDatepicker #fecha_respuesta_email="ngbDatepicker" id="dos"
+                            formControlName="fecha_respuesta_email">
+                          <div class="input-group-append">
+                            <span class="input-group-text" (click)="fecha_respuesta_email.toggle()">
+                              <i class="fa fa-calendar"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <label> Hora de respuesta de email</label>
+                        <input type="time" id="hora_respuesta_email" class="form-control" placeholder="Date"
+                          atp-time-picker value="24:00" formControlName="hora_respuesta_email">
+                      </div>
+                    </div>
+                    <div class="form-group row text-center">
+                      <div class="col-sm-12">
+                        <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
+                        <br>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaSiEmail" class="custom-control-input" value="true"
+                            formControlName="check_email" (change)="decrementar('check_email')">
+                          <label class="custom-control-label" for="radioRespuestaSiEmail">Sí</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaNoEmail" class="custom-control-input" value="false"
+                            formControlName="check_email" (change)="decrementar('check_email')">
+                          <label class="custom-control-label" for="radioRespuestaNoEmail">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+                <ngb-panel id="static-4"
+                  [disabled]="habilitarSeccion('check_llamada_gosc') || habilitarSeccion('check_llamada_particular') || habilitarSeccion('check_email')">
+                  <ng-template ngbPanelTitle>
+                    <h5><a href="javascript:">Contactar por otro medio</a></h5>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="form-group row">
+                      <div class="col-sm-8">
+                        <label>Describe el medio de contacto</label>
+                        <textarea class="form-control" rows="5" placeholder="Observaciones"
+                          formControlName="descripcion_otro_medio"></textarea>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="exampleFormControlInput1">Fecha de contacto</label>
+                        <div class="input-group">
+                          <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
+                            name="fecha_otro_medio" ngbDatepicker #d="ngbDatepicker" formControlName="fecha_otro_medio">
+                          <div class="input-group-append">
+                            <span class="input-group-text" (click)="d.toggle()">
+                              <i class="fa fa-calendar"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row text-center">
+                      <div class="col-sm-12">
+                        <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
+                        <br>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaSiOtro" class="custom-control-input" value="true"
+                            formControlName="check_otro_medio" (change)="decrementar('check_otro_medio')">
+                          <label class="custom-control-label" for="radioRespuestaSiOtro">Sí</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                          <input type="radio" id="radioRespuestaNoOtro" class="custom-control-input" value="false"
+                            formControlName="check_otro_medio" (change)="decrementar('check_otro_medio')">
+                          <label class="custom-control-label" for="radioRespuestaNoOtro">No</label>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
+
+
+              <!--Modal forma parte del form para capturar descripcion_baja-->
+              <app-ui-modal #exampleModalCenter dialogClass="modal-dialog-centered">
+                <div class="app-modal-header">
+                  <h5 class="modal-title">Razón de la baja</h5>
+                  <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+                    (click)="exampleModalCenter.hide()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="app-modal-body">
+                  <label>Describe la razón de la baja</label>
+                  <textarea class="form-control" rows="5" placeholder="Describe la razón de la baja"
+                    formControlName="descripcion_baja"></textarea>
+                </div>
+                <div class="app-modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    (click)="exampleModalCenter.hide()">Cerrar</button>
+                  <button type="button" class="btn btn-danger" (click)="guardar('Baja')"
+                    [disabled]="bloquearBoton">Confirmar baja</button>
+                </div>
+              </app-ui-modal>
+              <!--Modal END-->
+
+            </form>
+          </div>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>

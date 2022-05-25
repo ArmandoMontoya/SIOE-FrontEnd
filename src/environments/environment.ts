@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: "http://localhost:5067/api/",
+  api: "http://localhost:5067/api",
   // ruta: "https://api.ieeg.org.mx/EleccionesEscolares/",
   version: "1.0.1",
 };

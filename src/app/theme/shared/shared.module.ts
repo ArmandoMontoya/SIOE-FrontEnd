@@ -17,8 +17,9 @@ import {ToastService} from './components/toast/toast.service';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import {LightboxModule} from 'ngx-lightbox';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbCollapseModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {ArchwizardModule} from 'angular-archwizard';
+import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 
 /*import 'hammerjs';
 import 'mousetrap';
@@ -44,6 +45,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbPaginationModule,
     NgbTooltipModule,
     ArchwizardModule,
+    NgbDatepickerModule,
+    NgbCollapseModule,
+    NgbAccordionModule
 
   ],
   exports: [
@@ -67,7 +71,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbPaginationModule,
     NgbTooltipModule,
     ArchwizardModule,
-
+    NgbDatepickerModule,
+    NgbCollapseModule,
+    NgbAccordionModule
   ],
   declarations: [
     DataFilterPipe,

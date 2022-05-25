@@ -1,0 +1,207 @@
+<div class="row">
+    <div class="col-sm-12" >
+      <app-card cardClass="card-datatable" [options]="false">
+        <h5>Detalle del Grupo Organizado</h5>
+        <form>
+          <div class="row">
+            <div class="col-sm-6">
+              <app-card cardTitle="Grupo Organizado" cardClass="card-datatable col-sm-12" [options]="false" >
+                <div class="form-group row">
+  
+                  <label for="exampleFormControlInput1" class="col-sm-3"><strong>Organismo:</strong></label>
+                  <label for="" class="col-sm-9">{{verDetalle[0].nombre | uppercase }}</label>
+  
+                  <label for="exampleFormControlInput1" class="col-3"><strong>Acta constitutiva:</strong></label>
+                  <label for="" class="col-9">{{verDetalle[0].acta_constitutiva}}</label>
+  
+                  <label for="exampleFormControlInput1" class="col-3"><strong>Teléfono del grupo organizado:</strong></label>
+                  <label for="" class="col-9">{{verDetalle[0].telefono_gosc}}</label>
+  
+                  <label for="" class="col-3"><strong>Extensión:</strong></label>
+                  <a href="" target="_blank"
+                    class="col-9"> {{verDetalle[0].extension}}</a>
+  
+                  <label for="" class="col-3"><strong>Días de atención:</strong></label>
+                  <label class="col-9">{{verDetalle[0].dias_de_atencion}}</label>
+  
+                  <label for="" class="col-3"><strong>Horario de atención:</strong></label>
+                  <label class="col-9">{{verDetalle[0].horario_atencion_inicial | date:'shortTime'}} a {{verDetalle[0].horario_atencion_termino | date:'shortTime'}}</label>
+  
+                  <label for="" class="col-3"><strong>Logo:</strong></label>
+                  <label class="col-9">{{verDetalle[0].logotipo}}</label>
+
+                  <label for="" class="col-3"><strong>Página web:</strong></label>
+                  <label class="col-9">{{verDetalle[0].pagina_web}}</label>
+
+                  <label for="" class="col-3"><strong>Observación:</strong></label>
+                  <label class="col-9">{{verDetalle[0].observacion | titlecase}}</label>
+
+                  <label for="" class="col-3"><strong>¿Propone ciudadano?:</strong></label>
+                  <div class="col-9">
+                    <ng-container [ngSwitch]="verDetalle[0].propone_ciudadano">
+                        <span  *ngSwitchCase="true">Sí</span>
+                        <span *ngSwitchCase="false">No</span>
+                      </ng-container>
+                  </div>
+
+                  <label for="" class="col-3"><strong>Estatus:</strong></label>
+                  <div class="col-9">
+                    <ng-container [ngSwitch]="verDetalle[0].estatus">
+                        <span class="badge badge-danger" *ngSwitchCase="0">No vigente</span>
+                        <span class="badge badge-success" *ngSwitchCase="1">Vigente</span>
+                        <span class="badge badge-warning" *ngSwitchCase="2">Duplicado</span>
+                        <span class="badge badge-blue" *ngSwitchCase="3">En revisión</span>
+                      </ng-container>
+                  </div>
+                  
+
+                  <label for="" class="col-3"><strong>Municipio:</strong></label>
+                  <label class="col-9">{{verDetalle[0].municipio | titlecase}}</label>
+
+                  <label for="" class="col-3"><strong>Tipo de organismo:</strong></label>
+                  <label class="col-9">{{verDetalle[0].tipo_organismo | titlecase}}</label>
+
+                  <label for="" class="col-3"><strong>Proceso electoral:</strong></label>
+                  <label class="col-9">{{verDetalle[0].proceso | titlecase}}</label>
+  
+                </div>
+
+                <app-card cardTitle="Razón de baja" cardClass="card-datatable col-sm-12" [options]="false" *ngIf="verDetalle[0].descripcion_baja != null ">
+                    <div class="form-group row">
+      
+                      <label for="exampleFormControlInput1" class="col-sm-3"><strong>Descripcón de baja:</strong></label>
+                      <label for="" class="col-sm-9">{{verDetalle[0].descripcion_baja | titlecase}}</label>
+                    </div>
+    
+                    
+                  </app-card>
+
+                <button class="btn btn-secondary float-left"
+                    [routerLink]="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al
+                    directorio</button>
+              </app-card>
+
+              
+  
+  
+  
+            </div>
+            <div class="col-sm-6">
+                <app-card cardTitle="Dirección" cardClass="card-datatable col-sm-12" [options]="false">
+                  <div class="form-group row">
+    
+                    <label for="exampleFormControlInput1" class="col-sm-3"><strong>Calle:</strong></label>
+                    <label for="" class="col-sm-9">{{verDetalle[0].calle | titlecase}}</label>
+    
+                    <label for="exampleFormControlInput1" class="col-3"><strong>Colonia:</strong></label>
+                    <label for="" class="col-9">{{verDetalle[0].colonia | titlecase}}</label>
+    
+                    <label for="exampleFormControlInput1" class="col-3"><strong>Código postal:</strong></label>
+                    <label for="" class="col-9">{{verDetalle[0].codigo_postal | titlecase}}</label>
+    
+                    <label for="" class="col-3"><strong>Ver en mapa:</strong></label>
+                    <a href="" target="_blank"
+                      class="col-9">{{verDetalle[0].codigo_postal}}</a>
+    
+                  </div>
+  
+                  
+                </app-card>
+
+                <app-card cardTitle="Titular" cardClass="card-datatable col-sm-12" [options]="false">
+                    <div class="form-group row">
+      
+                      <label for="exampleFormControlInput1" class="col-sm-3"><strong>Nombre del titular:</strong></label>
+                      <label for="" class="col-sm-9">{{verDetalle[0].nombreTitular | titlecase}}</label>
+      
+                      <label for="exampleFormControlInput1" class="col-3"><strong>Email:</strong></label>
+                      <label for="" class="col-9">{{verDetalle[0].email | lowercase}}</label>
+      
+                      <label for="exampleFormControlInput1" class="col-3"><strong>Sexo:</strong></label>
+                      <div class="col-9">
+                        <ng-container [ngSwitch]="verDetalle[0].sexo">
+                            <span  *ngSwitchCase="'M'">Hombre</span>
+                            <span *ngSwitchCase="'F'">Mujer</span>
+                          </ng-container>
+                      </div>
+      
+                      <label for="" class="col-3"><strong>Teléfono particular:</strong></label>
+                      <a href="" target="_blank"
+                        class="col-9">{{verDetalle[0].telefono_particular}}</a>
+      
+                      <label for="" class="col-3"><strong>Nombre de contacto:</strong></label>
+                      <label class="col-9">{{verDetalle[0].nombre_contacto | titlecase}}</label>
+      
+                      <label for="" class="col-3"><strong>Cargo:</strong></label>
+                      <label class="col-9">{{verDetalle[0].cargo | titlecase}}</label>
+
+                    </div>
+    
+                    
+                  </app-card>
+
+                  <app-card cardTitle="Cesión de datos personales" cardClass="card-datatable col-sm-12" [options]="false">
+                    <div class="form-group row">
+      
+                      <label for="exampleFormControlInput1" class="col-3"><strong>check_nombre:</strong></label>
+                      <div class="col-9">
+                        <ng-container [ngSwitch]="verDetalle[0].check_nombre">
+                            <span  *ngSwitchCase="true">Sí</span>
+                            <span *ngSwitchCase="false">No</span>
+                          </ng-container>
+                      </div>
+      
+                      <label for="exampleFormControlInput1" class="col-3"><strong>check_direccion:</strong></label>
+                      <div class="col-9">
+                        <ng-container [ngSwitch]="verDetalle[0].check_direccion">
+                            <span  *ngSwitchCase="true">Sí</span>
+                            <span *ngSwitchCase="false">No</span>
+                          </ng-container>
+                      </div>
+      
+                      <label for="exampleFormControlInput1" class="col-3"><strong>check_telefonoParticular:</strong></label>
+                      <div class="col-9">
+                        <ng-container [ngSwitch]="verDetalle[0].check_telefonoParticular">
+                            <span  *ngSwitchCase="true">Sí</span>
+                            <span *ngSwitchCase="false">No</span>
+                          </ng-container>
+                      </div>
+
+                      <label for="" class="col-3"><strong>check_email:</strong></label>
+                      <div class="col-9">
+                        <ng-container [ngSwitch]="verDetalle[0].check_email">
+                            <span  *ngSwitchCase="true">Sí</span>
+                            <span *ngSwitchCase="false">No</span>
+                          </ng-container>
+                      </div>
+      
+                      <label for="" class="col-3"><strong>check_cesion_datos:</strong></label>
+                      <div class="col-9">
+                        <ng-container [ngSwitch]="verDetalle[0].check_cesion_datos">
+                            <span  *ngSwitchCase="true">Sí</span>
+                            <span *ngSwitchCase="false">No</span>
+                          </ng-container>
+                      </div>
+      
+                      <label for="" class="col-3"><strong>medio:</strong></label>
+                      <label class="col-9">{{verDetalle[0].medio | titlecase}}</label>
+
+                      <label for="" class="col-3"><strong>fuente:</strong></label>
+                      <label class="col-9">{{verDetalle[0].fuente | titlecase}}</label>
+
+                      <label for="" class="col-3"><strong>fecha_cesion:</strong></label>
+                      <label class="col-9">{{verDetalle[0].fecha_cesion | date:'d/M/yyyy'}}</label>
+                      
+                    </div>
+    
+                    
+                  </app-card>
+    
+    
+              </div>
+
+          </div>
+        </form>
+      </app-card>
+    </div>
+  </div>
