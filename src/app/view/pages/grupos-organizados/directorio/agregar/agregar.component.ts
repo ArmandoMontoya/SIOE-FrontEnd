@@ -9,6 +9,7 @@ import { DireccionDTO, TitularDTO, CesionDatosPersonalesDTO } from '../../../../
 import { tipoOrganismoSelect, municipiosSelect } from '../../../../../model/GruposOrganizados/procesoElectoral';
 import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-agregar',
@@ -103,12 +104,12 @@ export class AgregarComponent implements OnInit {
     private _gruposService: GruposOrganizadosService,
     private parserFormatter: NgbDateParserFormatter,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _sanitizer: DomSanitizer
   ) { }
 
 
   ngOnInit() {
-    debugger;
 
     this.activatedRoute.params.subscribe(params => {
 
@@ -403,6 +404,11 @@ export class AgregarComponent implements OnInit {
       //Se crea la propiedad titularDTO dentro de grupoOrganizadoDTO
       this.grupoOrganizadoDTO["titularDTO"] = this.titularDTO;
 
+      this.grupoOrganizadoDTO.logotipo = this.previsualizacion;
+
+      console.log(this.grupoOrganizadoDTO);
+
+
       if (!this.isUdating) {
 
         if (this.isDuplicate == true) {
@@ -468,6 +474,53 @@ export class AgregarComponent implements OnInit {
 
     return selectedDiasAtencion.toString();
   }
+
+  nombreArchivo: string = "Elige un archivo";
+  archivo: any = [];
+  previsualizacion: any;
+  //Imagen
+  cargarImagen(file: File){
+    this.nombreArchivo = file[0].name;
+    const archivoCapturado = file[0]
+    this.extraerBase64(archivoCapturado).then((imagen: any) => {
+      this.previsualizacion = imagen.base;
+      //console.log(imagen);
+    });
+
+    this.archivo = [];
+    this.archivo.push(archivoCapturado);
+
+    console.log(this.archivo);
+
+  }
+
+  //Obtener la Base64 del archivo
+  extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const image = this._sanitizer.bypassSecurityTrustUrl(unsafeImg);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          base: null
+        });
+      };
+
+    } catch (e) {
+      return null;
+    }
+  })
+
+    
+
+
+
 
   //Limpiar formularios
   limpiarDTO() {

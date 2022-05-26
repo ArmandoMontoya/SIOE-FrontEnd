@@ -20,7 +20,15 @@
                       </div>
                       <div class="col-6">
                         <label>Logotipo</label>
-                        <input type="text" class="form-control" placeholder="Logotipo" formControlName="logotipo">
+                        <div *ngIf="previsualizacion" class="mb-3">
+                          <img width="50" height="50" [src]="previsualizacion">
+                        </div>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="Logotipo" formControlName="logotipo" accept="image/*" (change)="cargarImagen($event.target.files)">
+                          <label class="custom-file-label" for="Logotipo" >{{nombreArchivo}}</label>
+                        </div>
+                        <!--Previsualización de imagen-->
+                        
                       </div>
                     </div>
                     <div class="form-group row">
@@ -123,12 +131,14 @@
                         <textarea class="form-control" rows="10" placeholder="Observaciones"
                           formControlName="observacion"></textarea>
                       </div>
-                      <!-- <pre> {{ formGrupoOrganizadoValidation.value | json }}</pre>  -->
+                      <pre> {{ formGrupoOrganizadoValidation.value | json }}</pre> 
                     </div>
                   </form>
                 </div>
                 <div class="col-sm-12 centered-content">
                   <div class="btn-group mt-10">
+                    <button type="button" class="btn btn-success btn-sm"
+                       (click)="guardar()">Guardar</button>
                     <button type="button" class="btn btn-secondary btn-sm" routerLink="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al directorio</button>
                     <button type="button" class="btn btn-primary btn-sm" (click)="pasoSiguiente()"
                       [disabled]="formGrupoOrganizadoValidation.invalid">Continuar</button>
