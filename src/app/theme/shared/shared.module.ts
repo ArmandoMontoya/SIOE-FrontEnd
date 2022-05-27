@@ -21,6 +21,8 @@ import { NgbAccordionModule, NgbCollapseModule, NgbPaginationModule, NgbTooltipM
 import {ArchwizardModule} from 'angular-archwizard';
 import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 
+import { AgmCoreModule } from '@agm/core';
+
 /*import 'hammerjs';
 import 'mousetrap';
 import { GalleryModule } from '@ks89/angular-modal-gallery';*/
@@ -47,7 +49,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ArchwizardModule,
     NgbDatepickerModule,
     NgbCollapseModule,
-    NgbAccordionModule
+    NgbAccordionModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBCK-Dw15vDD66xTw2fVOnU-GxnMIv1PZQ',
+      libraries: ['places']
+    }),
 
   ],
   exports: [

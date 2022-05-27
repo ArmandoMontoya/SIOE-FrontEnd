@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { WizardComponent } from 'angular-archwizard';
@@ -11,11 +11,27 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import {AgmMap, MouseEvent, MapsAPILoader  } from '@agm/core';
+declare var google: any;
+
 @Component({
   selector: 'app-agregar',
   templateUrl: './agregar.component.html',
 })
 export class AgregarComponent implements OnInit {
+
+
+  // datos para el mapa
+  public latitud: number;
+  public longitud: number;
+
+  public zoom: number;
+  public currentLocation: any;
+  private geoCoder;
+
+  @ViewChild(AgmMap,{static: true}) public agmMap: AgmMap;
+  public searchElementRef: ElementRef;
+
   grupoOrganizadoDTO: grupoOrganizadoDTO = null;
   titularDTO: TitularDTO = null;
   cesionDatosPersonalesDTO: CesionDatosPersonalesDTO = null;
@@ -105,11 +121,23 @@ export class AgregarComponent implements OnInit {
     private parserFormatter: NgbDateParserFormatter,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _sanitizer: DomSanitizer
-  ) { }
+    private _sanitizer: DomSanitizer,
+    private mapsAPILoader: MapsAPILoader
+  ) { 
+    this.mapsAPILoader.load().then(() => {
+      this.geoCoder = new google.maps.Geocoder();
+    });
+  }
 
 
   ngOnInit() {
+
+    this.mapsAPILoader.load().then(() => {
+
+      this.obtenerUbicacionActual();
+      this.agmMap.triggerResize(true);
+      this.zoom = 13;
+    });
 
     this.activatedRoute.params.subscribe(params => {
 
@@ -163,6 +191,44 @@ export class AgregarComponent implements OnInit {
 
 
   }
+
+  public obtenerUbicacionActual = () => {
+
+    return new Promise( (resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+
+          if (position) {
+
+            this.latitud = position.coords.latitude;
+            this.longitud = position.coords.longitude;
+
+            let latlng = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            this.geoCoder.geocode({
+              'location': latlng
+            }, (results, status) => {
+              if (status === 'OK') {
+                console.log(results[0]);
+                this.currentLocation = results[0].formatted_address;
+                resolve(results[0].formatted_address);
+              } else {
+                reject(status);
+              }
+            });
+          } else {
+            console.log('Geolocalización no activada.');
+          }
+
+        });
+      }
+
+    });
+
+  };
 
 
   loadFormGrupoOrganizado(grupoOrganizado: grupoOrganizadoDTO) {
