@@ -25,7 +25,7 @@ import { DetalleComponent } from './directorio/detalle/detalle.component';
     GruposOrganizadosRoutingModule,
     SharedModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAvcDy5ZYc2ujCS6TTtI3RYX5QmuoV8Ffw'
+      apiKey: 'AIzaSyBf3HUKa1rzjB9VYIBQEtuEoykgn4SS8gM'
     }),
     ReactiveFormsModule
   ]
