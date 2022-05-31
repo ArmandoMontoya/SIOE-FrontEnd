@@ -56,7 +56,9 @@ export class AgregarComponent implements OnInit {
   procesosElectorales: procesoElectoralSelect[] = [];
   tiposOrganismos: tipoOrganismoSelect[] = [];
 
-  //EVALUAR EXPRESIONES REGULARES
+  //Regex
+  onlyLettersPattern = /^[a-zA-Z\s]*$/;
+  onlyNumbersPattern = /^(?=.*\d)[\d ]+$/;
 
   //Form Groups
   // formGrupoOrganizadoValidation: FormGroup;
