@@ -21,6 +21,7 @@ export class grupoOrganizadoDTO {
     horario_atencion_inicial: string;
     horario_atencion_termino: string;
     logotipo: string;
+    ficha_registro: string;
     pagina_web: string;
     observacion: string;
     propone_ciudadano: boolean;

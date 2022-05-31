@@ -113,7 +113,6 @@ export class VigenciaComponent implements OnInit {
 
   ExisteVerificacionVigencia(verificacionVigencia: verificacionVigenciaDTO) {
     if (Object.keys(verificacionVigencia).length != 0) {
-      debugger;
       //Horarios: Se convierten de string a Date, y se formatean HH:MM:SS para que sea leído por el control
       const hora_llamada_gosc = (verificacionVigencia[0].hora_llamada_gosc != null) ? new Date(verificacionVigencia[0].hora_llamada_gosc).toTimeString().slice(0, 8) : null;
       const hora_llamada_particular = (verificacionVigencia[0].hora_llamada_particular != null) ? new Date(verificacionVigencia[0].hora_llamada_particular).toTimeString().slice(0, 8) : null;

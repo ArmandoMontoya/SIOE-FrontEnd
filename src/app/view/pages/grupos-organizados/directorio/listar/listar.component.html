@@ -1,110 +1,124 @@
 <div class="row">
-    <div class="col-sm-12">
-        <app-card cardTitle="Grupos Organizados de la Sociedad Civil" cardClass="card-datatable" [options]="false">
-          <!-- Filtros -->
-            <div class="row">
-                    <div class="col-sm-12">
-                        <form [formGroup]="buscarForm" (ngSubmit)="buscar()">
-                            <div class="form-row">
-                                <div class="form-group col-md-3">
-                                    <label for="selectProcesoElectoral">Proceso electoral:</label>
-                                    <select class="form-control" id="selectProcesoElectoral" formControlName="selectProcesoElectoral">
-                                      <option [ngValue]="null" disabled>Selecciona un proceso electoral</option>
-                                      <option *ngFor="let procesoElectoral of procesosElectorales" [ngValue]="procesoElectoral.procesoElectoralId">{{procesoElectoral.proceso}}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="selectMunicipio">Junta ejecutiva regional:</label>
-                                  <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
-                                    <option [ngValue]="null" disabled>Selecciona un municipio</option>
-                                    <option *ngFor="let jer of jers" [ngValue]="jer.jerId">{{jer.nombre}}</option>
-                                  </select>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="selectMunicipio">Municipio:</label>
-                                    <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
-                                      <option [ngValue]="null" disabled>Selecciona un municipio</option>
-                                      <option *ngFor="let municipio of municipios" [ngValue]="municipio.municipioId">{{municipio.municipio}}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="selectMunicipio">Nombre organismo:</label>
-                                  <input type="text" class="form-control" placeholder="Nombre del organismo" >
-                                  <!-- <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('nombreOrganismo')">Campo obligatorio</span> -->
-                              </div>
-                                <div class="form-group col-md-3">
-                                  <label for="selectEstatus">Estatus:</label>
-                                  <select class="form-control" id="selectEstatus" formControlName="selectEstatus">
-                                    <option [ngValue]="null" disabled>Selecciona un estatus</option>
-                                    <option value="0">No vigente</option>
-                                    <option value="1">Vigente</option>
-                                    <option value="2">Duplicado</option>
-                                    <option value="3">En revisión</option>
-                                  </select>
-                              </div>
-                              </div>
-                              <button class="btn btn-secondary float-right" type="submit"><i class="fas fa-search"></i> Buscar</button>
-                          </form>
-                    </div>
-            </div>
-            <!-- Filtros -->
-            <div class="row">
-              <div class="col-sm-12">
-                <button type="button" class="btn btn-primary mb-3" routerLink="../agregar"><i class="fas fa-plus"></i> Nuevo</button>
-                <!-- Tabla -->
-                <div class="table-responsive">
-                  <table class="table table-sm table-hover" >
-                    <thead >
-                      <tr>
-                        <th scope="col" class="col-1 bg-primary text-white" *ngFor="let column of columns">{{column.name}}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of rows  | slice: (page-1) * pageSize : page * pageSize">
-                        <th scope="row">{{row.grupoOrganizadoId}}</th>
-                        <td class="text-wrap"><img src="../../../../../assets/images/no-image.png" alt="logo" width="50" height="50">{{row.logo}}</td>
-                        <td class="text-wrap">{{row.nombregrupo}}</td>
-                        <td class="text-wrap">{{row.nombreJer}}</td>
-                        <td class="text-wrap">{{row.proceso}}</td>
-                        <td class="text-wrap">{{row.nombreTitular}}</td>
-                        <td class="text-wrap">{{row.telefono}} Ext: {{ row.extension}}</td>
-                        
-                        <td class="text-wrap">
-                            <ng-container [ngSwitch]="row.estatus">
-                              <span class="badge badge-danger" *ngSwitchCase="0">No vigente</span>
-                              <span class="badge badge-success" *ngSwitchCase="1">Vigente</span>
-                              <span class="badge badge-warning" *ngSwitchCase="2">Duplicado</span>
-                              <span class="badge badge-blue" *ngSwitchCase="3">En revisión</span>
-                            </ng-container>
-                      </td>
-                        <td>
-                          <button type="button" class="btn btn-outline-info btn-sm mr-1" [placement]="'top'" ngbTooltip="Ver detalle" [routerLink]="['/grupos-organizados-de-la-sociedad-civil/detalle', row.grupoOrganizadoId]"><i class="fa-solid fa-eye"></i></button>
-                          <button *ngIf="row.estatus === 3 || row.estatus === 1" type="button" class="btn btn-outline-gold btn-sm mr-1"[placement]="'top'" ngbTooltip="Verificar vigencia" (click)="vigencia(row.grupoOrganizadoId)"><i class="fa-solid fa-calendar-check"></i></button>
-                          <button *ngIf="row.estatus === 1" type="button" class="btn btn-outline-blue btn-sm mr-1" [placement]="'top'" ngbTooltip="Editar" [routerLink]="['/grupos-organizados-de-la-sociedad-civil/editar', row.grupoOrganizadoId]"><i class="fa-solid fa-pen-to-square"></i></button>
-                          <!-- <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Dar de baja"><i class="fa-regular fa-trash-can"></i></button> -->
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  
-                  <div class="d-flex justify-content-between p-2">
-                    <ngb-pagination [collectionSize]="rows.length" [(page)]="page" [pageSize]="pageSize">
-                    </ngb-pagination>
-                  
-                    <select class="form-select" style="width: auto" [(ngModel)]="pageSize">
-                      <option [ngValue]="5">5 registros por página</option>
-                      <option [ngValue]="10">10 registros por página</option>
-                      <option [ngValue]="120">120 registros por página</option>
-                    </select>
-                  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Grupos Organizados de la Sociedad Civil" cardClass="card-datatable" [options]="false">
+      <!-- Filtros -->
+      <div class="row">
+        <div class="col-12">
+          <form [formGroup]="buscarForm" (ngSubmit)="buscar()">
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="selectProcesoElectoral">Proceso electoral:</label>
+                <select class="form-control" id="selectProcesoElectoral" formControlName="selectProcesoElectoral">
+                  <option [ngValue]="null" disabled>Selecciona un proceso electoral</option>
+                  <option *ngFor="let procesoElectoral of procesosElectorales"
+                    [ngValue]="procesoElectoral.procesoElectoralId">{{procesoElectoral.proceso}}</option>
+                </select>
               </div>
+              <div class="form-group col-md-3">
+                <label for="selectMunicipio">Junta ejecutiva regional:</label>
+                <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
+                  <option [ngValue]="null" disabled>Selecciona un municipio</option>
+                  <option *ngFor="let jer of jers" [ngValue]="jer.jerId">{{jer.nombre}}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="selectMunicipio">Municipio:</label>
+                <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
+                  <option [ngValue]="null" disabled>Selecciona un municipio</option>
+                  <option *ngFor="let municipio of municipios" [ngValue]="municipio.municipioId">{{municipio.municipio}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="selectMunicipio">Nombre organismo:</label>
+                <input type="text" class="form-control" placeholder="Nombre del organismo">
+                <!-- <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('nombreOrganismo')">Campo obligatorio</span> -->
+              </div>
+              <div class="form-group col-md-3">
+                <label for="selectEstatus">Estatus:</label>
+                <select class="form-control" id="selectEstatus" formControlName="selectEstatus">
+                  <option [ngValue]="null" disabled>Selecciona un estatus</option>
+                  <option value="0">No vigente</option>
+                  <option value="1">Vigente</option>
+                  <option value="2">Duplicado</option>
+                  <option value="3">En revisión</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-secondary float-right" type="submit"><i class="fas fa-search"></i> Buscar</button>
+          </form>
+        </div>
+      </div>
+      <!-- Filtros -->
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn btn-primary mb-3" routerLink="../agregar"><i class="fas fa-plus"></i>
+            Nuevo</button>
+          <!-- Tabla -->
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-1 bg-primary text-white" *ngFor="let column of columns">{{column.name}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of rows  | slice: (page-1) * pageSize : page * pageSize">
+                  <th scope="row">{{row.grupoOrganizadoId}}</th>
+                  <td class="text-wrap"><img src="../../../../../assets/images/no-image.png" alt="logo" width="50"
+                      height="50">{{row.logo}}</td>
+                  <td class="text-wrap">{{row.nombregrupo}}</td>
+                  <td class="text-wrap">{{row.nombreJer}}</td>
+                  <td class="text-wrap">{{row.proceso}}</td>
+                  <td class="text-wrap">{{row.nombreTitular}}</td>
+                  <td class="text-wrap">{{row.telefono}} Ext: {{ row.extension}}</td>
 
-                        <!-- //Tabla -->
-              </div>
-              
+                  <td class="text-wrap">
+                    <ng-container [ngSwitch]="row.estatus">
+                      <span class="badge badge-danger" *ngSwitchCase="0">No vigente</span>
+                      <span class="badge badge-success" *ngSwitchCase="1">Vigente</span>
+                      <span class="badge badge-warning" *ngSwitchCase="2">Duplicado</span>
+                      <span class="badge badge-blue" *ngSwitchCase="3">En revisión</span>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-outline-info btn-sm mr-1" [placement]="'top'"
+                      ngbTooltip="Ver detalle"
+                      [routerLink]="['/grupos-organizados-de-la-sociedad-civil/detalle', row.grupoOrganizadoId]"><i
+                        class="fa-solid fa-eye"></i></button>
+                    <button *ngIf="row.estatus === 3 || row.estatus === 1" type="button"
+                      class="btn btn-outline-gold btn-sm mr-1" [placement]="'top'" ngbTooltip="Verificar vigencia"
+                      (click)="vigencia(row.grupoOrganizadoId)"><i class="fa-solid fa-calendar-check"></i></button>
+                    <button *ngIf="row.estatus === 1" type="button" class="btn btn-outline-blue btn-sm mr-1"
+                      [placement]="'top'" ngbTooltip="Editar"
+                      [routerLink]="['/grupos-organizados-de-la-sociedad-civil/editar', row.grupoOrganizadoId]"><i
+                        class="fa-solid fa-pen-to-square"></i></button>
+                    <!-- <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Dar de baja"><i class="fa-regular fa-trash-can"></i></button> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination [collectionSize]="rows.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5">
+                <ng-template ngbPaginationPrevious>Anterior</ng-template>
+                <ng-template ngbPaginationNext>Siguiente</ng-template>
+              </ngb-pagination>
+
+              <select class="form-select" style="width: auto" [(ngModel)]="pageSize">
+                <option [ngValue]="5">5 registros por página</option>
+                <option [ngValue]="10">10 registros por página</option>
+                <option [ngValue]="120">120 registros por página</option>
+              </select>
             </div>
-        </app-card>
-    </div>
+          </div>
+
+          <!-- //Tabla -->
+        </div>
+
+      </div>
+    </app-card>
+  </div>
 </div>
 <!-- //Filtros -->
-

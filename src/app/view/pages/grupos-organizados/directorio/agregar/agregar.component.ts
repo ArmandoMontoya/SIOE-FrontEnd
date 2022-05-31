@@ -135,7 +135,7 @@ export class AgregarComponent implements OnInit {
     this.mapsAPILoader.load().then(() => {
 
       this.obtenerUbicacionActual();
-      this.agmMap.triggerResize(true);
+      //this.agmMap.triggerResize(true);
       this.zoom = 13;
     });
 
@@ -470,7 +470,9 @@ export class AgregarComponent implements OnInit {
       //Se crea la propiedad titularDTO dentro de grupoOrganizadoDTO
       this.grupoOrganizadoDTO["titularDTO"] = this.titularDTO;
 
-      this.grupoOrganizadoDTO.logotipo = this.previsualizacion;
+      this.grupoOrganizadoDTO.logotipo = this.imagenFile;
+
+      this.grupoOrganizadoDTO.ficha_registro = this.pdfFile;
 
       console.log(this.grupoOrganizadoDTO);
 
@@ -541,22 +543,42 @@ export class AgregarComponent implements OnInit {
     return selectedDiasAtencion.toString();
   }
 
-  nombreArchivo: string = "Elige un archivo";
-  archivo: any = [];
-  previsualizacion: any;
+  nombreArchivoImgeFile: string = "Elige un archivo";
+  imagenFile: any;;
+
+
+  nombreArchivoPdfFile: string = "Elige un archivo";
+  pdfFile: any;;
   //Imagen
   cargarImagen(file: File){
-    this.nombreArchivo = file[0].name;
+    this.nombreArchivoImgeFile = file[0].name;
     const archivoCapturado = file[0]
     this.extraerBase64(archivoCapturado).then((imagen: any) => {
-      this.previsualizacion = imagen.base;
+      this.imagenFile = imagen.base;
       //console.log(imagen);
     });
 
-    this.archivo = [];
-    this.archivo.push(archivoCapturado);
 
-    console.log(this.archivo);
+    // this.imagenFile = [];
+    // this.imagenFile.push(archivoCapturado);
+
+    console.log(this.imagenFile);
+
+  }
+
+  cargarPDF(file: File){
+    this.nombreArchivoPdfFile = file[0].name;
+    const archivoCapturado = file[0]
+    this.extraerBase64(archivoCapturado).then((pdf: any) => {
+      this.pdfFile = pdf.base;
+      console.log(this.pdfFile);
+    });
+
+
+    // this.pdfFile = [];
+    // this.pdfFile.push(archivoCapturado);
+
+    console.log(this.pdfFile);
 
   }
 
@@ -582,6 +604,15 @@ export class AgregarComponent implements OnInit {
       return null;
     }
   })
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+   });
+}
 
     
 

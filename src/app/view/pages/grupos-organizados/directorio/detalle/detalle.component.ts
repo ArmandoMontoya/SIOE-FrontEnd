@@ -66,12 +66,9 @@ export class DetalleComponent implements OnInit {
 
   formatearDetalle(detalle: verDetalle){
     this.verDetalle = detalle;
-    debugger;
-
 
     this.diasSelected = (detalle[0].dias_de_atencion != null) ? detalle[0].dias_de_atencion.split(',').map(Number) : null;
     let diasSeleccionados = '';
-    debugger;
 
     if (this.diasSelected != null) {
       this.diasSelected.map(d => {

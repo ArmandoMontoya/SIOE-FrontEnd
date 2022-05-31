@@ -6,38 +6,38 @@
           <aw-wizard #wizard class="arc-wizard">
             <aw-wizard-step stepTitle="Grupo Organizado">
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-12">
                   <h5>Grupo Organizado</h5>
                   <hr>
                   <form autocomplete="off" [formGroup]="formGrupoOrganizadoValidation">
                     <div class="form-group row">
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label>Nombre del organismo <label class="text-danger">*</label> </label>
                         <input type="text" class="form-control" placeholder="Nombre del organismo"
                           formControlName="nombre">
                         <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('nombre')">Campo
                           obligatorio</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label>Logotipo</label>
-                        <div *ngIf="previsualizacion" class="mb-3">
-                          <img width="50" height="50" [src]="previsualizacion">
+                        <div *ngIf="imagenFile" class="mb-3">
+                          <img width="50" height="50" [src]="imagenFile">
                         </div>
                         <div class="custom-file">
                           <input type="file" class="custom-file-input" id="Logotipo" formControlName="logotipo" accept="image/*" (change)="cargarImagen($event.target.files)">
-                          <label class="custom-file-label" for="Logotipo" >{{nombreArchivo}}</label>
+                          <label class="custom-file-label" for="Logotipo" >{{nombreArchivoImgeFile}}</label>
                         </div>
-                        <!--Previsualización de imagen-->
+                        
                         
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-3">
+                      <div class="col-12 col-lg-3">
                         <label>Acta constitutiva</label>
                         <input type="text" class="form-control" placeholder="Acta constitutiva"
                           formControlName="acta_constitutiva">
                       </div>
-                      <div class="col-3">
+                      <div class="col-12 col-lg-3">
                         <label>Municipio <label class="text-danger">*</label> </label>
                         <select class="form-control" id="selectMunicipio" formControlName="municipioId">
                           <option [ngValue]="null" disabled>Selecciona un municipio</option>
@@ -47,7 +47,7 @@
                         <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('municipioId')">Campo
                           obligatorio</span>
                       </div>
-                      <div class="col-3">
+                      <div class="col-12 col-lg-3">
                         <label>Tipo de organismo <label class="text-danger">*</label> </label>
                         <select class="form-control" id="selectMunicipio" formControlName="tipoOrganismoId">
                           <option [ngValue]="null" disabled>Selecciona un municipio</option>
@@ -58,7 +58,7 @@
                         <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('tipoOrganismoId')">Campo
                           obligatorio</span>
                       </div>
-                      <div class="col-3">
+                      <div class="col-12 col-lg-3">
                         <label for="selectProcesoElectoral">Proceso electoral <label
                             class="text-danger">*</label></label>
                         <select class="form-control" id="selectProcesoElectoral" formControlName="procesoElectoralId">
@@ -72,24 +72,34 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-4">
+                      <div class="col-12 col-lg-3">
                         <label>Teléfono del grupo organizado <label class="text-danger">*</label></label>
                         <input type="text" class="form-control" placeholder="Teléfono del grupo organizado"
                           formControlName="telefono_gosc">
                         <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('telefono_gosc')">Campo
                           obligatorio</span>
                       </div>
-                      <div class="col-2">
+                      <div class="col-12 col-lg-3">
                         <label>Extensión</label>
                         <input type="text" class="form-control" placeholder="Extensión" formControlName="extension">
                       </div>
-                      <div class="col-6">
+                      <div class="col-12 col-lg-3">
                         <label>Página web</label>
                         <input type="text" class="form-control" placeholder="Página web" formControlName="pagina_web">
                       </div>
+
+                      <div class="col-12 col-lg-3">
+                        <label>Ficha de registro</label>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="FichaRegistro" formControlName="logotipo" accept="application/pdf" (change)="cargarPDF($event.target.files)">
+                          <label class="custom-file-label" for="FichaRegistro" >{{nombreArchivoPdfFile}}</label>
+                        </div>
+                        
+                        
+                      </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-2">
+                      <div class="col-12 col-lg-2">
                         <label for="exampleFormControlInput1">Días de atención <label
                             class="text-danger">*</label></label>
                         <div formArrayName="dias_de_atencion" class="form-group"
@@ -102,14 +112,14 @@
                         <span class="form-text text-danger" *ngIf="validarFormCheckBox('dias_de_atencion')">Selecciona
                           por lo menos un día</span>
                       </div>
-                      <div class="col-2">
+                      <div class="col-12 col-lg-2">
                         <label for="exampleFormControlInput1">Hora de inicio<label class="text-danger">*</label></label>
                         <input type="time" id="date" class="form-control" placeholder="Date" atp-time-picker
                           value="24:00" formControlName="horario_atencion_inicial">
                         <span class="form-text text-danger"
                           *ngIf="validarFormGrupoOrganizado('horario_atencion_inicial')">Campo obligatorio</span>
                       </div>
-                      <div class="col-2">
+                      <div class="col-12 col-lg-2">
                         <label for="exampleFormControlInput1">Hora de término<label
                             class="text-danger">*</label></label>
                         <input type="time" id="date" class="form-control" placeholder="Date" atp-time-picker
@@ -117,7 +127,7 @@
                         <span class="form-text text-danger"
                           *ngIf="validarFormGrupoOrganizado('horario_atencion_termino')">Campo obligatorio</span>
                       </div>
-                      <div class="col-2">
+                      <div class="col-12 col-lg-2">
                         <div class="form-group d-inline">
                           <div class="checkbox checkbox-primary d-inline">
                             <input type="checkbox" name="checkbox-in-1" id="chkProponeCiudadano"
@@ -126,19 +136,16 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-12 col-lg-4">
                         <label>Observaciones</label>
                         <textarea class="form-control" rows="10" placeholder="Observaciones"
                           formControlName="observacion"></textarea>
                       </div>
-                      <pre> {{ formGrupoOrganizadoValidation.value | json }}</pre> 
                     </div>
                   </form>
                 </div>
-                <div class="col-sm-12 centered-content">
+                <div class="col-12 centered-content">
                   <div class="btn-group mt-10">
-                    <!-- <button type="button" class="btn btn-success btn-sm"
-                       (click)="guardar()">Guardar</button> -->
                     <button type="button" class="btn btn-secondary btn-sm" routerLink="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al directorio</button>
                     <button type="button" class="btn btn-primary btn-sm" (click)="pasoSiguiente()"
                       [disabled]="formGrupoOrganizadoValidation.invalid">Continuar</button>
@@ -151,19 +158,19 @@
 
             <aw-wizard-step stepTitle="Dirección">
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-12">
                   <h5>Dirección</h5>
                   <hr>
                   <form autocomplete="off" [formGroup]="formDireccionValidation">
                     <div class="form-group row">
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Calle y número<label class="text-danger">*</label></label>
                         <input type="text" class="form-control" id="exampleFormControlInput1"
                           placeholder="Calle y número" formControlName="calle">
                         <span class="form-text text-danger" *ngIf="validarFormDireccion('calle')">Campo
                           obligatorio</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Colonia<label class="text-danger">*</label></label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Colonia"
                           formControlName="colonia">
@@ -172,14 +179,14 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Código postal<label class="text-danger">*</label></label>
                         <input type="text" class="form-control" id="exampleFormControlInput1"
                           placeholder="Código postal" formControlName="codigo_postal">
                         <span class="form-text text-danger" *ngIf="validarFormDireccion('codigo_postal')">Campo
                           obligatorio</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Selecciona la ubicación en el mapa<label
                             class="text-danger">*</label></label>
 
@@ -187,8 +194,8 @@
                     </div>
                   </form>
                 </div>
-                <!-- <pre> {{ formTitularValidation.value | json }}</pre> -->
-                <div class="col-sm-12 centered-content">
+                
+                <div class="col-12 centered-content">
                   <div class="btn-group mt-10">
                     <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
                     <button type="button" class="btn btn-primary btn-sm" (click)="pasoSiguiente()"
@@ -200,12 +207,12 @@
 
             <aw-wizard-step stepTitle="Titular">
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-12">
                   <h5>Titular</h5>
                   <hr>
                   <form autocomplete="off" [formGroup]="formTitularValidation">
                     <div class="form-group row">
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Nombre del titular<label
                             class="text-danger">*</label></label>
                         <input type="text" class="form-control" id="exampleFormControlInput1"
@@ -213,7 +220,7 @@
                         <span class="form-text text-danger" *ngIf="validarFormTitular('nombre')">Campo
                           obligatorio</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Género<label class="text-danger">*</label></label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -231,25 +238,25 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Cargo<label class="text-danger">*</label></label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cargo"
                           formControlName="cargo">
                         <span class="form-text text-danger" *ngIf="validarFormTitular('cargo')">Campo obligatorio</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Email</label>
                         <input type="email" class="form-control" id="exampleFormControlInput1"
                           placeholder="email@example.com" formControlName="email">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Teléfono particular</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1"
                           placeholder="Teléfono particular" formControlName="telefono_particular">
                       </div>
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Contacto</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Contacto"
                           formControlName="nombre_contacto">
@@ -257,9 +264,8 @@
                       </div>
                     </div>
                   </form>
-                  <!-- <pre> {{ formTitularValidation.value | json }}</pre> -->
                 </div>
-                <div class="col-sm-12 centered-content">
+                <div class="col-12 centered-content">
                   <div class="btn-group mt-10">
                     <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
                     <button type="button" class="btn btn-primary btn-sm" (click)="pasoSiguiente()"
@@ -271,7 +277,7 @@
 
             <aw-wizard-step stepTitle="Cesión de datos personales">
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-12">
                   <h5>Cesión de datos personales</h5>
                   <hr>
                   <form autocomplete="off" [formGroup]="formCesionDatosPersonalesValidation">
@@ -279,7 +285,7 @@
                       <label for="exampleFormControlInput1">Marque los datos personales que se le proporcionaron</label>
                     </div>
                     <div class="form-group row">
-                      <div class="col-2">
+                      <div class="col-12 col-lg-3">
                         <label for="exampleFormControlInput1">Fecha<label class="text-danger">*</label></label>
                         <div class="input-group">
                           <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd" name="dp"
@@ -293,57 +299,56 @@
                         <span class="form-text text-danger"
                           *ngIf="validarFormCesionDatosPersonales('fecha_cesion')">Campo obligatorio</span>
                       </div>
-                      <div class="form-group d-inline">
+                      <div class="col-12 col-lg-3 form-group d-inline">
                         <div class="checkbox checkbox-primary d-inline">
                           <input type="checkbox" name="checkbox-d-in-1" id="chkNombre" formControlName="check_nombre">
                           <label for="chkNombre" class="cr">Nombre de la persona</label>
                         </div>
                       </div>
-                      <div class="form-group d-inline">
+                      <div class="col-12 col-lg-3 form-group d-inline">
                         <div class="checkbox checkbox-primary d-inline">
                           <input type="checkbox" name="checkbox-in-1" id="chkDireccion"
                             formControlName="check_direccion">
                           <label for="chkDireccion" class="cr">Dirección</label>
                         </div>
                       </div>
-                      <div class="form-group d-inline">
+                      <div class="col-12 col-lg-3 form-group d-inline">
                         <div class="checkbox checkbox-primary d-inline">
                           <input type="checkbox" name="checkbox-d-in-1" id="chkTelefonoParticular"
                             formControlName="check_telefonoParticular">
                           <label for="chkTelefonoParticular" class="cr">Teléfono particular</label>
                         </div>
                       </div>
-                      <div class="form-group d-inline">
-                        <div class="checkbox checkbox-primary d-inline">
+
+                      <div class="col-12 col-lg-3 form-group">
+                        <div class="checkbox checkbox-primary">
                           <input type="checkbox" name="checkbox-in-1" id="chkEmail" formControlName="check_email">
                           <label for="chkEmail" class="cr">Correo electrónico</label>
                         </div>
                       </div>
-                      <div class="form-group d-inline">
-                        <div class="checkbox checkbox-primary d-inline">
+                      <div class="col-12 col-lg-3 form-group">
+                        <div class="checkbox checkbox-primary">
                           <input type="checkbox" name="checkbox-d-in-1" id="chkCesionDatosPersonales"
                             formControlName="check_cesion_datos">
                           <label for="chkCesionDatosPersonales" class="cr">¿Cesión de datos personales?</label>
                         </div>
                       </div>
 
-
-                    </div>
-                    <div class="form-group row">
-                      <div class="col-2">
+                      <div class="col-12 col-lg-3">
                         <label for="exampleFormControlInput1">Medio</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Medio"
                           formControlName="medio">
                       </div>
-                      <div class="col-2">
+                      <div class="col-12 col-lg-3">
                         <label for="exampleFormControlInput1">Fuente</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fuente"
                           formControlName="fuente">
                       </div>
+
                     </div>
                   </form>
                 </div>
-                <pre> {{ formCesionDatosPersonalesValidation.value | json }}</pre> -
+                <!-- <pre> {{ formCesionDatosPersonalesValidation.value | json }}</pre> -->
                 <div class="col-sm-12 centered-content">
                   <div class="btn-group mt-10">
                     <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>

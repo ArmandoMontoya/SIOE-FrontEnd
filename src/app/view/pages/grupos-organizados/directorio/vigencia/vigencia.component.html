@@ -4,36 +4,36 @@
       <h5>Comprobar vigencia de Grupo Organizado</h5>
       <form>
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-12 col-lg-6">
             <app-card cardTitle="Datos del grupo organizado" cardClass="card-datatable" [options]="false">
               <div class="form-group row">
 
-                <label for="exampleFormControlInput1" class="col-sm-3"><strong>Organismo:</strong></label>
-                <label for="" class="col-sm-9">{{grupoOrganizadoDTO.nombre}}</label>
+                <label for="exampleFormControlInput1" class="col-12"><strong>Organismo:</strong></label>
+                <label for="" class="col-12">{{grupoOrganizadoDTO.nombre}}</label>
 
-                <label for="exampleFormControlInput1" class="col-3"><strong>Días de atención:</strong></label>
-                <label for="" class="col-9">{{grupoOrganizadoDTO.dias_de_atencion}}</label>
+                <label for="exampleFormControlInput1" class="col-12"><strong>Días de atención:</strong></label>
+                <label for="" class="col-12">{{grupoOrganizadoDTO.dias_de_atencion}}</label>
 
-                <label for="exampleFormControlInput1" class="col-3"><strong>Horario de atención:</strong></label>
-                <label for="" class="col-9">{{grupoOrganizadoDTO.horario_atencion_inicial | date:'shortTime' }} a
+                <label for="exampleFormControlInput1" class="col-12"><strong>Horario de atención:</strong></label>
+                <label for="" class="col-12">{{grupoOrganizadoDTO.horario_atencion_inicial | date:'shortTime' }} a
                   {{grupoOrganizadoDTO.horario_atencion_termino | date:'shortTime' }}</label>
 
-                <label for="" class="col-3"><strong>Página web:</strong></label>
+                <label for="" class="col-12"><strong>Página web:</strong></label>
                 <a href="{{grupoOrganizadoDTO.pagina_web}}" target="_blank"
-                  class="col-9">{{grupoOrganizadoDTO.pagina_web}}</a>
+                  class="col-12">{{grupoOrganizadoDTO.pagina_web}}</a>
 
-                <label for="" class="col-3"><strong>Titular:</strong></label>
-                <label class="col-9">{{titularDTO.nombre}}</label>
+                <label for="" class="col-12"><strong>Titular:</strong></label>
+                <label class="col-12">{{titularDTO.nombre}}</label>
 
-                <label for="" class="col-3"><strong>Cargo:</strong></label>
-                <label class="col-9">{{titularDTO.cargo}}</label>
+                <label for="" class="col-12"><strong>Cargo:</strong></label>
+                <label class="col-12">{{titularDTO.cargo}}</label>
 
-                <label for="" class="col-3"><strong>Contacto:</strong></label>
-                <label class="col-9">{{titularDTO.nombre_contacto}}</label>
+                <label for="" class="col-12"><strong>Contacto:</strong></label>
+                <label class="col-12">{{titularDTO.nombre_contacto}}</label>
 
               </div>
               <div class="form-group row">
-                <div class="col-sm-12">
+                <div class="col-12">
                   <button class="btn btn-secondary float-left"
                     [routerLink]="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al
                     directorio</button>
@@ -55,9 +55,9 @@
 
 
           </div>
-          <div class="col-sm-6">
+          <div class="col-12 col-lg-6">
             <form [formGroup]="formVigenciaValidation">
-              <pre> {{ formVigenciaValidation.value | json }}</pre>
+              
               <ngb-accordion [closeOthers]="true" activeIds="static-1" class="next-accordion">
                 <ngb-panel id="static-1">
                   <ng-template ngbPanelTitle>
@@ -65,13 +65,13 @@
                   </ng-template>
                   <ng-template ngbPanelContent>
                     <div class="form-group row">
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Teléfono: </label>
                         <br>
                         <label for="">{{grupoOrganizadoDTO.telefono_gosc}} <br> Extensión:
                           {{grupoOrganizadoDTO.extension}}</label>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Fecha de llamada</label>
                         <div class="input-group">
                           <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
@@ -84,14 +84,14 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Hora de llamada</label>
                         <input type="time" id="hora_llamada_gosc" class="form-control" placeholder="Date"
                           atp-time-picker value="24:00" formControlName="hora_llamada_gosc">
                       </div>
                     </div>
                     <div class="form-group row text-center">
-                      <div class="col-sm-12">
+                      <div class="col-12">
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -114,12 +114,12 @@
                   </ng-template>
                   <ng-template ngbPanelContent>
                     <div class="form-group row">
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Llamar al número personal</label>
                         <br>
                         <label for="">{{titularDTO.telefono_particular}}</label>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Fecha de llamada</label>
                         <div class="input-group">
                           <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
@@ -132,14 +132,14 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Hora de llamada</label>
                         <input type="time" id="hora_llamada_particular" class="form-control" placeholder="Date"
                           atp-time-picker value="24:00" formControlName="hora_llamada_particular">
                       </div>
                     </div>
                     <div class="form-group row text-center">
-                      <div class="col-sm-12">
+                      <div class="col-12">
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -165,12 +165,12 @@
                   </ng-template>
                   <ng-template ngbPanelContent>
                     <div class="form-group row">
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Email</label>
                         <br>
                         <label for="exampleFormControlInput1">{{titularDTO.email}}</label>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Fecha de envío de email</label>
                         <div class="input-group">
                           <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
@@ -182,15 +182,15 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label> Hora de envío de email</label>
                         <input type="time" id="hora_envio_email" class="form-control" placeholder="Date" atp-time-picker
                           value="24:00" formControlName="hora_envio_email">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <div class="col-sm-4"></div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4"></div>
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Fecha de respuesta de email</label>
                         <div class="input-group">
                           <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
@@ -203,14 +203,14 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label> Hora de respuesta de email</label>
                         <input type="time" id="hora_respuesta_email" class="form-control" placeholder="Date"
                           atp-time-picker value="24:00" formControlName="hora_respuesta_email">
                       </div>
                     </div>
                     <div class="form-group row text-center">
-                      <div class="col-sm-12">
+                      <div class="col-12">
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -234,12 +234,12 @@
                   </ng-template>
                   <ng-template ngbPanelContent>
                     <div class="form-group row">
-                      <div class="col-sm-8">
+                      <div class="col-12 col-sm-8">
                         <label>Describe el medio de contacto</label>
                         <textarea class="form-control" rows="5" placeholder="Observaciones"
                           formControlName="descripcion_otro_medio"></textarea>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-12 col-xl-4">
                         <label for="exampleFormControlInput1">Fecha de contacto</label>
                         <div class="input-group">
                           <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
@@ -253,7 +253,7 @@
                       </div>
                     </div>
                     <div class="form-group row text-center">
-                      <div class="col-sm-12">
+                      <div class="col-12">
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
