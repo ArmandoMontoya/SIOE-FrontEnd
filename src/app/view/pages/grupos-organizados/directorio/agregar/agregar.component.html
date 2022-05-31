@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-sm-12">
           <aw-wizard #wizard class="arc-wizard">
-            <aw-wizard-step stepTitle="Grupo Organizado">
+          <aw-wizard-step stepTitle="Grupo Organizado">
               <div class="row">
                 <div class="col-12">
                   <h5>Grupo Organizado</h5>
@@ -17,6 +17,15 @@
                           formControlName="nombre">
                         <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('nombre')">Campo
                           obligatorio</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['nombre'].hasError('minlength')">Mínimo diez
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['nombre'].hasError('maxlength')">Máximo
+                          docientos caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['nombre'].errors?.pattern">No se permiten
+                          caracteres especiales</span>
                       </div>
                       <div class="col-12 col-lg-6">
                         <label>Logotipo</label>
@@ -24,11 +33,12 @@
                           <img width="50" height="50" [src]="imagenFile">
                         </div>
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" id="Logotipo" formControlName="logotipo" accept="image/*" (change)="cargarImagen($event.target.files)">
-                          <label class="custom-file-label" for="Logotipo" >{{nombreArchivoImgeFile}}</label>
+                          <input type="file" class="custom-file-input" id="Logotipo" formControlName="logotipo"
+                            accept="image/*" (change)="cargarImagen($event.target.files)">
+                          <label class="custom-file-label" for="Logotipo">{{nombreArchivoImgeFile}}</label>
                         </div>
-                        
-                        
+
+
                       </div>
                     </div>
                     <div class="form-group row">
@@ -74,28 +84,57 @@
                     <div class="form-group row">
                       <div class="col-12 col-lg-3">
                         <label>Teléfono del grupo organizado <label class="text-danger">*</label></label>
-                        <input type="text" class="form-control" placeholder="Teléfono del grupo organizado"
+                        <input type="text" class="form-control" placeholder="999 999 9999"
                           formControlName="telefono_gosc">
                         <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('telefono_gosc')">Campo
                           obligatorio</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['telefono_gosc'].hasError('minlength')">Mínimo
+                          siete números</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['telefono_gosc'].hasError('maxlength')">Máximo
+                          quince números</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['telefono_gosc'].errors?.pattern">Formato
+                          incorrecto</span>
                       </div>
                       <div class="col-12 col-lg-3">
                         <label>Extensión</label>
                         <input type="text" class="form-control" placeholder="Extensión" formControlName="extension">
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['extension'].hasError('minlength')">Mínimo tres
+                          números</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['extension'].hasError('maxlength')">Máximo cinco
+                          números</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['extension'].errors?.pattern">Solo
+                          números</span>
                       </div>
                       <div class="col-12 col-lg-3">
                         <label>Página web</label>
-                        <input type="text" class="form-control" placeholder="Página web" formControlName="pagina_web">
+                        <input type="text" class="form-control" placeholder="www.example.com"
+                          formControlName="pagina_web">
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].hasError('minlength')">Mínimo diez
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].hasError('maxlength')">Máximo
+                          docientos caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].errors?.pattern">El formato debe
+                          ser www.example.com</span>
                       </div>
 
                       <div class="col-12 col-lg-3">
                         <label>Ficha de registro</label>
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" id="FichaRegistro" formControlName="logotipo" accept="application/pdf" (change)="cargarPDF($event.target.files)">
-                          <label class="custom-file-label" for="FichaRegistro" >{{nombreArchivoPdfFile}}</label>
+                          <input type="file" class="custom-file-input" id="FichaRegistro" formControlName="logotipo"
+                            accept="application/pdf" (change)="cargarPDF($event.target.files)">
+                          <label class="custom-file-label" for="FichaRegistro">{{nombreArchivoPdfFile}}</label>
                         </div>
-                        
-                        
+
+
                       </div>
                     </div>
                     <div class="form-group row">
@@ -140,13 +179,21 @@
                         <label>Observaciones</label>
                         <textarea class="form-control" rows="10" placeholder="Observaciones"
                           formControlName="observacion"></textarea>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].hasError('minlength')">Mínimo diez
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].hasError('maxlength')">Máximo
+                          docientos caracteres</span>
                       </div>
                     </div>
                   </form>
                 </div>
                 <div class="col-12 centered-content">
                   <div class="btn-group mt-10">
-                    <button type="button" class="btn btn-secondary btn-sm" routerLink="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al directorio</button>
+                    <button type="button" class="btn btn-secondary btn-sm"
+                      routerLink="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al
+                      directorio</button>
                     <button type="button" class="btn btn-primary btn-sm" (click)="pasoSiguiente()"
                       [disabled]="formGrupoOrganizadoValidation.invalid">Continuar</button>
                   </div>
@@ -169,6 +216,15 @@
                           placeholder="Calle y número" formControlName="calle">
                         <span class="form-text text-danger" *ngIf="validarFormDireccion('calle')">Campo
                           obligatorio</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['calle'].hasError('minlength')">Mínimo diez
+                          caracteres</span>
+                        <span class="form-tet text-danger"
+                          *ngIf="formDireccionValidation.controls['calle'].hasError('maxlength')">Máximo docientos
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['calle'].errors?.pattern">No se permiten caracteres
+                          especiales</span>
                       </div>
                       <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Colonia<label class="text-danger">*</label></label>
@@ -176,6 +232,15 @@
                           formControlName="colonia">
                         <span class="form-text text-danger" *ngIf="validarFormDireccion('colonia')">Campo
                           obligatorio</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['colonia'].hasError('minlength')">Mínimo diez
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['colonia'].hasError('maxlength')">Máximo docientos
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['colonia'].errors?.pattern">No se permiten caracteres
+                          especiales</span>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -185,6 +250,15 @@
                           placeholder="Código postal" formControlName="codigo_postal">
                         <span class="form-text text-danger" *ngIf="validarFormDireccion('codigo_postal')">Campo
                           obligatorio</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['codigo_postal'].hasError('minlength')">Mínimo cinco
+                          digitos</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['codigo_postal'].hasError('maxlength')">Máximo cinco
+                          digitos</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formDireccionValidation.controls['codigo_postal'].errors?.pattern">No tiene el formato
+                          correcto</span>
                       </div>
                       <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Selecciona la ubicación en el mapa<label
@@ -194,7 +268,7 @@
                     </div>
                   </form>
                 </div>
-                
+
                 <div class="col-12 centered-content">
                   <div class="btn-group mt-10">
                     <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
@@ -219,6 +293,15 @@
                           placeholder="Nombre del titular" formControlName="nombre">
                         <span class="form-text text-danger" *ngIf="validarFormTitular('nombre')">Campo
                           obligatorio</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['nombre'].hasError('minlength')">Mínimo cinco
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['nombre'].hasError('maxlength')">Máximo ciento cincuenta
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['nombre'].errors?.pattern">No se permiten caracteres
+                          especiales</span>
                       </div>
                       <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Género<label class="text-danger">*</label></label>
@@ -243,11 +326,26 @@
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Cargo"
                           formControlName="cargo">
                         <span class="form-text text-danger" *ngIf="validarFormTitular('cargo')">Campo obligatorio</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['cargo'].hasError('minlength')">Mínimo cinco
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['cargo'].hasError('maxlength')">Máximo setenta
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['cargo'].errors?.pattern">No se permiten caracteres
+                          especiales</span>
                       </div>
                       <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Email</label>
                         <input type="email" class="form-control" id="exampleFormControlInput1"
                           placeholder="email@example.com" formControlName="email">
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['cargo'].hasError('maxlength')">Máximo docientos
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['cargo'].errors?.pattern">No tiene el formato de
+                          email</span>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -255,11 +353,29 @@
                         <label for="exampleFormControlInput1">Teléfono particular</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1"
                           placeholder="Teléfono particular" formControlName="telefono_particular">
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['telefono_particular'].hasError('minlength')">Mínimo
+                          siete números</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['telefono_particular'].hasError('maxlength')">Máximo
+                          quince números</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['telefono_particular'].errors?.pattern">Formato
+                          incorrecto</span>
                       </div>
                       <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Contacto</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Contacto"
                           formControlName="nombre_contacto">
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['nombre_contacto'].hasError('minlength')">Mínimo cinco
+                          caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['nombre_contacto'].hasError('maxlength')">Máximo ciento
+                          cincuenta caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formTitularValidation.controls['nombre_contacto'].errors?.pattern">No se permiten
+                          caracteres especiales</span>
 
                       </div>
                     </div>
@@ -288,8 +404,8 @@
                       <div class="col-12 col-lg-3">
                         <label for="exampleFormControlInput1">Fecha<label class="text-danger">*</label></label>
                         <div class="input-group">
-                          <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd" name="dp"
-                            ngbDatepicker #d="ngbDatepicker" formControlName="fecha_cesion">
+                          <input class="form-control" container="body" autocomplete="off" placeholder="yyyy-mm-dd"
+                            name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="fecha_cesion">
                           <div class="input-group-append">
                             <span class="input-group-text" (click)="d.toggle()">
                               <i class="fa fa-calendar"></i>
@@ -338,11 +454,29 @@
                         <label for="exampleFormControlInput1">Medio</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Medio"
                           formControlName="medio">
+                        <span class="form-text text-danger"
+                          *ngIf="formCesionDatosPersonalesValidation.controls['medio'].hasError('minlength')">Mínimo
+                          cinco caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formCesionDatosPersonalesValidation.controls['medio'].hasError('maxlength')">Máximo
+                          ciento cincuenta caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formCesionDatosPersonalesValidation.controls['medio'].errors?.pattern">No se permiten
+                          caracteres especiales</span>
                       </div>
                       <div class="col-12 col-lg-3">
                         <label for="exampleFormControlInput1">Fuente</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Fuente"
                           formControlName="fuente">
+                        <span class="form-text text-danger"
+                          *ngIf="formCesionDatosPersonalesValidation.controls['fuente'].hasError('minlength')">Mínimo
+                          cinco caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formCesionDatosPersonalesValidation.controls['fuente'].hasError('maxlength')">Máximo
+                          ciento cincuenta caracteres</span>
+                        <span class="form-text text-danger"
+                          *ngIf="formCesionDatosPersonalesValidation.controls['fuente'].errors?.pattern">No se permiten
+                          caracteres especiales</span>
                       </div>
 
                     </div>

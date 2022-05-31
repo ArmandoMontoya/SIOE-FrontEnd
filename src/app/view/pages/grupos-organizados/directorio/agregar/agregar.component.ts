@@ -58,7 +58,10 @@ export class AgregarComponent implements OnInit {
 
   //Regex
   onlyLettersPattern = /^[a-zA-Z\s]*$/;
+  lettersNumbersSpacePattern = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$";
   onlyNumbersPattern = /^(?=.*\d)[\d ]+$/;
+  urlPattern = "www\.[a-zA-Z0-9-]{3,63}\.com";
+  codigoPostalPattern = /^\d{4,5}/;
 
   //Form Groups
   // formGrupoOrganizadoValidation: FormGroup;
@@ -68,16 +71,41 @@ export class AgregarComponent implements OnInit {
 
   formGrupoOrganizadoValidation: FormGroup = this.fb.group({
     grupoOrganizadoId: (0),
-    nombre: ['', [Validators.required, Validators.minLength(3)]],
-    acta_constitutiva: (''),
-    telefono_gosc: ['', [Validators.required]],
-    extension: (''),
+    nombre: ['', [
+      Validators.required, 
+      Validators.minLength(10),
+      Validators.maxLength(200),
+      Validators.pattern(this.lettersNumbersSpacePattern)
+    ]],
+    acta_constitutiva: ['', [
+      Validators.minLength(5),
+      Validators.maxLength(50),
+      Validators.pattern(this.lettersNumbersSpacePattern)
+    ]],
+    telefono_gosc: ['', [
+      Validators.required,
+      Validators.minLength(7),
+      Validators.maxLength(15),
+      Validators.pattern(this.onlyNumbersPattern)
+    ]],
+    extension: ['', [
+      Validators.minLength(3),
+      Validators.maxLength(5),
+      Validators.pattern(this.onlyNumbersPattern)
+    ]],
     dias_de_atencion: this.fb.array(this.diasSemana.map(control => this.fb.control(false)), [Validators.required]),
     horario_atencion_inicial: ['', [Validators.required]],
     horario_atencion_termino: ['', [Validators.required]],
     logotipo: (''),
-    pagina_web: (''),
-    observacion: (''),
+    pagina_web: ["", [
+      Validators.minLength(10),
+      Validators.maxLength(200),
+      Validators.pattern(this.urlPattern)
+    ]],
+    observacion: ["", [
+      Validators.minLength(10),
+      Validators.maxLength(200),
+    ]],
     propone_ciudadano: [false],
     grupoOrganizadoOriginalId: (null),
     municipioId: [null, [Validators.required]],
@@ -87,20 +115,56 @@ export class AgregarComponent implements OnInit {
 
   formDireccionValidation: FormGroup = this.fb.group({
     direccionId: (0),
-    calle: ['', [Validators.required]],
-    colonia: ['', [Validators.required]],
-    codigo_postal: ['', Validators.required],
+    calle: ['', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(200),
+      Validators.pattern(this.lettersNumbersSpacePattern)
+    ]],
+    colonia: ['', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(200),
+      Validators.pattern(this.lettersNumbersSpacePattern)
+    ]],
+    codigo_postal: ['', [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(5),
+      Validators.pattern(this.codigoPostalPattern)
+    ]],
     //grupoOrganizadoId: (''),
   });
 
   formTitularValidation: FormGroup = this.fb.group({
     titularId: (0),
-    nombre: ['', [Validators.required]],
-    email: (''),
+    nombre: ['', [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(150),
+      Validators.pattern(this.onlyLettersPattern)
+    ]],
+    email: ['', [
+      Validators.maxLength(200),
+      Validators.email
+    ]],
     genero: ['', [Validators.required]],
-    telefono_particular: (''),
-    nombre_contacto: (''),
-    cargo: ['', [Validators.required]],
+    telefono_particular: ['', [
+      Validators.minLength(7),
+      Validators.maxLength(15),
+      Validators.pattern(this.onlyNumbersPattern)
+    ]],
+    nombre_contacto: ['' , [
+      Validators.minLength(5),
+      Validators.maxLength(150),
+      Validators.pattern(this.onlyLettersPattern)
+    ]],
+    cargo: ['', [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(70),
+      Validators.pattern(this.onlyLettersPattern)
+    ]],
     //grupoOrganizadoId: (''),
   });
 
@@ -111,8 +175,16 @@ export class AgregarComponent implements OnInit {
     check_telefonoParticular: [false],
     check_email: [false],
     check_cesion_datos: [false],
-    medio: (''),
-    fuente: (''),
+    medio: ['', [
+      Validators.minLength(5),
+      Validators.maxLength(150),
+      Validators.pattern(this.onlyLettersPattern)
+    ]],
+    fuente: ['', [
+      Validators.minLength(5),
+      Validators.maxLength(150),
+      Validators.pattern(this.onlyLettersPattern)
+    ]],
     fecha_cesion: ['', [Validators.required]],
     //titularId: ('')
   });
