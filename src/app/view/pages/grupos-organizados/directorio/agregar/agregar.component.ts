@@ -11,6 +11,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import Swal from 'sweetalert2';
+
 import {AgmMap, MouseEvent, MapsAPILoader  } from '@agm/core';
 declare var google: any;
 
@@ -19,7 +21,19 @@ declare var google: any;
   templateUrl: './agregar.component.html',
 })
 export class AgregarComponent implements OnInit {
+  bloquearBoton = false;
 
+  Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    onOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  });
 
   // datos para el mapa
   public latitud: number;
@@ -504,8 +518,10 @@ export class AgregarComponent implements OnInit {
 
 
   guardar() {
+    this.bloquearBoton = true;
     if (this.isAllInfoValid()) {
       //this.limpiarDTO();
+
 
       //Se asigna el valor del formGrupoOrganizadoValidation a grupoOrganizadoDTO
       this.grupoOrganizadoDTO = this.formGrupoOrganizadoValidation.value;
@@ -555,6 +571,8 @@ export class AgregarComponent implements OnInit {
       if (!this.isUdating) {
 
         if (this.isDuplicate == true) {
+          
+
           //Al ser un duplicado se asigna el id original
           this.grupoOrganizadoDTO.grupoOrganizadoOriginalId = this.grupoOrganizadoId;
 
@@ -565,12 +583,28 @@ export class AgregarComponent implements OnInit {
 
               this._gruposService.CambiarEstatus(this.grupoOrganizadoId, 2)
                 .subscribe(estatus => {
-                  this.grupoOrganizadoDTO.dias_de_atencion = checksRespaldo;
-                  this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
+                  
+                  this.Toast.fire({
+                    icon: 'success',
+                    title: 'El grupo organizado ha sido duplicado',
+                    onClose: () => {
+                      //this.grupoOrganizadoDTO.dias_de_atencion = checksRespaldo;
+                      this.bloquearBoton = false;
+                      this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
+                    }
+                  })
+
                 },
-                  error => {
-                    console.log(error)
-                  });
+                error => {
+                  this.Toast.fire({
+                    icon: 'error',
+                    title: 'Elgrupo organizado no se ha duplicado',
+                    onClose: () => {
+                      this.bloquearBoton = false;
+                    }
+                  })
+                  console.log(error)
+                });
 
 
 
@@ -588,26 +622,65 @@ export class AgregarComponent implements OnInit {
               // this.limpiarDTO();
               // this.limpiarFormularios();
 
+              this.Toast.fire({
+                icon: 'success',
+                title: 'El nuevo grupo organizado ha sido creado',
+                onClose: () => {
+                  this.bloquearBoton = false;
+                  //this.grupoOrganizadoDTO.dias_de_atencion = checksRespaldo;
+                  this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
+                }
+              })
 
-              this.grupoOrganizadoDTO.dias_de_atencion = checksRespaldo;
-              this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
+              
             },
-              error => {
-                console.log(error)
-              });
+            error => {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'El grupo organizado no se ha creado',
+                onClose: () => {
+                  this.bloquearBoton = false;
+                }
+              })
+              console.log(error)
+            });
           this.grupoOrganizadoDTO.dias_de_atencion = checksRespaldo;
         }
       }
       else {
         this._gruposService.ActualizarGrupoOrganizado(this.grupoOrganizadoDTO)
           .subscribe(grupoOrganizado => {
+
+            this.Toast.fire({
+              icon: 'success',
+              title: 'El nuevo grupo organizado ha sido actualizado',
+              onClose: () => {
+                this.bloquearBoton = false;
+                //this.grupoOrganizadoDTO.dias_de_atencion = checksRespaldo;
+                this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
+              }
+            })
+
             this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
           },
-            error => console.log(error));
+            error => {
+              this.Toast.fire({
+                icon: 'error',
+                title: 'El grupo organizado no ha sido actualizado',
+                onClose: () => {
+                  this.bloquearBoton = false;
+                }
+              })
+              console.log(error)
+            });
         this.grupoOrganizadoDTO.dias_de_atencion = checksRespaldo;
 
       }
     }
+    else{
+      this.bloquearBoton = false;
+    }
+    
   }
 
   filtrarChecksSeleccionados() {

@@ -487,7 +487,7 @@
                   <div class="btn-group mt-10">
                     <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
                     <button type="button" class="btn btn-success btn-sm"
-                      [disabled]="formCesionDatosPersonalesValidation.invalid" (click)="guardar()">Guardar</button>
+                      [disabled]="formCesionDatosPersonalesValidation.invalid || bloquearBoton" (click)="guardar()">Guardar</button>
                   </div>
                 </div>
               </div>

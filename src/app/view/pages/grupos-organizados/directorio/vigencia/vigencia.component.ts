@@ -215,14 +215,25 @@ export class VigenciaComponent implements OnInit {
   isSi = false;
 
   decrementar(campo: string) {
-    if (this.formVigenciaValidation.controls[campo].value == "true") { this.isSi = true; }
-    else { this.isSi = false; }
+    console.log(this.contador)
+    
+    if (this.formVigenciaValidation.controls[campo].value == "true") { 
+      this.isSi = true;
+      this.contador += 1;
+    }
+    else {
+       this.isSi = false; 
+       this.contador -= 1;
+    }
 
-    if (campo == "check_llamada_gosc") { this.contador = 1; }
-    else if (campo == "check_llamada_particular") { this.contador = 2; }
-    else if (campo == "check_email") { this.contador = 3; }
-    else if (campo == "check_otro_medio" && this.formVigenciaValidation.controls[campo].value == "false") { this.contador = 4; }
-    else if (campo == "check_otro_medio" && this.contador == 4 && this.formVigenciaValidation.controls[campo].value == "true") { this.contador = 3; }
+   
+    if(this.formVigenciaValidation.controls["check_llamada_gosc"].value == "false"
+      && this.formVigenciaValidation.controls["check_llamada_particular"].value == "false"
+      && this.formVigenciaValidation.controls["check_email"].value == "false"
+      && this.formVigenciaValidation.controls["check_otro_medio"].value == "false")
+    {
+      this.contador = 4;
+    }
   }
 
 
@@ -340,7 +351,7 @@ export class VigenciaComponent implements OnInit {
       }).then((result) => {
         console.log(result)
         if (result.isConfirmed) {
-          
+          this.bloquearBoton = true;
 
           this._gruposService.Baja(this.verificacionVigenciaDTO)
             .subscribe(verificacionVigencia => {
@@ -348,8 +359,6 @@ export class VigenciaComponent implements OnInit {
               this.Toast.fire({
                 icon: 'success',
                 title: 'El grupo organizado ha sido dado de baja',
-                onOpen: () => {
-                },
                 onClose: () => {
                   this.bloquearBoton = false;
                   this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
@@ -389,6 +398,7 @@ export class VigenciaComponent implements OnInit {
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
+          this.bloquearBoton = true;
 
           //Se guarda el formulario de vigencia, y en el componente de agregar al detectar que se creo el nuevo registro, se actualiza el estatus del registro anterior
           this._gruposService.EsperarRespuesta(this.verificacionVigenciaDTO)
