@@ -20,9 +20,9 @@ export class GruposOrganizadosService {
   constructor(private _http: HttpClient){}
 
   //Consulta
-  public getAll(): Observable<grupoOrganizadoListado[]>{
+  public getAll(page: number, pageSize: number): Observable<grupoOrganizadoListado[]>{
     //let encabezado = this._valor.getToken();
-    return this._http.get<grupoOrganizadoListado[]>(`${_url}/GrupoOrganizado/GetAll`);
+    return this._http.get<grupoOrganizadoListado[]>(`${_url}/GrupoOrganizado/GetAll/${page}/${pageSize}`);
   }
 
   //Consulta por id

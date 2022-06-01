@@ -9,6 +9,7 @@ export class grupoOrganizadoListado {
     telefono: string;
     extension: string;
     estatus: number;
+    page: number;
 }
 
 export class grupoOrganizadoDTO {

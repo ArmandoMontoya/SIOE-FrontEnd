@@ -57,8 +57,8 @@ export class AgregarComponent implements OnInit {
   tiposOrganismos: tipoOrganismoSelect[] = [];
 
   //Regex
-  onlyLettersPattern = /^[a-zA-Z\s]*$/;
-  lettersNumbersSpacePattern = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$";
+  onlyLettersPattern = "^[ a-zA-ZÀ-ÿ\u00f1\u00d1\.]*$";
+  lettersNumbersSpacePattern = "^[ a-zA-ZÀ-ÿ0-9\u00f1\u00d1\.\#]*$";
   onlyNumbersPattern = /^(?=.*\d)[\d ]+$/;
   urlPattern = "www\.[a-zA-Z0-9-]{3,63}\.com";
   codigoPostalPattern = /^\d{4,5}/;
@@ -206,12 +206,12 @@ export class AgregarComponent implements OnInit {
 
   ngOnInit() {
 
-    this.mapsAPILoader.load().then(() => {
+    // this.mapsAPILoader.load().then(() => {
 
-      this.obtenerUbicacionActual();
-      //this.agmMap.triggerResize(true);
-      this.zoom = 13;
-    });
+    //   this.obtenerUbicacionActual();
+    //   //this.agmMap.triggerResize(true);
+    //   this.zoom = 13;
+    // });
 
     this.activatedRoute.params.subscribe(params => {
 
@@ -311,6 +311,7 @@ export class AgregarComponent implements OnInit {
     if (this.diasSelected != null) {
       this.checkBoxDiasAtencionLoad();
     }
+    debugger;
 
     //Horarios: Se convierten de string a Date, y se formatean HH:MM:SS para que sea leído por el control
     const horaInicial = new Date(grupoOrganizado.horario_atencion_inicial);

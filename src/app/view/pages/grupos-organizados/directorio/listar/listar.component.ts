@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   ]
 })
 export class ListarComponent implements OnInit {
-  public rows: grupoOrganizadoListado[] = [];
+  rows: any;
   public columns = [
 
     { name: '#',  },
@@ -31,8 +31,9 @@ export class ListarComponent implements OnInit {
     { name: 'acciones' },
   ];
 
-  page = 1;
-  pageSize = 5;
+  configPagination: any;
+
+  
 
   buscarForm:FormGroup;
   
@@ -46,11 +47,23 @@ export class ListarComponent implements OnInit {
     private _gruposService: GruposOrganizadosService,
     private fb:FormBuilder,
     private router: Router,
-    ) { }
+    ) {}
+
+    itemsPerPage: number;
+    totalItems: any;
+    page: any;
+    previousPage: any;
+    nextPage: any = 0;
+
 
   ngOnInit() {
-    this._gruposService.getAll().subscribe( data => {
+    this.page = 1;
+    this.itemsPerPage = 5;
+
+    this._gruposService.getAll(this.page,this.itemsPerPage).subscribe( data => {
         this.rows = data;
+        this.totalItems = data.length;
+        //this.configPagination.currentPage = 1;
     });
 
     this._gruposService.selectAllProcesoElectoral().subscribe( data => {
@@ -74,7 +87,38 @@ export class ListarComponent implements OnInit {
   }
 
   buscar(){
+    this._gruposService.getAll(5,20).subscribe( data => {
+      this.rows.push(data);
+      this.configPagination.currentPage = 1;
+  });
+  }
 
+  loadPage(page: number) {
+    console.log(page);
+    console.log(this.totalItems)
+    debugger;
+    if (page !== this.previousPage && page >= this.nextPage ) {
+      this.previousPage = page - 1;
+      this.nextPage = page + 1;
+      this.nextPageData();
+    }
+  }
+
+  nextPageData() {
+    this._gruposService.getAll(this.page+4,this.itemsPerPage,
+    ).subscribe(data => {
+      console.log(data)
+      
+      //this.rows.push(data);
+      console.log(this.rows);
+
+      data.forEach(item => {
+        console.log(item);
+        this.rows.push(item);
+      });
+        this.totalItems = this.rows.length;
+    },
+      )
   }
 
 

@@ -64,7 +64,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let row of rows  | slice: (page-1) * pageSize : page * pageSize">
+                <tr *ngFor="let row of rows  | slice: (page-1) * itemsPerPage : page * itemsPerPage">
                   <th scope="row">{{row.grupoOrganizadoId}}</th>
                   <td class="text-wrap"><img src="../../../../../assets/images/no-image.png" alt="logo" width="50"
                       height="50">{{row.logo}}</td>
@@ -90,7 +90,7 @@
                     <button *ngIf="row.estatus === 3 || row.estatus === 1" type="button"
                       class="btn btn-outline-gold btn-sm mr-1" [placement]="'top'" ngbTooltip="Verificar vigencia"
                       (click)="vigencia(row.grupoOrganizadoId)"><i class="fa-solid fa-calendar-check"></i></button>
-                    <button *ngIf="row.estatus === 1" type="button" class="btn btn-outline-blue btn-sm mr-1"
+                    <button *ngIf="row.estatus === 1 && row.estatusProceso === true" type="button" class="btn btn-outline-blue btn-sm mr-1"
                       [placement]="'top'" ngbTooltip="Editar"
                       [routerLink]="['/grupos-organizados-de-la-sociedad-civil/editar', row.grupoOrganizadoId]"><i
                         class="fa-solid fa-pen-to-square"></i></button>
@@ -101,12 +101,13 @@
             </table>
 
             <div class="d-flex justify-content-between p-2">
-              <ngb-pagination [collectionSize]="rows.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5">
+              <ngb-pagination [collectionSize]="totalItems + 1" [pageSize]="itemsPerPage" [(page)]="page" (pageChange)="loadPage($event)">
+                
                 <ng-template ngbPaginationPrevious>Anterior</ng-template>
                 <ng-template ngbPaginationNext>Siguiente</ng-template>
               </ngb-pagination>
 
-              <select class="form-select" style="width: auto" [(ngModel)]="pageSize">
+              <select class="form-select" style="width: auto" [(ngModel)]="totalItems">
                 <option [ngValue]="5">5 registros por página</option>
                 <option [ngValue]="10">10 registros por página</option>
                 <option [ngValue]="120">120 registros por página</option>
