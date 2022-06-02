@@ -234,14 +234,68 @@ export class VigenciaComponent implements OnInit {
     {
       this.contador = 4;
     }
+
+    if(campo == "check_otro_medio" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
+      debugger;
+      if(this.formVigenciaValidation.controls["descripcion_otro_medio"].value == null || this.formVigenciaValidation.controls["fecha_otro_medio"].value == null){
+        return this.formVigenciaValidation.setErrors({ 'invalid': true });
+      }
+    }
   }
 
-
+  disabledLlamarPersonal = true;
+  disableddEmail = true;
+  disabledOtroMedio = true;
   //Validaciones
   habilitarSeccion(campo: string) {
-    return this.formVigenciaValidation.controls[campo].value != "false"
-      || this.formVigenciaValidation.controls[campo].value == ''
+    // return this.formVigenciaValidation.controls[campo].value != "false"
+    //      || this.formVigenciaValidation.controls[campo].value == ''
+    if(campo == "check_llamada_gosc" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
+      debugger;
+      if(this.formVigenciaValidation.controls["fecha_llamada_gosc"].value == null || this.formVigenciaValidation.controls["hora_llamada_gosc"].value == null){
+        //this.disableLlamarPersonal = true;
+        return this.formVigenciaValidation.setErrors({ 'invalid': true });
+      }else if (this.formVigenciaValidation.controls[campo].value == "false"){
+        this.disabledLlamarPersonal = false;
+      }
+      else if(this.formVigenciaValidation.controls[campo].value == "true"){
+        this.disabledLlamarPersonal = true;
+      }
+    }
+    if(campo == "check_llamada_particular" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
+      debugger;
+      if(this.formVigenciaValidation.controls["fecha_llamada_particular"].value == null || this.formVigenciaValidation.controls["hora_llamada_particular"].value == null){
+        return this.formVigenciaValidation.setErrors({ 'invalid': true });
+      }
+      else if (this.formVigenciaValidation.controls[campo].value == "false"){
+        this.disableddEmail = false;
+      }
+      else if(this.formVigenciaValidation.controls[campo].value == "true"){
+        this.disableddEmail = true;
+      }
+    }
+    if(campo == "check_email" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
+      debugger;
+      if(this.formVigenciaValidation.controls["fecha_envio_email"].value == null || this.formVigenciaValidation.controls["hora_envio_email"].value == null
+        || this.formVigenciaValidation.controls["fecha_respuesta_email"].value == null  || this.formVigenciaValidation.controls["hora_respuesta_email"].value == null ){
+        return this.formVigenciaValidation.setErrors({ 'invalid': true });
+      }
+      else if (this.formVigenciaValidation.controls[campo].value == "false"){
+        this.disabledOtroMedio = false;
+      }
+      else if(this.formVigenciaValidation.controls[campo].value == "true"){
+        this.disabledOtroMedio = true;
+      }
+    }
+    
+    // if(this.formVigenciaValidation.invalid){
+    //   return this.formVigenciaValidation.controls[campo].value != "false"
+    //     || this.formVigenciaValidation.controls[campo].value == ''
+    // }
+        
+
   }
+
 
   guardar(accion: string) {
     this.bloquearBoton = true;

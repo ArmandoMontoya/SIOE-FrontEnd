@@ -38,12 +38,12 @@
                   <button class="btn btn-secondary float-left"
                     [routerLink]="['/grupos-organizados-de-la-sociedad-civil/directorio']">Regresar al
                     directorio</button>
-                  <button class="btn btn-danger float-right" *ngIf="contador == 4" [disabled]="bloquearBoton"
+                  <button class="btn btn-danger float-right" *ngIf="contador == 4" [disabled]="bloquearBoton || formVigenciaValidation.invalid"
                     data-toggle="modal" (click)="exampleModalCenter.show()">Dar de baja</button>
                   <button class="btn btn-warning float-right" *ngIf="isSi" (click)="guardar('Duplicar')"
-                    [disabled]="bloquearBoton">Duplicar</button>
+                    [disabled]="bloquearBoton || formVigenciaValidation.invalid">Duplicar</button>
                   <button class="btn btn-blue float-right" *ngIf="!isSi && contador < 4" (click)="guardar('Esperar')"
-                    [disabled]="bloquearBoton">Esperar respuesta</button>
+                    [disabled]="bloquearBoton || formVigenciaValidation.invalid">Esperar respuesta</button>
                   <!-- <button class="btn btn-danger" (click)="guardar('Baja')">Dar de baja</button>
                   <button class="btn btn-warning" (click)="guardar('Duplicar')">Duplicar</button>
                   <button class="btn btn-blue" (click)="guardar('Esperar')">Esperar respuesta</button> -->
@@ -90,9 +90,11 @@
                         <input type="time" id="hora_llamada_gosc" class="form-control" placeholder="Date"
                           atp-time-picker value="24:00" formControlName="hora_llamada_gosc">
                       </div>
+                      
                     </div>
                     <div class="form-group row text-center">
                       <div class="col-12">
+                        <span class="form-text text-danger" *ngIf="formVigenciaValidation.invalid">Campos requeridos</span>
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -109,7 +111,7 @@
                     </div>
                   </ng-template>
                 </ngb-panel>
-                <ngb-panel id="static-2" [disabled]="habilitarSeccion('check_llamada_gosc')">
+                <ngb-panel id="static-2" [disabled]="habilitarSeccion('check_llamada_gosc') || this.disabledLlamarPersonal">
                   <ng-template ngbPanelTitle>
                     <h5><a href="javascript:">Llamar al número personal</a></h5>
                   </ng-template>
@@ -141,6 +143,7 @@
                     </div>
                     <div class="form-group row text-center">
                       <div class="col-12">
+                        <span class="form-text text-danger" *ngIf="formVigenciaValidation.invalid">Campos requeridos</span>
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -160,7 +163,7 @@
                   </ng-template>
                 </ngb-panel>
                 <ngb-panel id="static-3"
-                  [disabled]="habilitarSeccion('check_llamada_gosc') || habilitarSeccion('check_llamada_particular')">
+                  [disabled]="habilitarSeccion('check_llamada_gosc') || habilitarSeccion('check_llamada_particular') || disableddEmail">
                   <ng-template ngbPanelTitle>
                     <h5><a href="javascript:">Contactar por email </a></h5>
                   </ng-template>
@@ -212,6 +215,7 @@
                     </div>
                     <div class="form-group row text-center">
                       <div class="col-12">
+                        <span class="form-text text-danger" *ngIf="formVigenciaValidation.invalid">Campos requeridos</span>
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -229,7 +233,7 @@
                   </ng-template>
                 </ngb-panel>
                 <ngb-panel id="static-4"
-                  [disabled]="habilitarSeccion('check_llamada_gosc') || habilitarSeccion('check_llamada_particular') || habilitarSeccion('check_email')">
+                  [disabled]="habilitarSeccion('check_llamada_gosc') || habilitarSeccion('check_llamada_particular') || habilitarSeccion('check_email') || disabledOtroMedio">
                   <ng-template ngbPanelTitle>
                     <h5><a href="javascript:">Contactar por otro medio</a></h5>
                   </ng-template>
@@ -255,6 +259,7 @@
                     </div>
                     <div class="form-group row text-center">
                       <div class="col-12">
+                        <span class="form-text text-danger" *ngIf="formVigenciaValidation.invalid">Campos requeridos</span>
                         <label for="exampleFormControlInput1">¿Hubo respuesta?</label>
                         <br>
                         <div class="custom-control custom-radio custom-control-inline">
