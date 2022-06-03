@@ -48,13 +48,19 @@ const NavigationItems = [
         //permiso: [ rol.administrador ],
         children: [
           {
-            id: 'nuevo',
+            id: 'reportes',
             title: 'Reportes',
             type: 'item',
             url: '/grupos-organizados-de-la-sociedad-civil/reportes',
           },
           {
-            id: 'nuevo2',
+            id: 'proceso',
+            title: 'Proceso electoral',
+            type: 'item',
+            url: '/grupos-organizados-de-la-sociedad-civil/proceso-electoral',
+          },
+          {
+            id: 'directorio',
             title: 'Directorio',
             type: 'item',
             url: '/grupos-organizados-de-la-sociedad-civil/directorio',

@@ -11,6 +11,8 @@ import { AgregarComponent } from './directorio/agregar/agregar.component';
 import {AgmCoreModule} from '@agm/core';
 import { VigenciaComponent } from './directorio/vigencia/vigencia.component';
 import { DetalleComponent } from './directorio/detalle/detalle.component';
+import { ListarProcesoComponent } from './proceso-electoral/listar-proceso/listar-proceso.component';
+import { AgregarProcesoComponent } from './proceso-electoral/agregar-proceso/agregar-proceso.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { DetalleComponent } from './directorio/detalle/detalle.component';
     VigenciaComponent,
     ReportesComponent,
     DetalleComponent,
+    ListarProcesoComponent,
+    AgregarProcesoComponent,
   ],
   imports: [
     CommonModule,

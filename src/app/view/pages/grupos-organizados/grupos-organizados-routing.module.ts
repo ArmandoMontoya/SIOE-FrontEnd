@@ -6,6 +6,8 @@ import { ListarComponent } from './directorio/listar/listar.component';
 import { AgregarComponent } from './directorio/agregar/agregar.component';
 import { VigenciaComponent } from './directorio/vigencia/vigencia.component';
 import { DetalleComponent } from './directorio/detalle/detalle.component';
+import { ListarProcesoComponent } from './proceso-electoral/listar-proceso/listar-proceso.component';
+import { AgregarProcesoComponent } from './proceso-electoral/agregar-proceso/agregar-proceso.component';
 
 
 const routes: Routes = [
@@ -36,6 +38,14 @@ const routes: Routes = [
   {
     path: 'reportes',
     component: ReportesComponent
+  },
+  {
+    path: 'proceso-electoral',
+    component: ListarProcesoComponent
+  },
+  {
+    path: 'agregar-proceso-electoral',
+    component: AgregarProcesoComponent
   },
   {
     path: '**',

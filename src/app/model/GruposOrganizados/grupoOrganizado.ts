@@ -126,3 +126,9 @@ export class verDetalle {
     fecha_cesion: string;
     descripcion_baja: string;
 }
+
+export class procesoElectoralDTO {
+    procesoElectoralId: number;
+    proceso: string;
+    estatus: boolean;
+}

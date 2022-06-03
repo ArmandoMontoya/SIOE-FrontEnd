@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="" cardClass="card-datatable" [options]="false">
+
+            <div class="row">
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary mb-3" (click)="exampleModalCenter.show()"><i
+                            class="fas fa-plus"></i>
+                        Nuevo</button>
+                    <!-- Tabla -->
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-1 bg-primary text-white" *ngFor="let column of columns">
+                                        {{column.name}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of rows | slice: (page-1) * itemsPerPage : page * itemsPerPage">
+                                    <th scope="row">{{row.procesoElectoralId}}</th>
+                                    <td class="text-wrap">{{row.proceso}}</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="switch switch-success d-inline m-r-10">
+                                                <input type="checkbox" [id]="row.procesoElectoralId"
+                                                    [checked]="row.estatus"
+                                                    (click)="cambiarEstatus(row.procesoElectoralId, !row.estatus)"
+                                                    [disabled]="disabled">
+                                                <label [for]="row.procesoElectoralId" class="cr"></label>
+                                            </div>
+
+                                            <ng-container [ngSwitch]="row.estatus">
+                                                <span class="badge m-r-5  badge-danger"
+                                                    *ngSwitchCase="0">Inactivo</span>
+                                                <span class="badge m-r-5  badge-success" *ngSwitchCase="1">Activo</span>
+                                            </ng-container>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="totalItems + 1" [pageSize]="itemsPerPage" [(page)]="page" (pageChange)="loadPage($event)">
+                  
+                  <ng-template ngbPaginationPrevious>Anterior</ng-template>
+                  <ng-template ngbPaginationNext>Siguiente</ng-template>
+                </ngb-pagination>
+
+                            <!-- <select class="form-select" style="width: auto" [(ngModel)]="totalItems">
+                  <option [ngValue]="5">5 registros por página</option>
+                  <option [ngValue]="10">10 registros por página</option>
+                  <option [ngValue]="120">120 registros por página</option>
+                </select> -->
+                        </div>
+                    </div>
+
+                    <!-- //Tabla -->
+                </div>
+
+            </div>
+        </app-card>
+    </div>
+</div>
+
+<!--Modal forma parte del form para capturar descripcion_baja-->
+<form [formGroup]="formNuevoProceso">
+<app-ui-modal #exampleModalCenter dialogClass="modal-dialog-centered">
+    
+    <div class="app-modal-header">
+        <h5 class="modal-title">Nuevo proceso electoral</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+            (click)="exampleModalCenter.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+        
+        <label>Nombre del proceso electoral</label>
+        <textarea class="form-control" rows="2" placeholder="Escribe el nombre del proceso electoral"
+            formControlName="proceso"></textarea>
+        </div>
+        <div class="app-modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="exampleModalCenter.hide()">Cerrar</button>
+            <button type="button" class="btn btn-primary" [disabled]="formNuevoProceso.invalid ||  disabled" (click)="guardar()">Guardar</button>
+        </div>
+        
+    </app-ui-modal>
+</form>
+<!--Modal END-->

@@ -58,11 +58,16 @@ export class ListarComponent implements OnInit {
 
   ngOnInit() {
     this.page = 1;
+    const initialpage = 0;
     this.itemsPerPage = 5;
 
-    this._gruposService.getAll(this.page,this.itemsPerPage).subscribe( data => {
+    this._gruposService.getAll(initialpage,this.itemsPerPage).subscribe( data => {
         this.rows = data;
+        debugger;
         this.totalItems = data.length;
+
+        
+        console.log((this.page-1) * this.itemsPerPage )
         //this.configPagination.currentPage = 1;
     });
 

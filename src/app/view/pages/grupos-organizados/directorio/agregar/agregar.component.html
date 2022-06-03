@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-sm-12">
           <aw-wizard #wizard class="arc-wizard">
-          <aw-wizard-step stepTitle="Grupo Organizado">
+            <aw-wizard-step stepTitle="Grupo Organizado">
               <div class="row">
                 <div class="col-12">
                   <h5>Grupo Organizado</h5>
@@ -59,8 +59,10 @@
                       </div>
                       <div class="col-12 col-lg-3">
                         <label>Tipo de organismo <label class="text-danger">*</label> </label>
-                        <select class="form-control" id="selectMunicipio" formControlName="tipoOrganismoId">
-                          <option [ngValue]="null" disabled>Selecciona un municipio</option>
+                        <select class="form-control" id="selectMunicipio" formControlName="tipoOrganismoId"
+                          (change)="nuevoTipoOrganismo($event.target.value)">
+                          <option [ngValue]="null" disabled>Selecciona un tipo de organismo</option>
+                          <option [ngValue]="'nuevoTipoOrganismo'">Nuevo tipo de organismo</option>
                           <option *ngFor="let tipoOrganismo of tiposOrganismos"
                             [ngValue]="tipoOrganismo.tipoOrganismoId">{{tipoOrganismo.tipo_organismo | titlecase }}
                           </option>
@@ -487,7 +489,8 @@
                   <div class="btn-group mt-10">
                     <button type="button" class="btn btn-secondary btn-sm" awPreviousStep>Regresar</button>
                     <button type="button" class="btn btn-success btn-sm"
-                      [disabled]="formCesionDatosPersonalesValidation.invalid || bloquearBoton" (click)="guardar()">Guardar</button>
+                      [disabled]="formCesionDatosPersonalesValidation.invalid || bloquearBoton"
+                      (click)="guardar()">Guardar</button>
                   </div>
                 </div>
               </div>
@@ -499,3 +502,29 @@
     </app-card>
   </div>
 </div>
+
+<!--Modal forma parte del form para capturar descripcion_baja-->
+<ng-template #myModalInfo let-modal >
+  <form [formGroup]="formNuevoTipoOrganismo">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Nuevo tipo de organismo</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label>Tipo de organismo</label>
+      <input type="text" class="form-control" placeholder="Escribe el nuevo tipo de organismo" formControlName="tipo_organismo">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+      (click)="modal.close()">Cerrar</button>
+    <button type="button" class="btn btn-primary" (click)="guardarTipoOrganismo()"
+      [disabled]="bloquearBoton">Guardar</button>
+  </div>
+  <pre> {{ formNuevoTipoOrganismo.value | json }}</pre>
+</form>
+</ng-template>
+<!--Modal END-->

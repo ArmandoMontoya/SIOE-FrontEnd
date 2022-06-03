@@ -17,7 +17,7 @@
               <div class="form-group col-md-3">
                 <label for="selectMunicipio">Junta ejecutiva regional:</label>
                 <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
-                  <option [ngValue]="null" disabled>Selecciona un municipio</option>
+                  <option [ngValue]="null" disabled>Selecciona una junta regional</option>
                   <option *ngFor="let jer of jers" [ngValue]="jer.jerId">{{jer.nombre}}</option>
                 </select>
               </div>

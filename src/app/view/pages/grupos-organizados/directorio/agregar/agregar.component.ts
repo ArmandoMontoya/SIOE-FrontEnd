@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WizardComponent } from 'angular-archwizard';
 import { GruposOrganizadosService } from 'src/app/data/service/grupos-organizados.service';
 import { grupoOrganizadoDTO } from 'src/app/model/GruposOrganizados/grupoOrganizado';
@@ -210,7 +210,8 @@ export class AgregarComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _sanitizer: DomSanitizer,
-    private mapsAPILoader: MapsAPILoader
+    private mapsAPILoader: MapsAPILoader,
+    private modalService: NgbModal
   ) { 
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder();
@@ -661,7 +662,7 @@ export class AgregarComponent implements OnInit {
               }
             })
 
-            this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
+            //this.router.navigate(['grupos-organizados-de-la-sociedad-civil/directorio'])
           },
             error => {
               this.Toast.fire({
@@ -780,5 +781,68 @@ export class AgregarComponent implements OnInit {
     this.formTitularValidation.reset();
     this.formCesionDatosPersonalesValidation.reset();
   }
+  
+  // NgbModal, NgbModalRef
+  @ViewChild("myModalInfo", {static: false}) modalInfo: TemplateRef<any>
+
+  formNuevoTipoOrganismo: FormGroup = this.fb.group({
+    tipoOrganismoId: 0,
+    tipo_organismo: ['', [
+      Validators.required,
+      // Validators.minLength(5),
+      // Validators.maxLength(30),
+      // Validators.pattern(this.lettersNumbersSpacePattern)
+    ]]
+  });
+
+  nuevoTipoOrganismo(item){
+    if(item == "1: nuevoTipoOrganismo"){
+       this.modalService.open(this.modalInfo);
+     }
+  }
+
+  tipoOrganismoDTO: tipoOrganismoSelect;
+
+  guardarTipoOrganismo(){
+    if (this.formNuevoTipoOrganismo.valid){
+      console.log(this.formNuevoTipoOrganismo.value);
+      this.tipoOrganismoDTO = this.formNuevoTipoOrganismo.value;
+      
+      console.log(this.tipoOrganismoDTO)
+      debugger;
+      this._gruposService.CreateNuevoTipoOrganismo(this.tipoOrganismoDTO)
+      .subscribe(nuevo => {
+        // this.limpiarDTO();
+        // this.limpiarFormularios();
+        this.modalService.dismissAll();
+        this.tiposOrganismos = [];
+
+        this.Toast.fire({
+          icon: 'success',
+          title: 'El nuevo tipo de organismo ha sido creado',
+          onClose: () => {
+            this._gruposService.selectTipoOrganismo().subscribe(data => {
+              this.tiposOrganismos = data;
+            });
+          }
+        })
+       // console.log('Entró')
+        
+      },
+      error => {
+        this.Toast.fire({
+          icon: 'error',
+          title: 'El nuevo tipo de organismo no se ha creado',
+          // onClose: () => {
+          //   this.bloquearBoton = false;
+          // }
+        })
+        console.log(error)
+      });
+
+    
+    }
+  }
+
 
 }
