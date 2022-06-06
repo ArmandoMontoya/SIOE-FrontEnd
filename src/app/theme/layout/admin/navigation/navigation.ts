@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 export interface NavigationItem {
   id: string;
@@ -44,14 +44,61 @@ const NavigationItems = [
         id: 'gosc',
         title: 'Grupos organizados de la sociedad civil',
         type: 'collapse',
-        icon: 'feather icon-menu',
+        icon: 'feather icon-users',
         //permiso: [ rol.administrador ],
         children: [
           {
             id: 'reportes',
             title: 'Reportes',
-            type: 'item',
-            url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+            // type: 'item',
+            //url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+            type: 'collapse',
+            //icon: 'feather icon-pie-chart',
+            children: [
+              {
+                id: 'imprimir-directorio',
+                title: 'Impresión del directorio GOSC',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+              {
+                id: 'imprimir-ficha',
+                title: 'Impresión de formato ficha de campo',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+              {
+                id: 'total-gosc',
+                title: 'Total de GOSC en el estado, por municipio e integración de JER',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+              {
+                id: 'tipos-gosc',
+                title: 'Tipos de GOSC en el estado, por municipio e integración de JER',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+              {
+                id: 'sexo-gosc',
+                title: 'Por sexo de los representantes de los GOSC',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+              {
+                id: 'total-propuestas',
+                title: 'Total de los GOSC con las propuestas realizadas en el estado, por municipio e integración de JER',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+              {
+                id: 'datos-gosc',
+                title: 'Datos de nombre del GOSC y su correo electrónico',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+
+            ],
           },
           {
             id: 'proceso',
