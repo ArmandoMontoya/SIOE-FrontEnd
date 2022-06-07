@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 // Import pdfmake-wrapper and the fonts to use
-import { PdfMakeWrapper, Txt, Table, Img, Columns, Line, Rect, Stack } from 'pdfmake-wrapper';
-import * as pdfFonts from "pdfmake/build/vfs_fonts"; // fonts provided for pdfmake
+import { PdfMakeWrapper, Txt, Table, Img, Columns, Line, Rect, Stack, Canvas, ITable, IText } from 'pdfmake-wrapper';
+
 
 @Component({
   selector: 'app-reportes',
@@ -11,6 +11,82 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts"; // fonts provided for pdfma
 })
 export class ReportesComponent implements OnInit {
 
+  data = [
+    ['ID', 'Name', 'Description'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+  ];
+
   constructor() { }
 
   ngOnInit() {
@@ -18,64 +94,58 @@ export class ReportesComponent implements OnInit {
 
   async generatePDF() {
     // Set the fonts to use
-    PdfMakeWrapper.setFonts(pdfFonts);
+
+    //La fuente se definió en el app.module general
+    PdfMakeWrapper.useFont('Arial');
+
     const pdf = new PdfMakeWrapper();
 
+    //Información básica
     pdf.info({
       title: 'Prueba PDF',
       author: 'pdfmake-wrapper',
       subject: 'subject of document',
     });
-
     pdf.compress(true);
 
+    //Tamaño
     pdf.pageSize('A4');
+    //Horientación
     pdf.pageOrientation('portrait'); // 'portrait', 'landscape'
 
-    pdf.pageMargins([40, 80, 10, 30]); // Left, Top, Right, Bottom
+    //Margenes de página
+    pdf.pageMargins([20, 70, 20, 60]); // Left, Top, Right, Bottom
 
     pdf.header(
-
       [
-
-          new Columns([
-            pdf.add(await new Img('assets/images/logo.png').fit([80, 100]).absolutePosition(20,10).alignment('left').build()),
-            new Txt('Título de Reporte').bold().fontSize(26).margin([20,30,60,0]).alignment('right').end,
-          ]).end, 
-          new Txt('Dirección de Desarrollo Institucional de Servicio Profesional Electoral').fontSize(10).margin([0,5,10,0]).alignment('left').end,
-        ]
-        
-        );
-        // creates a line which starts in position 10 (x, y) and ends in position 50 (x, y), drawing a diagonal line
-new Line(10, 50).end;
-
-// point1 starts in x = 10 and y = 10
-// point2 finishes in x = 50 and y = 10
-// drawing an horizontal line
-new Line([10, 10], [50, 10]).end;
-        // pdf.add()
-
-    //Content PDF
-
-    // pdf.add(
-    //   //new Line([10, 10], [50, 10]).end
-    //   await new Img('assets/images/logo.png').fit([100,100]).build()
-    // )
-
-
-
-
-
-    pdf.add(
-      new Table([
-        ['Name', 'Address', 'Email', 'Phone'],
-        ['Anastasia', 'Some direction 1', 'anastasia@domain.com', '123 4566 187'],
-        ['Alexander', 'Some direction 2', 'alexander@domain.com', '123 4566 187'],
-        ['Clementine', 'Some direction 3', 'clementine@domain.com', '123 4566 187'],
-        ['Chelsey', 'Some direction 4', 'chelsey@domain.com', '123 4566 187'],
-        ['Nicholas', 'Some direction 5', 'nicholas@domain.com', '123 4566 187'],
-      ]).end
+        new Columns([
+          await new Img('assets/images/logoColor.png').fit([80, 100]).margin([15, 15, 0, 5]).build(),
+          new Txt('Título de Reporte').bold().fontSize(26).margin([0, 15, 0, 0]).end,
+        ]).end,
+        new Txt('Dirección de Desarrollo Institucional de Servicio Profesional Electoral').fontSize(10).margin([15, 0]).alignment('left').end,
+        new Canvas([new Line([10, 5], [580, 5]).lineWidth(.1).end]).alignment('left').end,
+        // new Canvas([new Line([10, 3], [580, 3]).lineWidth(.1).end]).alignment('left').end
+      ]
     );
+
+    //Contenido del PDF
+    pdf.add(new Table([
+      // By default, first position is considered a header
+      ['Incidencias del 1 al 6 de Junio de 2022']
+    ]).widths('*') //Expande las columnas en todo el ancho disponible
+    .heights((30))
+      .color('white')
+      .layout({
+
+        fillColor: () => '#6c757d',
+        //Color de bordes de la tabla
+        hLineColor: () => 'white',
+        vLineColor: () => 'white',
+      }).margin([0,10]).end);
+
+    pdf.add(this.buildTable(this.data));
+
+    //Fin del contenido del PDF
 
     //Se llama al pipe de fecha
     const pipe = new DatePipe('en-US');
@@ -83,20 +153,62 @@ new Line([10, 10], [50, 10]).end;
     const fechaActual = pipe.transform(Date.now(), 'dd/MM/yyyy h:mm:ss a', 'medium');
 
     pdf.footer(
-      
       function (currentPage, pageCount) {
-        return new Columns([
-          new Txt('Emisión: ' + fechaActual).margin([20,0]).bold().fontSize(8).alignment('left').end,
-          new Txt('página ' + currentPage.toString() + ' de ' + pageCount).bold().fontSize(8).alignment('center').end,
-          new Txt('Reporte v1.0').margin([0,0,20,0]).bold().fontSize(8).alignment('right').end,
+        return new Stack([
+          new Canvas([new Line([10, 0], [580, 0]).lineWidth(.1).end]).alignment('left').margin([0, 5]).end,
+          new Columns([
+            new Txt('Emisión: ' + fechaActual).margin([20, 0]).bold().fontSize(8).alignment('left').end,
+            new Txt('página ' + currentPage.toString() + ' de ' + pageCount).bold().fontSize(8).alignment('center').end,
+            new Txt('Reporte v1.0').margin([0, 0, 20, 0]).bold().fontSize(8).alignment('right').end,
+          ]).end,
         ]).end
       }
-      );
+    );
 
 
-    //pdf.watermark( new Txt('watermark with Txt object').color('blue').end );
+    //pdf.watermark( new Txt('Para aprobación').color('red').end );
 
-    pdf.create().open();
+    //Se hace el llamado para embeber el pdf dentro de una etiqueta
+    var doc = pdf.create();
+    var f = document.getElementById('foo');
+    var callback = function (url) { f.setAttribute('src', url); }
+    doc.getDataUrl(callback, doc);
+  }
+
+  buildTable(data: Array<string[]>): ITable {
+    return new Table(this.toRows(data))
+      .widths('*') //Expande las columnas en todo el ancho disponible
+      .color('white')
+      //.keepWithHeaderRows(1)
+      //.dontBreakRows(false)
+      .layout({
+
+        fillColor: (rowIndex, node, columnIndex) => {
+          if (rowIndex === 0) {
+            //Color en cabecera de tabla
+            return '#6c757d';
+          }
+
+          //Color en filas
+          return rowIndex % 2 === 0 ? '#adb5bd' : 'white';
+        },
+        //Color de bordes de la tabla
+        hLineColor: () => 'white',
+        vLineColor: () => 'white',
+      }).end;
+  }
+
+  //Color de texto en filas, segun sea el color proporcionado
+  toRows(data: Array<string[]>): Array<IText[]> {
+    return data.map((columns, index) => {
+      const color = index % 2 === 0 ? 'white' : 'black';
+      return this.styleRows(columns, color);
+    });
+  }
+
+  styleRows(columns: string[], color: string): IText[] {
+    debugger;
+    return columns.map((text) => new Txt(text).color(color).end);
   }
 
 }
