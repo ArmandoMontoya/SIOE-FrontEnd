@@ -135,6 +135,7 @@ export class ReportesComponent implements OnInit {
     ]).widths('*') //Expande las columnas en todo el ancho disponible
     .heights((30))
       .color('white')
+      .fontSize(16)
       .layout({
 
         fillColor: () => '#6c757d',
