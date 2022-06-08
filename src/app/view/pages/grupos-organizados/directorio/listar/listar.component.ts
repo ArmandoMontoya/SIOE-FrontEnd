@@ -73,6 +73,7 @@ export class ListarComponent implements OnInit {
 
     this._gruposService.selectAllProcesoElectoral().subscribe( data => {
       this.procesosElectorales = data;
+      debugger;
     });
 
     this._gruposService.selectJers().subscribe( data => {
