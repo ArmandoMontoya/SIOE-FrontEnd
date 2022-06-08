@@ -85,6 +85,13 @@ export class ReportesComponent implements OnInit {
     ['4', 'Name 4', 'Some text'],
     ['5', 'Name 5', 'Some text'],
     ['6', 'Name 6', 'Some text'],
+    ['1', 'Name 1', 'Some text'],
+    ['2', 'Name 2', 'Some text'],
+    ['3', 'Name 3', 'Some text'],
+    ['4', 'Name 4', 'Some text'],
+    ['5', 'Name 5', 'Some text'],
+    ['6', 'Name 6', 'Some text'],
+
   ];
 
   constructor() { }
@@ -110,20 +117,27 @@ export class ReportesComponent implements OnInit {
 
     //Tamaño
     pdf.pageSize('A4');
-    //Horientación
-    pdf.pageOrientation('portrait'); // 'portrait', 'landscape'
+
+    //Orientación
+    const orientation = 'portrait'; // 'portrait', 'landscape'
+    pdf.pageOrientation(orientation);
 
     //Margenes de página
-    pdf.pageMargins([20, 70, 20, 60]); // Left, Top, Right, Bottom
+    pdf.pageMargins([20, 80, 20, 60]); // Left, Top, Right, Bottom
+
+    /*Se asigna el valor de la variable lineWidth que servirá para colocar el punto final
+    de la linea segun sea la orientación de la página*/
+
+    const lineWidth = (orientation.toString() == 'portrait') ? 585 : 830;
 
     pdf.header(
       [
         new Columns([
           await new Img('assets/images/logoColor.png').fit([80, 100]).margin([15, 15, 0, 5]).build(),
-          new Txt('Título de Reporte').bold().fontSize(26).margin([0, 15, 0, 0]).end,
+          new Txt('Título de Reporte').bold().fontSize(16).margin([0, 15, 0, 0]).end,
         ]).end,
         new Txt('Dirección de Desarrollo Institucional de Servicio Profesional Electoral').fontSize(10).margin([15, 0]).alignment('left').end,
-        new Canvas([new Line([10, 5], [580, 5]).lineWidth(.1).end]).alignment('left').end,
+        new Canvas([new Line([10, 5], [lineWidth, 5]).lineWidth(.1).end]).width('*').end,
         // new Canvas([new Line([10, 3], [580, 3]).lineWidth(.1).end]).alignment('left').end
       ]
     );
@@ -133,16 +147,16 @@ export class ReportesComponent implements OnInit {
       // By default, first position is considered a header
       ['Incidencias del 1 al 6 de Junio de 2022']
     ]).widths('*') //Expande las columnas en todo el ancho disponible
-    .heights((30))
-      .color('white')
-      .fontSize(16)
+      .heights((10))
+      .color('black')
+      .fontSize(10)
       .layout({
 
-        fillColor: () => '#6c757d',
+        fillColor: () => '#adb5bd',
         //Color de bordes de la tabla
         hLineColor: () => 'white',
         vLineColor: () => 'white',
-      }).margin([0,10]).end);
+      }).margin([0, 10]).end);
 
     pdf.add(this.buildTable(this.data));
 
@@ -156,7 +170,7 @@ export class ReportesComponent implements OnInit {
     pdf.footer(
       function (currentPage, pageCount) {
         return new Stack([
-          new Canvas([new Line([10, 0], [580, 0]).lineWidth(.1).end]).alignment('left').margin([0, 5]).end,
+          new Canvas([new Line([10, 0], [lineWidth, 0]).lineWidth(.1).end]).alignment('left').margin([0, 5]).end,
           new Columns([
             new Txt('Emisión: ' + fechaActual).margin([20, 0]).bold().fontSize(8).alignment('left').end,
             new Txt('página ' + currentPage.toString() + ' de ' + pageCount).bold().fontSize(8).alignment('center').end,
@@ -180,6 +194,8 @@ export class ReportesComponent implements OnInit {
     return new Table(this.toRows(data))
       .widths('*') //Expande las columnas en todo el ancho disponible
       .color('white')
+      .fontSize(9)
+      .headerRows(1)
       //.keepWithHeaderRows(1)
       //.dontBreakRows(false)
       .layout({
@@ -187,14 +203,14 @@ export class ReportesComponent implements OnInit {
         fillColor: (rowIndex, node, columnIndex) => {
           if (rowIndex === 0) {
             //Color en cabecera de tabla
-            return '#6c757d';
+            return '#adb5bd';
           }
 
           //Color en filas
-          return rowIndex % 2 === 0 ? '#adb5bd' : 'white';
+          return rowIndex % 2 === 0 ? 'white' : 'white';
         },
         //Color de bordes de la tabla
-        hLineColor: () => 'white',
+        hLineColor: () => '#ced4da',
         vLineColor: () => 'white',
       }).end;
   }
@@ -202,7 +218,7 @@ export class ReportesComponent implements OnInit {
   //Color de texto en filas, segun sea el color proporcionado
   toRows(data: Array<string[]>): Array<IText[]> {
     return data.map((columns, index) => {
-      const color = index % 2 === 0 ? 'white' : 'black';
+      const color = index % 2 === 0 ? 'black' : 'black';
       return this.styleRows(columns, color);
     });
   }
