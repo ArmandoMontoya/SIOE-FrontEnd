@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -20,9 +20,16 @@ export class GruposOrganizadosService {
   constructor(private _http: HttpClient){}
 
   //Consulta
-  public getAll(page: number, pageSize: number): Observable<grupoOrganizadoListado[]>{
+  public getAll(procesoElectoralId: number, jerId: number, municipioId: number, nombreOrganismo: string, estatus: number,page: number, pageSize: number): Observable<grupoOrganizadoListado[]>{
     //let encabezado = this._valor.getToken();
-    return this._http.get<grupoOrganizadoListado[]>(`${_url}/GrupoOrganizado/GetAll/${page}/${pageSize}`);
+    debugger;
+    let parametros = new HttpParams();
+
+    if( municipioId ){ parametros = parametros.append( "municipioId", municipioId.toString() ); }
+    if( nombreOrganismo ){ parametros = parametros.append( "nombreOrganismo", nombreOrganismo.toString() ); }
+    if( estatus != null ){ parametros = parametros.append( "estatus", estatus.toString() ); }
+
+    return this._http.get<grupoOrganizadoListado[]>(`${_url}/GrupoOrganizado/FiltrarListaGruposOrganizados/${procesoElectoralId}/${jerId}/${page}/${pageSize}`, {params: parametros});
   }
 
   //Consulta por id
@@ -48,7 +55,7 @@ export class GruposOrganizadosService {
 
   //Selects
   public selectAllProcesoElectoral(): Observable<procesoElectoralSelect[]>{
-    return this._http.get<procesoElectoralSelect[]>(`${_url}/ProcesoElectoral/GetAll`);
+    return this._http.get<procesoElectoralSelect[]>(`${_url}/ProcesoElectoral/SelectGetAll`);
   }
 
   public selectAllProcesoElectoralDTO(page,pageSize): Observable<procesoElectoralDTO[]>{

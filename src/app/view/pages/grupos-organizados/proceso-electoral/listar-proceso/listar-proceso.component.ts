@@ -14,6 +14,7 @@ export class ListarProcesoComponent implements OnInit {
   rows: procesoElectoralDTO[] = [];
   tipoOrganismoDTO : procesoElectoralDTO;
 
+  
   public columns = [
 
     { name: '#',  },

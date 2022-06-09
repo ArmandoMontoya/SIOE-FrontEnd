@@ -8,6 +8,13 @@ import { VigenciaComponent } from './directorio/vigencia/vigencia.component';
 import { DetalleComponent } from './directorio/detalle/detalle.component';
 import { ListarProcesoComponent } from './proceso-electoral/listar-proceso/listar-proceso.component';
 import { AgregarProcesoComponent } from './proceso-electoral/agregar-proceso/agregar-proceso.component';
+import { ImprimirDirectorioComponent } from './reportes/imprimir-directorio/imprimir-directorio.component';
+import { ImprimirFichaCampoComponent } from './reportes/imprimir-ficha-campo/imprimir-ficha-campo.component';
+import { TotalGoscEstadoComponent } from './reportes/total-gosc-estado/total-gosc-estado.component';
+import { TiposGoscEstadoComponent } from './reportes/tipos-gosc-estado/tipos-gosc-estado.component';
+import { SexoRepresentantesGoscComponent } from './reportes/sexo-representantes-gosc/sexo-representantes-gosc.component';
+import { TotalGoscPropuestasComponent } from './reportes/total-gosc-propuestas/total-gosc-propuestas.component';
+import { NombreGoscCorreoComponent } from './reportes/nombre-gosc-correo/nombre-gosc-correo.component';
 
 
 const routes: Routes = [
@@ -36,8 +43,32 @@ const routes: Routes = [
     component: DetalleComponent
   },
   {
-    path: 'reportes',
-    component: ReportesComponent
+    path: 'reportes/imprimir-directorio',
+    component: ImprimirDirectorioComponent
+  },
+  {
+    path: 'reportes/imprimir-ficha-campo',
+    component: ImprimirFichaCampoComponent
+  },
+  {
+    path: 'reportes/total-gosc-estado',
+    component: TotalGoscEstadoComponent
+  },
+  {
+    path: 'reportes/tipos-gosc-estado',
+    component: TiposGoscEstadoComponent
+  },
+  {
+    path: 'reportes/sexo-de-representantes-gosc',
+    component: SexoRepresentantesGoscComponent
+  },
+  {
+    path: 'reportes/total-propuestas-gosc',
+    component: TotalGoscPropuestasComponent
+  },
+  {
+    path: 'reportes/nombre-correo-gosc',
+    component: NombreGoscCorreoComponent
   },
   {
     path: 'proceso-electoral',
