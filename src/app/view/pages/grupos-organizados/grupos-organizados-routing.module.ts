@@ -43,6 +43,10 @@ const routes: Routes = [
     component: DetalleComponent
   },
   {
+    path: 'reportes',
+    component: ReportesComponent
+  },
+  {
     path: 'reportes/imprimir-directorio',
     component: ImprimirDirectorioComponent
   },
