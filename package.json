@@ -54,6 +54,7 @@
     "font-awesome-scss": "^1.0.0",
     "fullcalendar": "^5.2.0",
     "highcharts": "^8.1.2",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.5.1",
     "jszip": "^3.5.0",
     "leaflet": "^1.8.0",
