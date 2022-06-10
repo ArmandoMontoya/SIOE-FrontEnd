@@ -56,6 +56,12 @@ const NavigationItems = [
             //icon: 'feather icon-pie-chart',
             children: [
               {
+                id: 'reportes',
+                title: 'Generar PDF',
+                type: 'item',
+                url: '/grupos-organizados-de-la-sociedad-civil/reportes',
+              },
+              {
                 id: 'imprimir-directorio',
                 title: 'Impresión del directorio GOSC',
                 type: 'item',
