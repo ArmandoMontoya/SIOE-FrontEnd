@@ -23,6 +23,9 @@ import {NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AgmCoreModule } from '@agm/core';
 
+import { DevExtremeModule, DxChartModule, DxPieChartModule } from 'devextreme-angular';
+import { HttpClientModule } from '@angular/common/http';
+
 /*import 'hammerjs';
 import 'mousetrap';
 import { GalleryModule } from '@ks89/angular-modal-gallery';*/
@@ -54,6 +57,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       apiKey: 'AIzaSyBCK-Dw15vDD66xTw2fVOnU-GxnMIv1PZQ',
       libraries: ['places']
     }),
+    DxPieChartModule,
+    DxChartModule
 
   ],
   exports: [
@@ -79,7 +84,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ArchwizardModule,
     NgbDatepickerModule,
     NgbCollapseModule,
-    NgbAccordionModule
+    NgbAccordionModule,
+    DxPieChartModule,
+    DxChartModule 
+
   ],
   declarations: [
     DataFilterPipe,

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { municipiosSelect, procesoElectoralSelect, jersSelect, tipoOrganismoSelect } from '../../model/GruposOrganizados/procesoElectoral';
-import { grupoOrganizadoIds, grupoOrganizadoListado, procesoElectoralDTO, verificacionVigenciaDTO } from 'src/app/model/GruposOrganizados/grupoOrganizado';
+import { grupoOrganizadoIds, grupoOrganizadoListado, procesoElectoralDTO, total_gosc_estado, verificacionVigenciaDTO } from 'src/app/model/GruposOrganizados/grupoOrganizado';
 import { grupoOrganizadoDTO, DireccionDTO, TitularDTO, CesionDatosPersonalesDTO, verDetalle } from '../../model/GruposOrganizados/grupoOrganizado';
 
 
@@ -20,9 +20,16 @@ export class GruposOrganizadosService {
   constructor(private _http: HttpClient){}
 
   //Consulta
-  public getAll(page: number, pageSize: number): Observable<grupoOrganizadoListado[]>{
+  public getAll(procesoElectoralId: number, jerId: number, municipioId: number, nombreOrganismo: string, estatus: number,page: number, pageSize: number): Observable<grupoOrganizadoListado[]>{
     //let encabezado = this._valor.getToken();
-    return this._http.get<grupoOrganizadoListado[]>(`${_url}/GrupoOrganizado/GetAll/${page}/${pageSize}`);
+    debugger;
+    let parametros = new HttpParams();
+
+    if( municipioId ){ parametros = parametros.append( "municipioId", municipioId.toString() ); }
+    if( nombreOrganismo ){ parametros = parametros.append( "nombreOrganismo", nombreOrganismo.toString() ); }
+    if( estatus != null ){ parametros = parametros.append( "estatus", estatus.toString() ); }
+
+    return this._http.get<grupoOrganizadoListado[]>(`${_url}/GrupoOrganizado/FiltrarListaGruposOrganizados/${procesoElectoralId}/${jerId}/${page}/${pageSize}`, {params: parametros});
   }
 
   //Consulta por id
@@ -48,7 +55,7 @@ export class GruposOrganizadosService {
 
   //Selects
   public selectAllProcesoElectoral(): Observable<procesoElectoralSelect[]>{
-    return this._http.get<procesoElectoralSelect[]>(`${_url}/ProcesoElectoral/GetAll`);
+    return this._http.get<procesoElectoralSelect[]>(`${_url}/ProcesoElectoral/SelectGetAll`);
   }
 
   public selectAllProcesoElectoralDTO(page,pageSize): Observable<procesoElectoralDTO[]>{
@@ -61,6 +68,10 @@ export class GruposOrganizadosService {
 
   public selectMunicipios(): Observable<municipiosSelect[]>{
     return this._http.get<municipiosSelect[]>(`${_url}/Municipio/GetAll`);
+  }
+
+  public selectGetMunicipiosJerId(jerId:number): Observable<municipiosSelect[]>{
+    return this._http.get<municipiosSelect[]>(`${_url}/Municipio/GetMunicipiosJerId/${jerId}`);
   }
 
   public selectJers(): Observable<jersSelect[]>{
@@ -124,6 +135,20 @@ export class GruposOrganizadosService {
   public CreateNuevoProcesoElectoral(procesoElectoralDTO: procesoElectoralDTO): Observable<procesoElectoralDTO> {
     debugger;
     return this._http.post<procesoElectoralDTO>(`${_url}/ProcesoElectoral/Create`, procesoElectoralDTO);
+  }
+
+  /*------------------------------REPORTES
+  ------------------------------------------*/
+
+  public Report_TotalGOSC_Estado(procesoElectoralId: number, jerId: number, municipioId: number, estatus: number): Observable<total_gosc_estado[]>{
+    //let encabezado = this._valor.getToken();
+    
+    let parametros = new HttpParams();
+
+    if( municipioId ){ parametros = parametros.append( "municipioId", municipioId.toString() ); }
+    if( estatus != null ){ parametros = parametros.append( "estatus", estatus.toString() ); }
+
+    return this._http.get<total_gosc_estado[]>(`${_url}/Reportes/Report_TotalGOSC_Estado/${procesoElectoralId}/${jerId}`, {params: parametros});
   }
 
 

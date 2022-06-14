@@ -15,33 +15,35 @@
                 </select>
               </div>
               <div class="form-group col-md-3">
-                <label for="selectMunicipio">Junta ejecutiva regional:</label>
-                <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
-                  <option [ngValue]="null" disabled>Selecciona una junta regional</option>
-                  <option *ngFor="let jer of jers" [ngValue]="jer.jerId">{{jer.nombre}}</option>
+                <label for="selectJer">Junta ejecutiva regional:</label>
+                <select class="form-control" id="selectJer" formControlName="selectJer" (change)="changeJer($event.target.value)">
+                  <option [value]="null" disabled>Selecciona una junta regional</option>
+                  <option [value]="-1">Todos</option>
+                  <option *ngFor="let jer of jers" [value]="jer.jerId">{{jer.nombre}} {{jer.distrito}} </option>
                 </select>
               </div>
               <div class="form-group col-md-3">
                 <label for="selectMunicipio">Municipio:</label>
                 <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
                   <option [ngValue]="null" disabled>Selecciona un municipio</option>
+                  <option *ngIf="municipios.length == 46" [value]="-1">Todos</option>
                   <option *ngFor="let municipio of municipios" [ngValue]="municipio.municipioId">{{municipio.municipio}}
                   </option>
                 </select>
               </div>
               <div class="form-group col-md-3">
                 <label for="selectMunicipio">Nombre organismo:</label>
-                <input type="text" class="form-control" placeholder="Nombre del organismo">
+                <input type="text" class="form-control" placeholder="Nombre del organismo" formControlName="nombreOrganismo">
                 <!-- <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('nombreOrganismo')">Campo obligatorio</span> -->
               </div>
               <div class="form-group col-md-3">
                 <label for="selectEstatus">Estatus:</label>
                 <select class="form-control" id="selectEstatus" formControlName="selectEstatus">
                   <option [ngValue]="null" disabled>Selecciona un estatus</option>
-                  <option value="0">No vigente</option>
-                  <option value="1">Vigente</option>
-                  <option value="2">Duplicado</option>
-                  <option value="3">En revisión</option>
+                  <option value='-1'>No vigente</option>
+                  <option value='1'>Vigente</option>
+                  <option value='2'>Duplicado</option>
+                  <option value='3'>En revisión</option>
                 </select>
               </div>
             </div>
@@ -63,13 +65,14 @@
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 <tr *ngFor="let row of rows  | slice: (page-1) * itemsPerPage : page * itemsPerPage">
                   <th scope="row">{{row.grupoOrganizadoId}}</th>
                   <td class="text-wrap"><img src="../../../../../assets/images/no-image.png" alt="logo" width="50"
                       height="50">{{row.logo}}</td>
                   <td class="text-wrap">{{row.nombregrupo}}</td>
                   <td class="text-wrap">{{row.nombreJer}}</td>
+                  <td class="text-wrap">{{row.municipio}}</td>
                   <td class="text-wrap">{{row.proceso}}</td>
                   <td class="text-wrap">{{row.nombreTitular}}</td>
                   <td class="text-wrap">{{row.telefono}} Ext: {{ row.extension}}</td>
@@ -97,11 +100,14 @@
                     <!-- <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Dar de baja"><i class="fa-regular fa-trash-can"></i></button> -->
                   </td>
                 </tr>
+                <tr class="no-data text-center" *ngIf="rows == null || rows.length == 0">
+                  <td colspan="12">No hay datos para mostrar</td>
+              </tr>
               </tbody>
             </table>
 
             <div class="d-flex justify-content-between p-2">
-              <ngb-pagination [collectionSize]="totalItems + 1" [pageSize]="itemsPerPage" [(page)]="page" (pageChange)="loadPage($event)">
+              <ngb-pagination [collectionSize]="totalItems + 1" [pageSize]="itemsPerPage" [(page)]="page" (pageChange)="loadPage($event)" [disabled]="rows == null || rows.length == 0">
                 
                 <ng-template ngbPaginationPrevious>Anterior</ng-template>
                 <ng-template ngbPaginationNext>Siguiente</ng-template>

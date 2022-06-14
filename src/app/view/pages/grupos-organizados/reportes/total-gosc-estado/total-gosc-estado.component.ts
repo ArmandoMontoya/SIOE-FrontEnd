@@ -1,161 +1,103 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { GruposOrganizadosService } from 'src/app/data/service/grupos-organizados.service';
+import { procesoElectoralSelect } from 'src/app/model/GruposOrganizados/procesoElectoral';
+
 // Import pdfmake-wrapper and the fonts to use
 import { PdfMakeWrapper, Txt, Table, Img, Columns, Line, Rect, Stack, Canvas, ITable, IText } from 'pdfmake-wrapper';
-
-import html2canvas from 'html2canvas';
-import { element } from 'protractor';
-
-class Area {
-  country: string;
-
-  area: number;
-}
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-reportes',
-  templateUrl: './reportes.component.html',
-  styles: []
+  selector: 'app-total-gosc-estado',
+  templateUrl: './total-gosc-estado.component.html',
+  styleUrls: ['./total-gosc-estado.component.scss']
 })
-export class ReportesComponent  {
+export class TotalGoscEstadoComponent implements OnInit {
 
-  data = [
-    ['ID', 'Name', 'Description'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-    ['1', 'Name 1', 'Some text'],
-    ['2', 'Name 2', 'Some text'],
-    ['3', 'Name 3', 'Some text'],
-    ['4', 'Name 4', 'Some text'],
-    ['5', 'Name 5', 'Some text'],
-    ['6', 'Name 6', 'Some text'],
-
+  data: any[] = [
+    ['Municipio / Jer'],
   ];
 
-  constructor() {
-    this.areas = this.getAreas();
+  procesosElectorales: procesoElectoralSelect[] = [];
+
+  buscarForm:FormGroup;
+
+  constructor(
+    private _gruposService: GruposOrganizadosService,
+    private fb:FormBuilder,
+  ) { }
+
+  ngOnInit(): void {
+    this._gruposService.selectAllProcesoElectoral().subscribe( data => {
+      this.procesosElectorales = data;
+    });
+
+    this.buscarForm = this.fb.group({
+      selectProcesoElectoral: [null],
+      selectJer: -1,
+      selectMunicipio: -1,
+      selectEstatus: 1
+    });
   }
 
-  pointClickHandler(e) {
-    this.toggleVisibility(e.target);
+  buscar(){
+    console.log(this.buscarForm)
+    const procesoElectoralId = this.buscarForm.controls['selectProcesoElectoral'].value;
+    const jerId = this.buscarForm.controls['selectJer'].value;
+    const municipioId = this.buscarForm.controls['selectMunicipio'].value;
+    const estatus = (this.buscarForm.controls['selectEstatus'].value == '-1') ? 0 
+                    : (this.buscarForm.controls['selectEstatus'].value == null) ? 1 
+                    : this.buscarForm.controls['selectEstatus'].value ;
+
+    this._gruposService.Report_TotalGOSC_Estado(procesoElectoralId, jerId, municipioId, parseInt(estatus)).subscribe( data => {
+
+      
+      console.log(this.data)
+
+      //Se filtran los datos de la jer para hacer la cabecera de la tabla
+      const HeadJer = data.reduce((acc,item)=>{
+        if(!acc.includes(item.nombreJer)){
+          acc.push(item.nombreJer);
+        }
+        return acc;
+      },[]);
+      //Se asignan los datos resultantes y
+      console.log('Datos formateados para la tabla')
+      HeadJer.forEach((jer, index) => {
+        this.data[0][index + 1] = jer
+      });
+
+     
+      console.log(this.data)
+
+      data.forEach((fila, indexFilas) => {
+        debugger;
+        this.data.push([]);
+        this.data[indexFilas + 1][0] = fila.municipio
+        console.log(this.data)
+        HeadJer.forEach((jer, index) => {
+          if(fila.nombreJer == jer){
+            this.data[indexFilas + 1][index + 1] = fila.totalMunicipio
+            console.log(this.data)
+            
+          }else{
+            this.data[indexFilas + 1][index + 1] = 0;
+           
+          }
+          //this.data[0].push(jer)
+        });
+      });
+
+      console.log('Datos formateados para la tabla')
+      console.log(this.data)
+
+      // data.forEach(item => {
+      //   this.data.push(item);
+      // });
+      //   console.log(this.data)
+  });
   }
 
-  legendClickHandler(e) {
-    const arg = e.target;
-    const item = e.component.getAllSeries()[0].getPointsByArg(arg)[0];
-
-    this.toggleVisibility(item);
-  }
-
-  toggleVisibility(item) {
-    if (item.isVisible()) {
-      item.hide();
-    } else {
-      item.show();
-    }
-  }
-
-  areas: Area[] = [{
-    country: 'Russia',
-    area: 12,
-  }, {
-    country: 'Canada',
-    area: 7,
-  }, {
-    country: 'USA',
-    area: 7,
-  }, {
-    country: 'China',
-    area: 7,
-  }, {
-    country: 'Brazil',
-    area: 6,
-  }, {
-    country: 'Australia',
-    area: 5,
-  }, {
-    country: 'India',
-    area: 2,
-  }, {
-    country: 'Others',
-    area: 55,
-  }];
-
-  getAreas(): Area[] {
-    return this.areas;
-  }
-
-  imgData;
   async generatePDF() {
 
     var element = document.getElementById('captura');
@@ -180,7 +122,7 @@ export class ReportesComponent  {
     pdf.pageSize('A4');
 
     //Orientación
-    const orientation = 'portrait'; // 'portrait', 'landscape'
+    const orientation = 'landscape'; // 'portrait', 'landscape'
     pdf.pageOrientation(orientation);
 
     //Margenes de página
@@ -195,7 +137,7 @@ export class ReportesComponent  {
       [
         new Columns([
           await new Img('assets/images/logoColor.png').fit([80, 100]).margin([15, 15, 0, 5]).build(),
-          new Txt('Título de Reporte').bold().fontSize(16).margin([0, 15, 0, 0]).end,
+          new Txt('Total de GOSC en el estado').bold().fontSize(16).margin([0, 15, 0, 0]).end,
         ]).end,
         new Txt('Dirección de Desarrollo Institucional de Servicio Profesional Electoral').fontSize(10).margin([15, 0]).alignment('left').end,
         new Canvas([new Line([10, 5], [lineWidth, 5]).lineWidth(.1).end]).width('*').end,
@@ -205,12 +147,6 @@ export class ReportesComponent  {
 
     let img;
     //Contenido del PDF
-    html2canvas(element, {
-      //scale: 2 // resolución de imagen
-    }).then(async (canvas) => {
-      const img = canvas.toDataURL('image/png');
-      pdf.add(await new Img(img).fit([100, 200]).build())
-
       pdf.add(new Table([
         // By default, first position is considered a header
         ['Incidencias del 1 al 6 de Junio de 2022']
@@ -257,7 +193,7 @@ export class ReportesComponent  {
       var callback = function (url) { f.setAttribute('src', url); }
       doc.getDataUrl(callback, doc);
       
-    })
+
    
   }
 
@@ -265,8 +201,9 @@ export class ReportesComponent  {
     return new Table(this.toRows(data))
       .widths('*') //Expande las columnas en todo el ancho disponible
       .color('white')
-      .fontSize(9)
+      .fontSize(4)
       .headerRows(1)
+      .alignment('center')
       //.keepWithHeaderRows(1)
       //.dontBreakRows(false)
       .layout({

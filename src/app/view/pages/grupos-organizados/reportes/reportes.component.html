@@ -6,10 +6,37 @@
                     <button class="btn btn-primary mb-5" (click)="generatePDF()">Generar PDF</button>
                     <embed src="" id="foo" class="col-12" height="1000">
 
-                        <div id="captura" style="width: 100px; height: 100px;" >
-                            Esta es una captura
-                            <button class="btn btn-primary"> Hola</button>
+                    <div id="captura" style="width: 500px; height: 1000px;">
+                        <div class="col-12">
+                            <div class="col-6">
+                                <dx-pie-chart id="pie" title="Area of Countries" palette="bright" [dataSource]="areas"
+                            (onPointClick)="pointClickHandler($event)" (onLegendClick)="legendClickHandler($event)">
+                            <dxi-series argumentField="country" valueField="area">
+                                <dxo-label [visible]="true">
+                                    <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                                </dxo-label>
+                            </dxi-series>
+                            <dxo-size [width]="500"></dxo-size>
+                            <dxo-export [enabled]="true"></dxo-export>
+                        </dx-pie-chart>
+                            </div>
+                            <div class="col-6">
+                                <dx-pie-chart id="pie" title="Area of Countries" palette="bright" [dataSource]="areas"
+                            (onPointClick)="pointClickHandler($event)" (onLegendClick)="legendClickHandler($event)">
+                            <dxi-series argumentField="country" valueField="area">
+                                <dxo-label [visible]="true">
+                                    <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                                </dxo-label>
+                            </dxi-series>
+                            <dxo-size [width]="500"></dxo-size>
+                            <dxo-export [enabled]="true"></dxo-export>
+                        </dx-pie-chart>
+                            </div>
                         </div>
+                        
+
+                        
+                    </div>
                 </div>
             </div>
         </app-card>

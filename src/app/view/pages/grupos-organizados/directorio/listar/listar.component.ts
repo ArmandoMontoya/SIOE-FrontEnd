@@ -17,13 +17,14 @@ import { Router } from '@angular/router';
   ]
 })
 export class ListarComponent implements OnInit {
-  rows: any;
+  rows: any[] = null;
   public columns = [
 
     { name: '#',  },
     { name: 'logo',  },
     { name: 'organismo' },
     { name: 'Jer'},
+    {name: 'municipio'},
     { name: 'proceso'},
     { name: 'titular'},
     { name: 'teléfono' },
@@ -38,7 +39,6 @@ export class ListarComponent implements OnInit {
   buscarForm:FormGroup;
   
   procesosElectorales: procesoElectoralSelect[] = [];
-
   municipios: municipiosSelect [] = [];
   jers: jersSelect [] = [];
  
@@ -57,52 +57,59 @@ export class ListarComponent implements OnInit {
 
 
   ngOnInit() {
-    this.page = 1;
-    const initialpage = 0;
-    this.itemsPerPage = 5;
-
-    this._gruposService.getAll(initialpage,this.itemsPerPage).subscribe( data => {
-        this.rows = data;
-        debugger;
-        this.totalItems = data.length;
-
-        
-        console.log((this.page-1) * this.itemsPerPage )
-        //this.configPagination.currentPage = 1;
-    });
-
     this._gruposService.selectAllProcesoElectoral().subscribe( data => {
       this.procesosElectorales = data;
-      debugger;
     });
 
     this._gruposService.selectJers().subscribe( data => {
       this.jers = data;
     });
 
-    this._gruposService.selectMunicipios().subscribe( data => {
-      this.municipios = data;
-    });
+    
 
     this.buscarForm = this.fb.group({
       selectProcesoElectoral: [null],
+      selectJer: [null],
       selectMunicipio: [null],
-      selectOrganismo: [null],
+      nombreOrganismo: [null],
       selectEstatus: [null]
     });
   }
 
   buscar(){
-    this._gruposService.getAll(5,20).subscribe( data => {
-      this.rows.push(data);
-      this.configPagination.currentPage = 1;
+    console.log(this.buscarForm)
+    const procesoElectoralId = this.buscarForm.controls['selectProcesoElectoral'].value;
+    const jerId = this.buscarForm.controls['selectJer'].value;
+    const municipioId = this.buscarForm.controls['selectMunicipio'].value;
+    const nombreOrganismo = this.buscarForm.controls['nombreOrganismo'].value;
+    const estatus = (this.buscarForm.controls['selectEstatus'].value == '-1') ? 0 
+                    : (this.buscarForm.controls['selectEstatus'].value == null) ? 1 
+                    : this.buscarForm.controls['selectEstatus'].value ;
+
+                    
+    const initialpage = 0;
+    this.itemsPerPage = 5;
+
+    this.page = 1;
+    this.previousPage = 0;
+    this.nextPage = 0;
+    this.rows = null;
+    this.totalItems = 0;
+
+    
+
+
+    
+    this._gruposService.getAll(procesoElectoralId, jerId, municipioId, nombreOrganismo, parseInt(estatus), initialpage,this.itemsPerPage).subscribe( data => {
+        this.rows = data;
+        this.totalItems = data.length;
+        debugger
   });
   }
 
   loadPage(page: number) {
     console.log(page);
     console.log(this.totalItems)
-    debugger;
     if (page !== this.previousPage && page >= this.nextPage ) {
       this.previousPage = page - 1;
       this.nextPage = page + 1;
@@ -111,7 +118,15 @@ export class ListarComponent implements OnInit {
   }
 
   nextPageData() {
-    this._gruposService.getAll(this.page+4,this.itemsPerPage,
+
+    const procesoElectoralId = this.buscarForm.controls['selectProcesoElectoral'].value;
+    const jerId = this.buscarForm.controls['selectJer'].value;
+    const municipioId = this.buscarForm.controls['selectMunicipio'].value;
+    const nombreOrganismo = this.buscarForm.controls['nombreOrganismo'].value;
+    const estatus = (this.buscarForm.controls['selectEstatus'].value == '-1') ? 0 : this.buscarForm.controls['selectEstatus'].value ;
+    debugger;
+
+    this._gruposService.getAll(procesoElectoralId, jerId, municipioId, nombreOrganismo, parseInt(estatus), this.page + 4,this.itemsPerPage,
     ).subscribe(data => {
       console.log(data)
       
@@ -125,35 +140,6 @@ export class ListarComponent implements OnInit {
         this.totalItems = this.rows.length;
     },
       )
-  }
-
-
-  // ngOnInit() {
-  //   this._administrador.obtenerProcesosElectorales().subscribe((r: any) => {
-  //     if(r.estatus){
-  //       this.rows = r.info;
-  //       this.tempFilter = [...r.info];
-  //       this.rowsFilter = r.info;
-  //     }
-  //     else{
-  //       Swal.fire({
-  //         title: 'Error',
-  //         text: r.mensaje,
-  //         type: 'error',
-  //         confirmButtonColor: '#3085d6',
-  //         confirmButtonText: 'Aceptar',
-  //         allowOutsideClick: false,
-  //         allowEscapeKey: false
-  //       }).then(result => {
-  //         return;
-  //       });
-  //       return;
-  //     }
-  //   });
-  // }
-
-  public centrarTexto() {
-    return ' text-center';
   }
 
   vigencia(id: number){
@@ -175,6 +161,22 @@ export class ListarComponent implements OnInit {
       }
     });
     
+  }
+
+  changeJer(value: any){
+    this.municipios  = null;
+    debugger;
+    if(value == "-1"){
+      this._gruposService.selectMunicipios().subscribe( data => {
+        this.municipios = data;
+      });
+      return;
+    }
+
+    this._gruposService.selectGetMunicipiosJerId(value).subscribe( data => {
+      this.municipios = data;
+    });
+
   }
   
 }

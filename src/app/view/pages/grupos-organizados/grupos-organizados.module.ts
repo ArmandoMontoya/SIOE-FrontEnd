@@ -13,6 +13,13 @@ import { VigenciaComponent } from './directorio/vigencia/vigencia.component';
 import { DetalleComponent } from './directorio/detalle/detalle.component';
 import { ListarProcesoComponent } from './proceso-electoral/listar-proceso/listar-proceso.component';
 import { AgregarProcesoComponent } from './proceso-electoral/agregar-proceso/agregar-proceso.component';
+import { ImprimirDirectorioComponent } from './reportes/imprimir-directorio/imprimir-directorio.component';
+import { ImprimirFichaCampoComponent } from './reportes/imprimir-ficha-campo/imprimir-ficha-campo.component';
+import { NombreGoscCorreoComponent } from './reportes/nombre-gosc-correo/nombre-gosc-correo.component';
+import { SexoRepresentantesGoscComponent } from './reportes/sexo-representantes-gosc/sexo-representantes-gosc.component';
+import { TiposGoscEstadoComponent } from './reportes/tipos-gosc-estado/tipos-gosc-estado.component';
+import { TotalGoscEstadoComponent } from './reportes/total-gosc-estado/total-gosc-estado.component';
+import { TotalGoscPropuestasComponent } from './reportes/total-gosc-propuestas/total-gosc-propuestas.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +30,13 @@ import { AgregarProcesoComponent } from './proceso-electoral/agregar-proceso/agr
     DetalleComponent,
     ListarProcesoComponent,
     AgregarProcesoComponent,
+    ImprimirDirectorioComponent,
+    ImprimirFichaCampoComponent,
+    NombreGoscCorreoComponent,
+    SexoRepresentantesGoscComponent,
+    TiposGoscEstadoComponent,
+    TotalGoscEstadoComponent,
+    TotalGoscPropuestasComponent,
   ],
   imports: [
     CommonModule,

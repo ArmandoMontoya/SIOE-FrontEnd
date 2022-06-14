@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card [hidHeader]="true" cardClass="">
+            <!-- Filtros -->
+      <div class="row">
+        <div class="col-12">
+          <form [formGroup]="buscarForm" (ngSubmit)="buscar()">
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="selectProcesoElectoral">Proceso electoral:</label>
+                <select class="form-control" id="selectProcesoElectoral" formControlName="selectProcesoElectoral">
+                  <option [ngValue]="null" disabled>Selecciona un proceso electoral</option>
+                  <option *ngFor="let procesoElectoral of procesosElectorales"
+                    [ngValue]="procesoElectoral.procesoElectoralId">{{procesoElectoral.proceso}}</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-secondary float-right" type="submit"><i class="fas fa-search"></i> Buscar</button>
+          </form>
+        </div>
+      </div>
+      <!-- Filtros -->
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary mb-5" (click)="generatePDF()">Generar PDF</button>
+                    <embed src="" id="foo" class="col-12" height="1000">
+
+                    <div id="captura" style="width: 500px; height: 1000px;">
+                        <div class="col-12">
+                            <div class="col-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </app-card>
+    </div>
+</div>
