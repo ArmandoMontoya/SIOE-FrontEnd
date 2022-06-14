@@ -57,7 +57,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       apiKey: 'AIzaSyBCK-Dw15vDD66xTw2fVOnU-GxnMIv1PZQ',
       libraries: ['places']
     }),
-    DxPieChartModule
+    DxPieChartModule,
+    DxChartModule
 
   ],
   exports: [
@@ -84,7 +85,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbDatepickerModule,
     NgbCollapseModule,
     NgbAccordionModule,
-    DxPieChartModule
+    DxPieChartModule,
+    DxChartModule 
+
   ],
   declarations: [
     DataFilterPipe,

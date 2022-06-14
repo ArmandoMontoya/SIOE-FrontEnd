@@ -5,6 +5,7 @@ export class grupoOrganizadoListado {
     logo: string;
     nombregrupo: string;
     nombreJer: string;
+    municipio: string;
     nombreTitular: string;
     telefono: string;
     extension: string;
@@ -132,3 +133,13 @@ export class procesoElectoralDTO {
     proceso: string;
     estatus: boolean;
 }
+
+/*------------------------------REPORTES
+  ------------------------------------------*/
+  export class total_gosc_estado{
+    jerId: number;
+    nombreJer: string;
+    municipioId: string;
+    municipio: string;
+    totalMunicipio: number;
+  }

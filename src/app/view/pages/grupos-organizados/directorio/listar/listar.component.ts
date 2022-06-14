@@ -24,6 +24,7 @@ export class ListarComponent implements OnInit {
     { name: 'logo',  },
     { name: 'organismo' },
     { name: 'Jer'},
+    {name: 'municipio'},
     { name: 'proceso'},
     { name: 'titular'},
     { name: 'teléfono' },
@@ -38,7 +39,6 @@ export class ListarComponent implements OnInit {
   buscarForm:FormGroup;
   
   procesosElectorales: procesoElectoralSelect[] = [];
-
   municipios: municipiosSelect [] = [];
   jers: jersSelect [] = [];
  
@@ -65,9 +65,7 @@ export class ListarComponent implements OnInit {
       this.jers = data;
     });
 
-    this._gruposService.selectMunicipios().subscribe( data => {
-      this.municipios = data;
-    });
+    
 
     this.buscarForm = this.fb.group({
       selectProcesoElectoral: [null],
@@ -144,35 +142,6 @@ export class ListarComponent implements OnInit {
       )
   }
 
-
-  // ngOnInit() {
-  //   this._administrador.obtenerProcesosElectorales().subscribe((r: any) => {
-  //     if(r.estatus){
-  //       this.rows = r.info;
-  //       this.tempFilter = [...r.info];
-  //       this.rowsFilter = r.info;
-  //     }
-  //     else{
-  //       Swal.fire({
-  //         title: 'Error',
-  //         text: r.mensaje,
-  //         type: 'error',
-  //         confirmButtonColor: '#3085d6',
-  //         confirmButtonText: 'Aceptar',
-  //         allowOutsideClick: false,
-  //         allowEscapeKey: false
-  //       }).then(result => {
-  //         return;
-  //       });
-  //       return;
-  //     }
-  //   });
-  // }
-
-  public centrarTexto() {
-    return ' text-center';
-  }
-
   vigencia(id: number){
     
     
@@ -192,6 +161,22 @@ export class ListarComponent implements OnInit {
       }
     });
     
+  }
+
+  changeJer(value: any){
+    this.municipios  = null;
+    debugger;
+    if(value == "-1"){
+      this._gruposService.selectMunicipios().subscribe( data => {
+        this.municipios = data;
+      });
+      return;
+    }
+
+    this._gruposService.selectGetMunicipiosJerId(value).subscribe( data => {
+      this.municipios = data;
+    });
+
   }
   
 }

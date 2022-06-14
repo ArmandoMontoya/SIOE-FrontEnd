@@ -16,16 +16,17 @@
               </div>
               <div class="form-group col-md-3">
                 <label for="selectJer">Junta ejecutiva regional:</label>
-                <select class="form-control" id="selectJer" formControlName="selectJer">
-                  <option [ngValue]="null" disabled>Selecciona una junta regional</option>
-                  <option [ngValue]="-1">Todos</option>
-                  <option *ngFor="let jer of jers" [ngValue]="jer.jerId">{{jer.nombre}} {{jer.distrito}} </option>
+                <select class="form-control" id="selectJer" formControlName="selectJer" (change)="changeJer($event.target.value)">
+                  <option [value]="null" disabled>Selecciona una junta regional</option>
+                  <option [value]="-1">Todos</option>
+                  <option *ngFor="let jer of jers" [value]="jer.jerId">{{jer.nombre}} {{jer.distrito}} </option>
                 </select>
               </div>
               <div class="form-group col-md-3">
                 <label for="selectMunicipio">Municipio:</label>
                 <select class="form-control" id="selectMunicipio" formControlName="selectMunicipio">
                   <option [ngValue]="null" disabled>Selecciona un municipio</option>
+                  <option *ngIf="municipios.length == 46" [value]="-1">Todos</option>
                   <option *ngFor="let municipio of municipios" [ngValue]="municipio.municipioId">{{municipio.municipio}}
                   </option>
                 </select>
@@ -71,6 +72,7 @@
                       height="50">{{row.logo}}</td>
                   <td class="text-wrap">{{row.nombregrupo}}</td>
                   <td class="text-wrap">{{row.nombreJer}}</td>
+                  <td class="text-wrap">{{row.municipio}}</td>
                   <td class="text-wrap">{{row.proceso}}</td>
                   <td class="text-wrap">{{row.nombreTitular}}</td>
                   <td class="text-wrap">{{row.telefono}} Ext: {{ row.extension}}</td>

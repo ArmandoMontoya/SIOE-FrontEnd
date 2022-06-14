@@ -6,13 +6,18 @@ import { PdfMakeWrapper, Txt, Table, Img, Columns, Line, Rect, Stack, Canvas, IT
 import html2canvas from 'html2canvas';
 import { element } from 'protractor';
 
+class Area {
+  country: string;
+
+  area: number;
+}
 
 @Component({
   selector: 'app-reportes',
   templateUrl: './reportes.component.html',
   styles: []
 })
-export class ReportesComponent implements OnInit {
+export class ReportesComponent  {
 
   data = [
     ['ID', 'Name', 'Description'],
@@ -97,9 +102,57 @@ export class ReportesComponent implements OnInit {
 
   ];
 
-  constructor() { }
+  constructor() {
+    this.areas = this.getAreas();
+  }
 
-  ngOnInit() {
+  pointClickHandler(e) {
+    this.toggleVisibility(e.target);
+  }
+
+  legendClickHandler(e) {
+    const arg = e.target;
+    const item = e.component.getAllSeries()[0].getPointsByArg(arg)[0];
+
+    this.toggleVisibility(item);
+  }
+
+  toggleVisibility(item) {
+    if (item.isVisible()) {
+      item.hide();
+    } else {
+      item.show();
+    }
+  }
+
+  areas: Area[] = [{
+    country: 'Russia',
+    area: 12,
+  }, {
+    country: 'Canada',
+    area: 7,
+  }, {
+    country: 'USA',
+    area: 7,
+  }, {
+    country: 'China',
+    area: 7,
+  }, {
+    country: 'Brazil',
+    area: 6,
+  }, {
+    country: 'Australia',
+    area: 5,
+  }, {
+    country: 'India',
+    area: 2,
+  }, {
+    country: 'Others',
+    area: 55,
+  }];
+
+  getAreas(): Area[] {
+    return this.areas;
   }
 
   imgData;
@@ -153,7 +206,7 @@ export class ReportesComponent implements OnInit {
     let img;
     //Contenido del PDF
     html2canvas(element, {
-      scale: 10 // resolución de imagen
+      //scale: 2 // resolución de imagen
     }).then(async (canvas) => {
       const img = canvas.toDataURL('image/png');
       pdf.add(await new Img(img).fit([100, 200]).build())
