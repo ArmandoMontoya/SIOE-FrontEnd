@@ -7,6 +7,11 @@ import { procesoElectoralSelect } from 'src/app/model/GruposOrganizados/procesoE
 import { PdfMakeWrapper, Txt, Table, Img, Columns, Line, Rect, Stack, Canvas, ITable, IText } from 'pdfmake-wrapper';
 import { DatePipe } from '@angular/common';
 
+//Import exceljs
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+import { Console } from 'console';
+
 @Component({
   selector: 'app-total-gosc-estado',
   templateUrl: './total-gosc-estado.component.html',
@@ -20,15 +25,16 @@ export class TotalGoscEstadoComponent implements OnInit {
 
   procesosElectorales: procesoElectoralSelect[] = [];
 
-  buscarForm:FormGroup;
+  buscarForm: FormGroup;
 
   constructor(
     private _gruposService: GruposOrganizadosService,
-    private fb:FormBuilder,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    this._gruposService.selectAllProcesoElectoral().subscribe( data => {
+
+    this._gruposService.selectAllProcesoElectoral().subscribe(data => {
       this.procesosElectorales = data;
     });
 
@@ -40,70 +46,113 @@ export class TotalGoscEstadoComponent implements OnInit {
     });
   }
 
-  buscar(){
-    console.log(this.buscarForm)
+  buscar() {
     const procesoElectoralId = this.buscarForm.controls['selectProcesoElectoral'].value;
     const jerId = this.buscarForm.controls['selectJer'].value;
     const municipioId = this.buscarForm.controls['selectMunicipio'].value;
-    const estatus = (this.buscarForm.controls['selectEstatus'].value == '-1') ? 0 
-                    : (this.buscarForm.controls['selectEstatus'].value == null) ? 1 
-                    : this.buscarForm.controls['selectEstatus'].value ;
+    const estatus = (this.buscarForm.controls['selectEstatus'].value == '-1') ? 0
+      : (this.buscarForm.controls['selectEstatus'].value == null) ? 1
+        : this.buscarForm.controls['selectEstatus'].value;
 
-    this._gruposService.Report_TotalGOSC_Estado(procesoElectoralId, jerId, municipioId, parseInt(estatus)).subscribe( data => {
-
-      
-      console.log(this.data)
-
+    this._gruposService.Report_TotalGOSC_Estado(procesoElectoralId, jerId, municipioId, parseInt(estatus)).subscribe(data => {
       //Se filtran los datos de la jer para hacer la cabecera de la tabla
-      const HeadJer = data.reduce((acc,item)=>{
-        if(!acc.includes(item.nombreJer)){
+      const HeadJer = data.reduce((acc, item) => {
+        if (!acc.includes(item.nombreJer)) {
           acc.push(item.nombreJer);
         }
         return acc;
-      },[]);
-      //Se asignan los datos resultantes y
-      console.log('Datos formateados para la tabla')
+      }, []);
+
+      //Se asignan los datos resultantes
       HeadJer.forEach((jer, index) => {
         this.data[0][index + 1] = jer
       });
 
-     
-      console.log(this.data)
-
       data.forEach((fila, indexFilas) => {
-        debugger;
         this.data.push([]);
         this.data[indexFilas + 1][0] = fila.municipio
-        console.log(this.data)
-        HeadJer.forEach((jer, index) => {
-          if(fila.nombreJer == jer){
-            this.data[indexFilas + 1][index + 1] = fila.totalMunicipio
-            console.log(this.data)
-            
-          }else{
-            this.data[indexFilas + 1][index + 1] = 0;
-           
-          }
-          //this.data[0].push(jer)
-        });
+
+        if (this.data[indexFilas][0] == this.data[indexFilas + 1][0]) {
+          this.data[indexFilas + 1].pop();
+          HeadJer.forEach((jer, index) => {
+            if (fila.nombreJer == jer) {
+              this.data[indexFilas][index + 1] = fila.totalMunicipio + 15;
+            }
+          });
+        } else {
+          HeadJer.forEach((jer, index) => {
+            if (fila.nombreJer == jer) {
+              this.data[indexFilas + 1][index + 1] = fila.totalMunicipio
+            } else {
+              this.data[indexFilas + 1][index + 1] = 0;
+            }
+          });
+        }
+
+      });
+      let sumaTotalJer;
+      let cabecera;
+      let totalJer = ['TOTAL']
+      this.data.forEach((fila, indexFilas) => {
+        if (fila.length == 0) { this.data.splice(indexFilas, 1); }
+        else {
+          if(indexFilas == 0){cabecera = this.data.shift();}
+        }
+
       });
 
-      console.log('Datos formateados para la tabla')
-      console.log(this.data)
+      cabecera.forEach((jer, index) => {
+            console.log(index)
+            sumaTotalJer = this.data.reduce(function (sum, col) {
+              return sum + col[index + 1];
+            }, 0);
 
-      // data.forEach(item => {
-      //   this.data.push(item);
-      // });
-      //   console.log(this.data)
-  });
+            if(!isNaN(sumaTotalJer))
+            totalJer.push(sumaTotalJer);
+          });
+
+      this.data.unshift(cabecera);
+      this.data.push(totalJer)
+
+    });
+    // ordenar data por IDjer
+  }
+
+  exportExcel() {
+    //Crear un excel work book
+    let workbook = new Workbook();
+    //Nombre de la hoja
+    let worksheet = workbook.addWorksheet("Gosc por conformación de las Jer");
+
+    //Agregar Cabecera
+    let header = this.data[0]
+    worksheet.addRow(header).dimensions;
+    this.data.forEach((filas, index) => {
+      worksheet.addRow(this.data[index + 1])
+    });
+
+    
+    //Nombre del descargable
+    let fname = "Total GOSC estado"
+    //Se llama al pipe de fecha
+    const pipe = new DatePipe('en-US');
+    //Se formatea la fecha con el pipe
+    const fechaActual = [pipe.transform(Date.now(), 'dd/MM/yyyy h:mm:ss a', 'medium')];
+    
+    //Nueva fila con información de emisión
+    worksheet.addRow(['Emisión: '])
+    worksheet.addRow(fechaActual);
+    
+    //Agregar datos y nombre de archivo, se procede a descargar
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fname + '-' + fechaActual + '.xlsx');
+    });
   }
 
   async generatePDF() {
-
+    //Por si se quiere tomar una captura de una sección HTML
     var element = document.getElementById('captura');
-
-    
-    // Set the fonts to use
 
     //La fuente se definió en el app.module general
     PdfMakeWrapper.useFont('Arial');
@@ -130,9 +179,9 @@ export class TotalGoscEstadoComponent implements OnInit {
 
     /*Se asigna el valor de la variable lineWidth que servirá para colocar el punto final
     de la linea segun sea la orientación de la página*/
-
     const lineWidth = (orientation.toString() == 'portrait') ? 585 : 830;
 
+    //Encabezado de PDF
     pdf.header(
       [
         new Columns([
@@ -141,62 +190,57 @@ export class TotalGoscEstadoComponent implements OnInit {
         ]).end,
         new Txt('Dirección de Desarrollo Institucional de Servicio Profesional Electoral').fontSize(10).margin([15, 0]).alignment('left').end,
         new Canvas([new Line([10, 5], [lineWidth, 5]).lineWidth(.1).end]).width('*').end,
-        // new Canvas([new Line([10, 3], [580, 3]).lineWidth(.1).end]).alignment('left').end
       ]
     );
 
     let img;
     //Contenido del PDF
-      pdf.add(new Table([
-        // By default, first position is considered a header
-        ['Incidencias del 1 al 6 de Junio de 2022']
-      ]).widths('*') //Expande las columnas en todo el ancho disponible
-        .heights((10))
-        .color('black')
-        .fontSize(10)
-        .layout({
-  
-          fillColor: () => '#adb5bd',
-          //Color de bordes de la tabla
-          hLineColor: () => 'white',
-          vLineColor: () => 'white',
-        }).margin([0, 10]).end);
-  
-      pdf.add(this.buildTable(this.data));
-  
-      //Fin del contenido del PDF
-  
-      //Se llama al pipe de fecha
-      const pipe = new DatePipe('en-US');
-      //Se formatea la fecha con el pipe
-      const fechaActual = pipe.transform(Date.now(), 'dd/MM/yyyy h:mm:ss a', 'medium');
-  
-      pdf.footer(
-        function (currentPage, pageCount) {
-          return new Stack([
-            new Canvas([new Line([10, 0], [lineWidth, 0]).lineWidth(.1).end]).alignment('left').margin([0, 5]).end,
-            new Columns([
-              new Txt('Emisión: ' + fechaActual).margin([20, 0]).bold().fontSize(8).alignment('left').end,
-              new Txt('página ' + currentPage.toString() + ' de ' + pageCount).bold().fontSize(8).alignment('center').end,
-              new Txt('Reporte v1.0').margin([0, 0, 20, 0]).bold().fontSize(8).alignment('right').end,
-            ]).end,
-          ]).end
-        }
-      );
-  
-  
-      //pdf.watermark( new Txt('Para aprobación').color('red').end );
-  
-      //Se hace el llamado para embeber el pdf dentro de una etiqueta
-      var doc = pdf.create();
-      var f = document.getElementById('foo');
-      var callback = function (url) { f.setAttribute('src', url); }
-      doc.getDataUrl(callback, doc);
-      
+    pdf.add(new Table([
+      //Por defecto, la primer posición del arreglo es considerada como la cabecera de la tabla
+      ['Incidencias del 1 al 6 de Junio de 2022']
+    ]).widths('*') //Expande las columnas en todo el ancho disponible
+      .heights((10))
+      .color('black')
+      .fontSize(10)
+      .layout({
 
-   
+        fillColor: () => '#adb5bd',
+        //Color de bordes de la tabla
+        hLineColor: () => 'white',
+        vLineColor: () => 'white',
+      }).margin([0, 10]).end);
+
+    //Se llama a la creación de la tabla en la sección del contenido del PDF
+    pdf.add(this.buildTable(this.data));
+    //Fin del contenido del PDF
+
+    //Se llama al pipe de fecha
+    const pipe = new DatePipe('en-US');
+    //Se formatea la fecha con el pipe
+    const fechaActual = pipe.transform(Date.now(), 'dd/MM/yyyy h:mm:ss a', 'medium');
+
+    //Footer PDF
+    pdf.footer(
+      function (currentPage, pageCount) {
+        return new Stack([
+          new Canvas([new Line([10, 0], [lineWidth, 0]).lineWidth(.1).end]).alignment('left').margin([0, 5]).end,
+          new Columns([
+            new Txt('Emisión: ' + fechaActual).margin([20, 0]).bold().fontSize(8).alignment('left').end,
+            new Txt('página ' + currentPage.toString() + ' de ' + pageCount).bold().fontSize(8).alignment('center').end,
+            new Txt('Reporte v1.0').margin([0, 0, 20, 0]).bold().fontSize(8).alignment('right').end,
+          ]).end,
+        ]).end
+      }
+    );
+
+    //Se hace el llamado para embeber el pdf dentro de una etiqueta
+    var doc = pdf.create();
+    var f = document.getElementById('foo');
+    var callback = function (url) { f.setAttribute('src', url); }
+    doc.getDataUrl(callback, doc);
   }
 
+  //La tabla se genera y tiene funciones que van creando el estilo general
   buildTable(data: Array<string[]>): ITable {
     return new Table(this.toRows(data))
       .widths('*') //Expande las columnas en todo el ancho disponible
@@ -222,7 +266,6 @@ export class TotalGoscEstadoComponent implements OnInit {
         vLineColor: () => 'white',
       }).end;
   }
-
   //Color de texto en filas, segun sea el color proporcionado
   toRows(data: Array<string[]>): Array<IText[]> {
     return data.map((columns, index) => {
