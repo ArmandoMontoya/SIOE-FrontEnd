@@ -3,8 +3,13 @@ import { Component, OnInit } from '@angular/core';
 // Import pdfmake-wrapper and the fonts to use
 import { PdfMakeWrapper, Txt, Table, Img, Columns, Line, Rect, Stack, Canvas, ITable, IText } from 'pdfmake-wrapper';
 
+//html2canvas Para la captura de secciones HTML
 import html2canvas from 'html2canvas';
 import { element } from 'protractor';
+
+//Import exceljs
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 
 class Area {
   country: string;
@@ -160,9 +165,6 @@ export class ReportesComponent  {
 
     var element = document.getElementById('captura');
 
-    
-    // Set the fonts to use
-
     //La fuente se definió en el app.module general
     PdfMakeWrapper.useFont('Arial');
 
@@ -199,14 +201,14 @@ export class ReportesComponent  {
         ]).end,
         new Txt('Dirección de Desarrollo Institucional de Servicio Profesional Electoral').fontSize(10).margin([15, 0]).alignment('left').end,
         new Canvas([new Line([10, 5], [lineWidth, 5]).lineWidth(.1).end]).width('*').end,
-        // new Canvas([new Line([10, 3], [580, 3]).lineWidth(.1).end]).alignment('left').end
       ]
     );
 
     let img;
+    //Para evitar tomar la captua, quitar la sección del html2canvas, y solo dejar el contenido
     //Contenido del PDF
     html2canvas(element, {
-      //scale: 2 // resolución de imagen
+      scale: 2 // resolución de imagen
     }).then(async (canvas) => {
       const img = canvas.toDataURL('image/png');
       pdf.add(await new Img(img).fit([100, 200]).build())
@@ -259,6 +261,38 @@ export class ReportesComponent  {
       
     })
    
+  }
+
+  exportExcel() {
+    //Crear un excel work book
+    let workbook = new Workbook();
+    //Nombre de la hoja
+    let worksheet = workbook.addWorksheet("Gosc por conformación de las Jer");
+
+    //Agregar Cabecera
+    let header = this.data[0]
+    worksheet.addRow(header).dimensions;
+    this.data.forEach((filas, index) => {
+      worksheet.addRow(this.data[index + 1])
+    });
+
+    
+    //Nombre del descargable
+    let fname = "Total GOSC estado"
+    //Se llama al pipe de fecha
+    const pipe = new DatePipe('en-US');
+    //Se formatea la fecha con el pipe
+    const fechaActual = [pipe.transform(Date.now(), 'dd/MM/yyyy h:mm:ss a', 'medium')];
+    
+    //Nueva fila con información de emisión
+    worksheet.addRow(['Emisión: '])
+    worksheet.addRow(fechaActual);
+    
+    //Agregar datos y nombre de archivo, se procede a descargar
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fname + '-' + fechaActual + '.xlsx');
+    });
   }
 
   buildTable(data: Array<string[]>): ITable {

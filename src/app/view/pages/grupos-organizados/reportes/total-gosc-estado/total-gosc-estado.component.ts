@@ -10,7 +10,6 @@ import { DatePipe } from '@angular/common';
 //Import exceljs
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { Console } from 'console';
 
 @Component({
   selector: 'app-total-gosc-estado',

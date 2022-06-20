@@ -4,8 +4,16 @@
             <div class="row text-center">
                 <div class="col-sm-12">
                     <button class="btn btn-primary mb-5" (click)="generatePDF()">Generar PDF</button>
+                    <button class="btn btn-primary mb-5" (click)="exportExcel()">Export Excel</button>
+
+                    <!--Dentro de la etiqueda embed se genera el pdf, 
+                        para evitar abrir una nueva pestaña en el navegador
+                    -->
                     <embed src="" id="foo" class="col-12" height="1000">
 
+
+                        <!--En este div con idCaptura, se le indica al html2canvas,
+                            que tome esta sección para generar una imagen-->
                     <div id="captura" style="width: 500px; height: 1000px;">
                         <div class="col-12">
                             <div class="col-6">
