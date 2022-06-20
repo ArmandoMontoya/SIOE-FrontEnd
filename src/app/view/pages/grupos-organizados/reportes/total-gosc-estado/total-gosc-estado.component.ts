@@ -54,9 +54,9 @@ export class TotalGoscEstadoComponent implements OnInit {
       : (this.buscarForm.controls['selectEstatus'].value == null) ? 1
         : this.buscarForm.controls['selectEstatus'].value;
 
-    this._gruposService.Report_TotalGOSC_Estado(procesoElectoralId, jerId, municipioId, parseInt(estatus)).subscribe(data => {
+    this._gruposService.Report_TotalGOSC_Estado(procesoElectoralId, jerId, municipioId, parseInt(estatus)).subscribe(dataReponse => {
       //Se filtran los datos de la jer para hacer la cabecera de la tabla
-      const HeadJer = data.reduce((acc, item) => {
+      const HeadJer = dataReponse.reduce((acc, item) => {
         if (!acc.includes(item.nombreJer)) {
           acc.push(item.nombreJer);
         }
@@ -67,8 +67,8 @@ export class TotalGoscEstadoComponent implements OnInit {
       HeadJer.forEach((jer, index) => {
         this.data[0][index + 1] = jer
       });
-
-      data.forEach((fila, indexFilas) => {
+      
+      dataReponse.forEach((fila, indexFilas) => {
         this.data.push([]);
         this.data[indexFilas + 1][0] = fila.municipio
 
