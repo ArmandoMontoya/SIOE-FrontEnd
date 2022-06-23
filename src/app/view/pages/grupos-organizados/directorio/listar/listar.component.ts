@@ -19,7 +19,6 @@ import { Router } from '@angular/router';
 export class ListarComponent implements OnInit {
   rows: any[] = null;
   public columns = [
-
     { name: '#',  },
     { name: 'logo',  },
     { name: 'organismo' },
@@ -77,7 +76,6 @@ export class ListarComponent implements OnInit {
   }
 
   buscar(){
-    console.log(this.buscarForm)
     const procesoElectoralId = this.buscarForm.controls['selectProcesoElectoral'].value;
     const jerId = this.buscarForm.controls['selectJer'].value;
     const municipioId = this.buscarForm.controls['selectMunicipio'].value;
@@ -103,13 +101,10 @@ export class ListarComponent implements OnInit {
     this._gruposService.getAll(procesoElectoralId, jerId, municipioId, nombreOrganismo, parseInt(estatus), initialpage,this.itemsPerPage).subscribe( data => {
         this.rows = data;
         this.totalItems = data.length;
-        debugger
   });
   }
 
   loadPage(page: number) {
-    console.log(page);
-    console.log(this.totalItems)
     if (page !== this.previousPage && page >= this.nextPage ) {
       this.previousPage = page - 1;
       this.nextPage = page + 1;
@@ -123,18 +118,13 @@ export class ListarComponent implements OnInit {
     const jerId = this.buscarForm.controls['selectJer'].value;
     const municipioId = this.buscarForm.controls['selectMunicipio'].value;
     const nombreOrganismo = this.buscarForm.controls['nombreOrganismo'].value;
-    const estatus = (this.buscarForm.controls['selectEstatus'].value == '-1') ? 0 : this.buscarForm.controls['selectEstatus'].value ;
-    debugger;
+    const estatus = (this.buscarForm.controls['selectEstatus'].value == '-1') ? 0 
+    : (this.buscarForm.controls['selectEstatus'].value == null) ? 1 
+    : this.buscarForm.controls['selectEstatus'].value ; ;
 
     this._gruposService.getAll(procesoElectoralId, jerId, municipioId, nombreOrganismo, parseInt(estatus), this.page + 4,this.itemsPerPage,
     ).subscribe(data => {
-      console.log(data)
-      
-      //this.rows.push(data);
-      console.log(this.rows);
-
       data.forEach(item => {
-        console.log(item);
         this.rows.push(item);
       });
         this.totalItems = this.rows.length;
@@ -165,7 +155,6 @@ export class ListarComponent implements OnInit {
 
   changeJer(value: any){
     this.municipios  = null;
-    debugger;
     if(value == "-1"){
       this._gruposService.selectMunicipios().subscribe( data => {
         this.municipios = data;

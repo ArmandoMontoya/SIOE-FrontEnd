@@ -22,7 +22,6 @@ export class GruposOrganizadosService {
   //Consulta
   public getAll(procesoElectoralId: number, jerId: number, municipioId: number, nombreOrganismo: string, estatus: number,page: number, pageSize: number): Observable<grupoOrganizadoListado[]>{
     //let encabezado = this._valor.getToken();
-    debugger;
     let parametros = new HttpParams();
 
     if( municipioId ){ parametros = parametros.append( "municipioId", municipioId.toString() ); }
@@ -82,6 +81,10 @@ export class GruposOrganizadosService {
     return this._http.get<tipoOrganismoSelect[]>(`${_url}/TipoOrganismo/GetAll`);
   }
 
+  public GetAllTipoOrganismo(): Observable<tipoOrganismoSelect[]>{
+    return this._http.get<tipoOrganismoSelect[]>(`${_url}/TipoOrganismo/GetAll`);
+  }
+
   //Post
   public CreateGrupoOrganizado(item:grupoOrganizadoDTO): Observable<grupoOrganizadoDTO> {
     return this._http.post<grupoOrganizadoDTO>(`${_url}/GrupoOrganizado/Create`, item);
@@ -97,28 +100,30 @@ export class GruposOrganizadosService {
   }
 
   public CreateVigencia(grupoOrganizadoId: number): Observable<any> {
-    debugger;
     return this._http.put<any>(`${_url}/GrupoOrganizado/CreateVigencia/${grupoOrganizadoId}`, grupoOrganizadoId);
   }
 
   public CreateNuevoTipoOrganismo(TipoOrganismoDTO: tipoOrganismoSelect): Observable<tipoOrganismoSelect> {
-    debugger;
     return this._http.post<tipoOrganismoSelect>(`${_url}/TipoOrganismo/Create`, TipoOrganismoDTO);
   }
 
+  public UpdateTipoOrganismo(TipoOrganismoDTO: tipoOrganismoSelect): Observable<tipoOrganismoSelect> {
+    return this._http.put<tipoOrganismoSelect>(`${_url}/TipoOrganismo/Update`, TipoOrganismoDTO);
+  }
+
+  public DeleteTipoOrganismo(TipoOrganismoDTO: tipoOrganismoSelect): Observable<tipoOrganismoSelect> {
+    return this._http.delete<tipoOrganismoSelect>(`${_url}/TipoOrganismo/Delete/${TipoOrganismoDTO.tipoOrganismoId}` );
+  }
   //Put
   public EsperarRespuesta(item:verificacionVigenciaDTO): Observable<verificacionVigenciaDTO> {
-    debugger;
     return this._http.put<verificacionVigenciaDTO>(`${_url}/GrupoOrganizado/EsperarRespuesta`, item);
   }
 
   public Baja(item:verificacionVigenciaDTO): Observable<verificacionVigenciaDTO> {
-    debugger;
     return this._http.put<verificacionVigenciaDTO>(`${_url}/GrupoOrganizado/Baja`, item);
   }
 
   public CambiarEstatus(grupoOrganizadoId: number, estatus: number): Observable<any> {
-    debugger;
     return this._http.put<any>(`${_url}/GrupoOrganizado/CambiarEstatus/${grupoOrganizadoId}/${estatus}`, grupoOrganizadoId);
   }
 
@@ -128,15 +133,20 @@ export class GruposOrganizadosService {
   }
 
   public CambiarEstatusProcesoElectoral(procesoElectoralId: number, estatus: boolean): Observable<any> {
-    debugger;
     return this._http.put<any>(`${_url}/ProcesoElectoral/CambiarEstatus/${procesoElectoralId}/${estatus}`, procesoElectoralId);
   }
 
   public CreateNuevoProcesoElectoral(procesoElectoralDTO: procesoElectoralDTO): Observable<procesoElectoralDTO> {
-    debugger;
     return this._http.post<procesoElectoralDTO>(`${_url}/ProcesoElectoral/Create`, procesoElectoralDTO);
   }
 
+  public UpdateProcesoElectoral(procesoElectoralDTO: procesoElectoralDTO): Observable<procesoElectoralDTO> {
+    return this._http.put<procesoElectoralDTO>(`${_url}/ProcesoElectoral/Update`, procesoElectoralDTO);
+  }
+
+  public DeleteProcesoElectoral(procesoElectoralDTO: procesoElectoralDTO): Observable<procesoElectoralDTO> {
+    return this._http.delete<procesoElectoralDTO>(`${_url}/ProcesoElectoral/Delete/${procesoElectoralDTO.procesoElectoralId}` );
+  }
   /*------------------------------REPORTES
   ------------------------------------------*/
 

@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-sm-12">
+      <app-card cardTitle="Tipo de organismo" cardClass="card-datatable" [options]="false">
+
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn btn-primary mb-3" (click)="nuevoTipoOrganismo('nuevo')"><i class="fas fa-plus"></i>
+              Nuevo</button>
+            <!-- Tabla -->
+            <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col" class="col-1 bg-primary text-white" *ngFor="let column of columns">{{column.name}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody >
+                  <tr *ngFor="let row of rows  | slice: (page-1) * pageSize : page * pageSize">
+                    <th scope="row">{{row.tipoOrganismoId}}</th>
+                    <td class="text-wrap">{{row.tipo_organismo}}</td>
+
+                    <td>
+                      <button type="button" class="btn btn-outline-blue btn-sm mr-1"
+                        [placement]="'top'" ngbTooltip="Editar"
+                        (click)="nuevoTipoOrganismo(row)"><i
+                          class="fa-solid fa-pen-to-square"></i></button>
+                          <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Eliminar" (click)="eliminar(row)"><i class="fa-regular fa-trash-can"></i></button>
+                    </td>
+                  </tr>
+                  <tr class="no-data text-center" *ngIf="rows == null || rows.length == 0">
+                    <td colspan="12">No hay datos para mostrar</td>
+                </tr>
+                </tbody>
+              </table>
+  
+              <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="rows.length" [pageSize]="pageSize" [(page)]="page" [disabled]="rows == null || rows.length == 0">
+                  
+                  <ng-template ngbPaginationPrevious>Anterior</ng-template>
+                  <ng-template ngbPaginationNext>Siguiente</ng-template>
+                </ngb-pagination>
+  
+ 
+              </div>
+            </div>
+  
+            <!-- //Tabla -->
+          </div>
+  
+        </div>
+      </app-card>
+    </div>
+  </div>
+ 
+
+  <!--Modal forma parte del form para capturar descripcion_baja-->
+<ng-template #myModalInfo let-modal >
+    <form [formGroup]="formNuevoTipoOrganismo">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{nombreModal}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label>Tipo de organismo</label>
+        <input type="text" class="form-control" placeholder="Escribe el nuevo tipo de organismo" formControlName="tipo_organismo">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal"
+        (click)="modal.close()">Cerrar</button>
+      <button type="button" class="btn btn-primary" (click)="guardarTipoOrganismo()"
+        [disabled]="bloquearBoton">Guardar</button>
+    </div>
+  </form>
+  </ng-template>
+  <!--Modal END-->

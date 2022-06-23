@@ -7,7 +7,6 @@ import { AgregarComponent } from './directorio/agregar/agregar.component';
 import { VigenciaComponent } from './directorio/vigencia/vigencia.component';
 import { DetalleComponent } from './directorio/detalle/detalle.component';
 import { ListarProcesoComponent } from './proceso-electoral/listar-proceso/listar-proceso.component';
-import { AgregarProcesoComponent } from './proceso-electoral/agregar-proceso/agregar-proceso.component';
 import { ImprimirDirectorioComponent } from './reportes/imprimir-directorio/imprimir-directorio.component';
 import { ImprimirFichaCampoComponent } from './reportes/imprimir-ficha-campo/imprimir-ficha-campo.component';
 import { TotalGoscEstadoComponent } from './reportes/total-gosc-estado/total-gosc-estado.component';
@@ -15,6 +14,7 @@ import { TiposGoscEstadoComponent } from './reportes/tipos-gosc-estado/tipos-gos
 import { SexoRepresentantesGoscComponent } from './reportes/sexo-representantes-gosc/sexo-representantes-gosc.component';
 import { TotalGoscPropuestasComponent } from './reportes/total-gosc-propuestas/total-gosc-propuestas.component';
 import { NombreGoscCorreoComponent } from './reportes/nombre-gosc-correo/nombre-gosc-correo.component';
+import { TipoOrganismoComponent } from './tipo-organismo/tipo-organismo.component';
 
 
 const routes: Routes = [
@@ -79,8 +79,8 @@ const routes: Routes = [
     component: ListarProcesoComponent
   },
   {
-    path: 'agregar-proceso-electoral',
-    component: AgregarProcesoComponent
+    path: 'tipo-organismo',
+    component: TipoOrganismoComponent
   },
   {
     path: '**',

@@ -215,8 +215,6 @@ export class VigenciaComponent implements OnInit {
   isSi = false;
 
   decrementar(campo: string) {
-    console.log(this.contador)
-    
     if (this.formVigenciaValidation.controls[campo].value == "true") { 
       this.isSi = true;
       this.contador += 1;
@@ -236,7 +234,6 @@ export class VigenciaComponent implements OnInit {
     }
 
     if(campo == "check_otro_medio" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
-      debugger;
       if(this.formVigenciaValidation.controls["descripcion_otro_medio"].value == null || this.formVigenciaValidation.controls["fecha_otro_medio"].value == null){
         return this.formVigenciaValidation.setErrors({ 'invalid': true });
       }
@@ -251,7 +248,6 @@ export class VigenciaComponent implements OnInit {
     // return this.formVigenciaValidation.controls[campo].value != "false"
     //      || this.formVigenciaValidation.controls[campo].value == ''
     if(campo == "check_llamada_gosc" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
-      debugger;
       if(this.formVigenciaValidation.controls["fecha_llamada_gosc"].value == null || this.formVigenciaValidation.controls["hora_llamada_gosc"].value == null){
         //this.disableLlamarPersonal = true;
         return this.formVigenciaValidation.setErrors({ 'invalid': true });
@@ -263,7 +259,6 @@ export class VigenciaComponent implements OnInit {
       }
     }
     if(campo == "check_llamada_particular" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
-      debugger;
       if(this.formVigenciaValidation.controls["fecha_llamada_particular"].value == null || this.formVigenciaValidation.controls["hora_llamada_particular"].value == null){
         return this.formVigenciaValidation.setErrors({ 'invalid': true });
       }
@@ -275,7 +270,6 @@ export class VigenciaComponent implements OnInit {
       }
     }
     if(campo == "check_email" && (this.formVigenciaValidation.controls[campo].value == "false" || this.formVigenciaValidation.controls[campo].value == "true")){
-      debugger;
       if(this.formVigenciaValidation.controls["fecha_envio_email"].value == null || this.formVigenciaValidation.controls["hora_envio_email"].value == null
         || this.formVigenciaValidation.controls["fecha_respuesta_email"].value == null  || this.formVigenciaValidation.controls["hora_respuesta_email"].value == null ){
         return this.formVigenciaValidation.setErrors({ 'invalid': true });
@@ -403,7 +397,6 @@ export class VigenciaComponent implements OnInit {
           this.bloquearBoton = false;
         }
       }).then((result) => {
-        console.log(result)
         if (result.isConfirmed) {
           this.bloquearBoton = true;
 
@@ -457,7 +450,6 @@ export class VigenciaComponent implements OnInit {
           //Se guarda el formulario de vigencia, y en el componente de agregar al detectar que se creo el nuevo registro, se actualiza el estatus del registro anterior
           this._gruposService.EsperarRespuesta(this.verificacionVigenciaDTO)
             .subscribe(verificacionVigencia => { 
-              console.log(verificacionVigencia) 
             },
               error => console.log(error));
           this.router.navigate(['grupos-organizados-de-la-sociedad-civil/duplicar', this.grupoOrganizadoId])
@@ -473,7 +465,6 @@ export class VigenciaComponent implements OnInit {
     else { //Esperar respuesta
       this._gruposService.EsperarRespuesta(this.verificacionVigenciaDTO)
         .subscribe(verificacionVigencia => {
-          console.log(verificacionVigencia);
           this.Toast.fire({
             icon: 'success',
             title: 'El grupo organizado confinua en revisión',

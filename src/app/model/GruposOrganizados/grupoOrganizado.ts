@@ -29,6 +29,7 @@ export class grupoOrganizadoDTO {
     propone_ciudadano: boolean;
     estatus: number;
     grupoOrganizadoOriginalId: number;
+    jerId: number;
     municipioId: number;
     tipoOrganismoId: number;
     procesoElectoralId: number;

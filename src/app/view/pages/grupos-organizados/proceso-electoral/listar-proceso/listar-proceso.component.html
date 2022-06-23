@@ -4,7 +4,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary mb-3" (click)="exampleModalCenter.show()"><i
+                    <button type="button" class="btn btn-primary mb-3" (click)="nuevoProceso('nuevo')"><i
                             class="fas fa-plus"></i>
                         Nuevo</button>
                     <!-- Tabla -->
@@ -39,6 +39,13 @@
 
                                         </div>
                                     </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-blue btn-sm mr-1"
+                                          [placement]="'top'" ngbTooltip="Editar"
+                                          (click)="nuevoProceso(row)"><i
+                                            class="fa-solid fa-pen-to-square"></i></button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm mr-1" [placement]="'top'" ngbTooltip="Eliminar" (click)="eliminar(row)"><i class="fa-regular fa-trash-can"></i></button>
+                                      </td>
                                 </tr>
                             </tbody>
 
@@ -68,7 +75,7 @@
 </div>
 
 <!--Modal forma parte del form para capturar descripcion_baja-->
-<form [formGroup]="formNuevoProceso">
+<!-- <form [formGroup]="formNuevoProceso">
 <app-ui-modal #exampleModalCenter dialogClass="modal-dialog-centered">
     
     <div class="app-modal-header">
@@ -77,7 +84,6 @@
             (click)="exampleModalCenter.hide()"><span aria-hidden="true">&times;</span></button>
     </div>
     <div class="app-modal-body">
-        
         <label>Nombre del proceso electoral</label>
         <textarea class="form-control" rows="2" placeholder="Escribe el nombre del proceso electoral"
             formControlName="proceso"></textarea>
@@ -89,5 +95,30 @@
         </div>
         
     </app-ui-modal>
-</form>
+</form> -->
 <!--Modal END-->
+
+  <!--Modal forma parte del form para capturar descripcion_baja-->
+  <ng-template #myModalInfo let-modal >
+    <form [formGroup]="formNuevoProceso">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{nombreModal}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label>Nombre del proceso electoral</label>
+        <textarea class="form-control" rows="2" placeholder="Escribe el nombre del proceso electoral"
+            formControlName="proceso"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal"
+        (click)="modal.close()">Cerrar</button>
+        <button type="button" class="btn btn-primary" [disabled]="formNuevoProceso.invalid ||  disabled" (click)="guardar()">Guardar</button>
+    </div>
+  </form>
+  </ng-template>
+  <!--Modal END-->

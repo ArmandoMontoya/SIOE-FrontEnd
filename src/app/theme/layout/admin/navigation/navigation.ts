@@ -113,6 +113,12 @@ const NavigationItems = [
             url: '/grupos-organizados-de-la-sociedad-civil/proceso-electoral',
           },
           {
+            id: 'tipoOrganismo',
+            title: 'Tipo de Organismo',
+            type: 'item',
+            url: '/grupos-organizados-de-la-sociedad-civil/tipo-organismo',
+          },
+          {
             id: 'directorio',
             title: 'Directorio',
             type: 'item',

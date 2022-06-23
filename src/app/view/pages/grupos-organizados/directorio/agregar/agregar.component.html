@@ -47,6 +47,13 @@
                         <input type="text" class="form-control" placeholder="Acta constitutiva"
                           formControlName="acta_constitutiva">
                       </div>
+                      <div class="form-group col-lg-3">
+                        <label for="jerId">Junta ejecutiva regional:</label>
+                        <select class="form-control" id="jerId" formControlName="jerId" (change)="changeJer($event.target.value)">
+                          <option [value]="null" disabled>Selecciona una junta regional</option>
+                          <option *ngFor="let jer of jers" [value]="jer.jerId">{{jer.nombre}} </option>
+                        </select>
+                      </div>
                       <div class="col-12 col-lg-3">
                         <label>Municipio <label class="text-danger">*</label> </label>
                         <select class="form-control" id="selectMunicipio" formControlName="municipioId">
@@ -524,7 +531,6 @@
     <button type="button" class="btn btn-primary" (click)="guardarTipoOrganismo()"
       [disabled]="bloquearBoton">Guardar</button>
   </div>
-  <pre> {{ formNuevoTipoOrganismo.value | json }}</pre>
 </form>
 </ng-template>
 <!--Modal END-->

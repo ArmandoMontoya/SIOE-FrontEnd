@@ -4,7 +4,7 @@ import { NgbDateParserFormatter, NgbDateStruct, NgbModal, NgbModalRef } from '@n
 import { WizardComponent } from 'angular-archwizard';
 import { GruposOrganizadosService } from 'src/app/data/service/grupos-organizados.service';
 import { grupoOrganizadoDTO } from 'src/app/model/GruposOrganizados/grupoOrganizado';
-import { procesoElectoralSelect } from 'src/app/model/GruposOrganizados/procesoElectoral';
+import { jersSelect, procesoElectoralSelect } from 'src/app/model/GruposOrganizados/procesoElectoral';
 import { DireccionDTO, TitularDTO, CesionDatosPersonalesDTO } from '../../../../../model/GruposOrganizados/grupoOrganizado';
 import { tipoOrganismoSelect, municipiosSelect } from '../../../../../model/GruposOrganizados/procesoElectoral';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -50,10 +50,11 @@ export class AgregarComponent implements OnInit {
   titularDTO: TitularDTO = null;
   cesionDatosPersonalesDTO: CesionDatosPersonalesDTO = null;
 
+  
   grupoOrganizadoId: number = null;
-
+  
   fecha_cesion: NgbDateStruct;
-
+  
   diasSemana = [
     { id: 1, dia: 'Lunes', value: 'Lunes' },
     { id: 2, dia: 'Martes', value: 'Martes' },
@@ -63,9 +64,10 @@ export class AgregarComponent implements OnInit {
     { id: 6, dia: 'Sábado', value: 'Sábado' },
     { id: 7, dia: 'Domingo', value: 'Domingo' },
   ]
-
+  
   diasSelected = null;
-
+  
+  jers: jersSelect [] = [];
   municipios: municipiosSelect[] = [];
   procesosElectorales: procesoElectoralSelect[] = [];
   tiposOrganismos: tipoOrganismoSelect[] = [];
@@ -122,6 +124,7 @@ export class AgregarComponent implements OnInit {
     ]],
     propone_ciudadano: [false],
     grupoOrganizadoOriginalId: (null),
+    jerId: [null, [Validators.required]],
     municipioId: [null, [Validators.required]],
     tipoOrganismoId: [null, [Validators.required]],
     procesoElectoralId: [null, [Validators.required]],
@@ -249,6 +252,7 @@ export class AgregarComponent implements OnInit {
 
 
 
+
       this._gruposService.getGrupoOrganizadoById(this.grupoOrganizadoId)
         .subscribe(grupoOrganizado => this.loadFormGrupoOrganizado(grupoOrganizado),
           error => console.error(error));
@@ -265,9 +269,8 @@ export class AgregarComponent implements OnInit {
     );
 
 
-
-    this._gruposService.selectMunicipios().subscribe(data => {
-      this.municipios = data;
+    this._gruposService.selectJers().subscribe( data => {
+      this.jers = data;
     });
 
     this._gruposService.selectTipoOrganismo().subscribe(data => {
@@ -326,7 +329,6 @@ export class AgregarComponent implements OnInit {
     if (this.diasSelected != null) {
       this.checkBoxDiasAtencionLoad();
     }
-    debugger;
 
     //Horarios: Se convierten de string a Date, y se formatean HH:MM:SS para que sea leído por el control
     const horaInicial = new Date(grupoOrganizado.horario_atencion_inicial);
@@ -348,6 +350,7 @@ export class AgregarComponent implements OnInit {
       pagina_web: grupoOrganizado.pagina_web,
       observacion: grupoOrganizado.observacion,
       propone_ciudadano: grupoOrganizado.propone_ciudadano,
+      jerId: grupoOrganizado.jerId,
       municipioId: grupoOrganizado.municipioId,
       tipoOrganismoId: grupoOrganizado.tipoOrganismoId,
       procesoElectoralId: grupoOrganizado.procesoElectoralId
@@ -523,11 +526,9 @@ export class AgregarComponent implements OnInit {
     if (this.isAllInfoValid()) {
       //this.limpiarDTO();
 
-
       //Se asigna el valor del formGrupoOrganizadoValidation a grupoOrganizadoDTO
       this.grupoOrganizadoDTO = this.formGrupoOrganizadoValidation.value;
 
-      //console.log(this.grupoOrganizadoDTO)
       //Se convierte el arreglo de días a string
       let diasSeleccionados = this.filtrarChecksSeleccionados();
 
@@ -565,10 +566,7 @@ export class AgregarComponent implements OnInit {
       this.grupoOrganizadoDTO.logotipo = this.imagenFile;
 
       this.grupoOrganizadoDTO.ficha_registro = this.pdfFile;
-
-      console.log(this.grupoOrganizadoDTO);
-
-
+      console.log(this.grupoOrganizadoDTO)
       if (!this.isUdating) {
 
         if (this.isDuplicate == true) {
@@ -606,10 +604,6 @@ export class AgregarComponent implements OnInit {
                   })
                   console.log(error)
                 });
-
-
-
-
             },
               error => {
                 console.log(error)
@@ -704,15 +698,7 @@ export class AgregarComponent implements OnInit {
     const archivoCapturado = file[0]
     this.extraerBase64(archivoCapturado).then((imagen: any) => {
       this.imagenFile = imagen.base;
-      //console.log(imagen);
     });
-
-
-    // this.imagenFile = [];
-    // this.imagenFile.push(archivoCapturado);
-
-    console.log(this.imagenFile);
-
   }
 
   cargarPDF(file: File){
@@ -720,15 +706,7 @@ export class AgregarComponent implements OnInit {
     const archivoCapturado = file[0]
     this.extraerBase64(archivoCapturado).then((pdf: any) => {
       this.pdfFile = pdf.base;
-      console.log(this.pdfFile);
     });
-
-
-    // this.pdfFile = [];
-    // this.pdfFile.push(archivoCapturado);
-
-    console.log(this.pdfFile);
-
   }
 
   //Obtener la Base64 del archivo
@@ -805,11 +783,8 @@ export class AgregarComponent implements OnInit {
 
   guardarTipoOrganismo(){
     if (this.formNuevoTipoOrganismo.valid){
-      console.log(this.formNuevoTipoOrganismo.value);
       this.tipoOrganismoDTO = this.formNuevoTipoOrganismo.value;
-      
-      console.log(this.tipoOrganismoDTO)
-      debugger;
+
       this._gruposService.CreateNuevoTipoOrganismo(this.tipoOrganismoDTO)
       .subscribe(nuevo => {
         // this.limpiarDTO();
@@ -826,8 +801,6 @@ export class AgregarComponent implements OnInit {
             });
           }
         })
-       // console.log('Entró')
-        
       },
       error => {
         this.Toast.fire({
@@ -842,6 +815,22 @@ export class AgregarComponent implements OnInit {
 
     
     }
+  }
+
+  changeJer(value: any){
+    this.municipios  = null;
+    
+    if(value == "-1"){
+      this._gruposService.selectMunicipios().subscribe( data => {
+        this.municipios = data;
+      });
+      return;
+    }
+
+    this._gruposService.selectGetMunicipiosJerId(value).subscribe( data => {
+      this.municipios = data;
+    });
+
   }
 
 
