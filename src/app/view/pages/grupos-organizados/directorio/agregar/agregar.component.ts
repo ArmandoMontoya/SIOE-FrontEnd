@@ -76,7 +76,7 @@ export class AgregarComponent implements OnInit {
   onlyLettersPattern = "^[ a-zA-ZÀ-ÿ\u00f1\u00d1\.]*$";
   lettersNumbersSpacePattern = "^[ a-zA-ZÀ-ÿ0-9\u00f1\u00d1\.\#]*$";
   onlyNumbersPattern = /^(?=.*\d)[\d ]+$/;
-  urlPattern = "www\.[a-zA-Z0-9-]{3,63}\.com";
+  urlPattern = /www\.[a-zA-Z0-9-]{3,63}\.[a-z]/;
   codigoPostalPattern = /^\d{4,5}/;
 
   //Form Groups
@@ -89,7 +89,7 @@ export class AgregarComponent implements OnInit {
     grupoOrganizadoId: (0),
     nombre: ['', [
       Validators.required, 
-      Validators.minLength(10),
+      Validators.minLength(5),
       Validators.maxLength(200),
       Validators.pattern(this.lettersNumbersSpacePattern)
     ]],
@@ -109,7 +109,9 @@ export class AgregarComponent implements OnInit {
       Validators.maxLength(5),
       Validators.pattern(this.onlyNumbersPattern)
     ]],
-    dias_de_atencion: this.fb.array(this.diasSemana.map(control => this.fb.control(false)), [Validators.required]),
+    dias_de_atencion: this.fb.array(
+      this.diasSemana.map(control => this.fb.control(false)), this.minTrueCheckboxes()
+      ),
     horario_atencion_inicial: ['', [Validators.required]],
     horario_atencion_termino: ['', [Validators.required]],
     logotipo: (''),
@@ -119,7 +121,7 @@ export class AgregarComponent implements OnInit {
       Validators.pattern(this.urlPattern)
     ]],
     observacion: ["", [
-      Validators.minLength(10),
+      Validators.minLength(5),
       Validators.maxLength(200),
     ]],
     propone_ciudadano: [false],
@@ -134,13 +136,13 @@ export class AgregarComponent implements OnInit {
     direccionId: (0),
     calle: ['', [
       Validators.required,
-      Validators.minLength(10),
+      Validators.minLength(4),
       Validators.maxLength(200),
       Validators.pattern(this.lettersNumbersSpacePattern)
     ]],
     colonia: ['', [
       Validators.required,
-      Validators.minLength(10),
+      Validators.minLength(4),
       Validators.maxLength(200),
       Validators.pattern(this.lettersNumbersSpacePattern)
     ]],
@@ -193,18 +195,20 @@ export class AgregarComponent implements OnInit {
     check_email: [false],
     check_cesion_datos: [false],
     medio: ['', [
-      Validators.minLength(5),
+      Validators.minLength(3),
       Validators.maxLength(150),
       Validators.pattern(this.onlyLettersPattern)
     ]],
     fuente: ['', [
-      Validators.minLength(5),
+      Validators.minLength(3),
       Validators.maxLength(150),
       Validators.pattern(this.onlyLettersPattern)
     ]],
     fecha_cesion: ['', [Validators.required]],
     //titularId: ('')
   });
+
+
 
 
   constructor(private fb: FormBuilder,
@@ -448,9 +452,15 @@ export class AgregarComponent implements OnInit {
       && this.formGrupoOrganizadoValidation.controls[campo].touched
   }
 
+  minTrueCheckboxes(min = 1) {
+    return (formArray: FormArray) => {
+      return formArray.value.filter(x=>x).length >= min ? null : { required: true };
+    };
+  }
+
   validarFormCheckBox(campo: string) {
-    return this.formGrupoOrganizadoValidation.controls[campo].errors
-      && this.banderillaCheckBoxes == true;
+    return this.formGrupoOrganizadoValidation.controls['dias_de_atencion'].errors
+      //&& this.formGrupoOrganizadoValidation.controls['dias_de_atencion'].value;
   }
 
   validarFormDireccion(campo: string) {

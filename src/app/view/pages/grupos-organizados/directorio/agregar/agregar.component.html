@@ -18,7 +18,7 @@
                         <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('nombre')">Campo
                           obligatorio</span>
                         <span class="form-text text-danger"
-                          *ngIf="formGrupoOrganizadoValidation.controls['nombre'].hasError('minlength')">Mínimo diez
+                          *ngIf="formGrupoOrganizadoValidation.controls['nombre'].hasError('minlength')">Mínimo cinco
                           caracteres</span>
                         <span class="form-text text-danger"
                           *ngIf="formGrupoOrganizadoValidation.controls['nombre'].hasError('maxlength')">Máximo
@@ -46,13 +46,24 @@
                         <label>Acta constitutiva</label>
                         <input type="text" class="form-control" placeholder="Acta constitutiva"
                           formControlName="acta_constitutiva">
+                          <span class="form-text text-danger"
+                            *ngIf="formGrupoOrganizadoValidation.controls['acta_constitutiva'].hasError('minlength')">Mínimo cinco
+                            caracteres</span>
+                          <span class="form-text text-danger"
+                            *ngIf="formGrupoOrganizadoValidation.controls['acta_constitutiva'].hasError('maxlength')">Máximo
+                            cincuenta caracteres</span>
+                          <span class="form-text text-danger"
+                            *ngIf="formGrupoOrganizadoValidation.controls['acta_constitutiva'].errors?.pattern">No se permiten
+                            caracteres especiales</span>
                       </div>
                       <div class="form-group col-lg-3">
-                        <label for="jerId">Junta ejecutiva regional:</label>
+                        <label for="jerId">Junta ejecutiva regional <label class="text-danger">*</label> </label>
                         <select class="form-control" id="jerId" formControlName="jerId" (change)="changeJer($event.target.value)">
                           <option [value]="null" disabled>Selecciona una junta regional</option>
                           <option *ngFor="let jer of jers" [value]="jer.jerId">{{jer.nombre}} </option>
                         </select>
+                        <span class="form-text text-danger" *ngIf="validarFormGrupoOrganizado('jerId')">Campo
+                          obligatorio</span>
                       </div>
                       <div class="col-12 col-lg-3">
                         <label>Municipio <label class="text-danger">*</label> </label>
@@ -189,7 +200,7 @@
                         <textarea class="form-control" rows="10" placeholder="Observaciones"
                           formControlName="observacion"></textarea>
                         <span class="form-text text-danger"
-                          *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].hasError('minlength')">Mínimo diez
+                          *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].hasError('minlength')">Mínimo cinco
                           caracteres</span>
                         <span class="form-text text-danger"
                           *ngIf="formGrupoOrganizadoValidation.controls['pagina_web'].hasError('maxlength')">Máximo
@@ -226,7 +237,7 @@
                         <span class="form-text text-danger" *ngIf="validarFormDireccion('calle')">Campo
                           obligatorio</span>
                         <span class="form-text text-danger"
-                          *ngIf="formDireccionValidation.controls['calle'].hasError('minlength')">Mínimo diez
+                          *ngIf="formDireccionValidation.controls['calle'].hasError('minlength')">Mínimo cuatro
                           caracteres</span>
                         <span class="form-tet text-danger"
                           *ngIf="formDireccionValidation.controls['calle'].hasError('maxlength')">Máximo docientos
@@ -242,7 +253,7 @@
                         <span class="form-text text-danger" *ngIf="validarFormDireccion('colonia')">Campo
                           obligatorio</span>
                         <span class="form-text text-danger"
-                          *ngIf="formDireccionValidation.controls['colonia'].hasError('minlength')">Mínimo diez
+                          *ngIf="formDireccionValidation.controls['colonia'].hasError('minlength')">Mínimo cuatro
                           caracteres</span>
                         <span class="form-text text-danger"
                           *ngIf="formDireccionValidation.controls['colonia'].hasError('maxlength')">Máximo docientos
@@ -269,11 +280,11 @@
                           *ngIf="formDireccionValidation.controls['codigo_postal'].errors?.pattern">No tiene el formato
                           correcto</span>
                       </div>
-                      <div class="col-12 col-lg-6">
+                      <!-- <div class="col-12 col-lg-6">
                         <label for="exampleFormControlInput1">Selecciona la ubicación en el mapa<label
                             class="text-danger">*</label></label>
 
-                      </div>
+                      </div> -->
                     </div>
                   </form>
                 </div>
@@ -465,7 +476,7 @@
                           formControlName="medio">
                         <span class="form-text text-danger"
                           *ngIf="formCesionDatosPersonalesValidation.controls['medio'].hasError('minlength')">Mínimo
-                          cinco caracteres</span>
+                          tres caracteres</span>
                         <span class="form-text text-danger"
                           *ngIf="formCesionDatosPersonalesValidation.controls['medio'].hasError('maxlength')">Máximo
                           ciento cincuenta caracteres</span>
@@ -479,7 +490,7 @@
                           formControlName="fuente">
                         <span class="form-text text-danger"
                           *ngIf="formCesionDatosPersonalesValidation.controls['fuente'].hasError('minlength')">Mínimo
-                          cinco caracteres</span>
+                          tres caracteres</span>
                         <span class="form-text text-danger"
                           *ngIf="formCesionDatosPersonalesValidation.controls['fuente'].hasError('maxlength')">Máximo
                           ciento cincuenta caracteres</span>
