@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { municipiosSelect, procesoElectoralSelect, jersSelect, tipoOrganismoSelect } from '../../model/GruposOrganizados/procesoElectoral';
-import { grupoOrganizadoIds, grupoOrganizadoListado, procesoElectoralDTO, total_gosc_estado, verificacionVigenciaDTO } from 'src/app/model/GruposOrganizados/grupoOrganizado';
+import { grupoOrganizadoIds, grupoOrganizadoListado, procesoElectoralDTO, tipos_gosc_estado, total_gosc_estado, verificacionVigenciaDTO } from 'src/app/model/GruposOrganizados/grupoOrganizado';
 import { grupoOrganizadoDTO, DireccionDTO, TitularDTO, CesionDatosPersonalesDTO, verDetalle } from '../../model/GruposOrganizados/grupoOrganizado';
 
 
@@ -150,15 +150,14 @@ export class GruposOrganizadosService {
   /*------------------------------REPORTES
   ------------------------------------------*/
 
-  public Report_TotalGOSC_Estado(procesoElectoralId: number, jerId: number, municipioId: number, estatus: number): Observable<total_gosc_estado[]>{
+  public Report_TotalGOSC_Estado(procesoElectoralId: number): Observable<total_gosc_estado[]>{
     //let encabezado = this._valor.getToken();
-    
-    let parametros = new HttpParams();
+    return this._http.get<total_gosc_estado[]>(`${_url}/Reportes/Report_TotalGOSC_Estado/${procesoElectoralId}`);
+  }
 
-    if( municipioId ){ parametros = parametros.append( "municipioId", municipioId.toString() ); }
-    if( estatus != null ){ parametros = parametros.append( "estatus", estatus.toString() ); }
-
-    return this._http.get<total_gosc_estado[]>(`${_url}/Reportes/Report_TotalGOSC_Estado/${procesoElectoralId}/${jerId}`, {params: parametros});
+  public Report_Tipos_GOSC_Estado(procesoElectoralId: number): Observable<tipos_gosc_estado[]>{
+    //let encabezado = this._valor.getToken();
+    return this._http.get<tipos_gosc_estado[]>(`${_url}/Reportes/Report_Tipos_GOSC_Estado/${procesoElectoralId}`);
   }
 
 

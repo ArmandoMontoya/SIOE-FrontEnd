@@ -144,3 +144,13 @@ export class procesoElectoralDTO {
     municipio: string;
     totalMunicipio: number;
   }
+
+  export class tipos_gosc_estado{
+    jerId: number;
+    nombreJer: string;
+    municipioId: string;
+    municipio: string;
+    totalMunicipio: number;
+    tipo_organismo: string;
+    suma: number;
+  }

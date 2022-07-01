@@ -24,19 +24,6 @@ import { NavigationItem } from './theme/layout/admin/navigation/navigation';
 import { NgbButtonsModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
-import pdfFonts from "../assets/fonts/Arial/custom-arial"; // fonts provided for pdfmake
-import { PdfMakeWrapper } from 'pdfmake-wrapper';
-
-PdfMakeWrapper.setFonts(pdfFonts, {
-  Arial: {
-    normal: 'Arial.ttf',
-    bold: 'Arial.ttf',
-    italics: 'Arial.ttf',
-    bolditalics: 'Arial.ttf'
-  },
-}
-);
-
 @NgModule({
   declarations: [
     AppComponent,
